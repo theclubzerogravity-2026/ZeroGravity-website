@@ -313,13 +313,16 @@ body::before {
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1150;
   height: var(--nav-h);
-  border-bottom: 1px solid transparent;
+  background: rgba(8, 8, 12, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(244, 244, 242, 0.06);
   transition: background 0.4s var(--ease), border-color 0.4s var(--ease), height 0.35s var(--ease);
 }
 .navbar.is-scrolled {
-  background: rgba(8, 8, 12, 0.90);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: rgba(8, 8, 12, 0.65);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
   border-bottom-color: var(--line);
   height: 120px;
 }
@@ -347,7 +350,7 @@ body::before {
 .nav-links { display: flex; align-items: center; gap: 40px; transform: translateY(-24px); }
 .nav-link {
   display: flex; align-items: center; gap: 6px;
-  font-size: 15px; font-weight: 500; color: var(--muted);
+  font-size: 17px; font-weight: 600; color: var(--muted);
   position: relative; transition: color 0.3s var(--ease);
 }
 .nav-link:hover { color: var(--white); }
@@ -359,7 +362,7 @@ body::before {
 }
 .nav-link:hover::after { transform: scaleX(1); }
 .nav-tag { font-family: var(--font-mono); font-size: 10px; color: var(--muted-2); }
-.nav-cta { padding: 12px 24px; font-size: 14px; }
+.nav-cta { padding: 14px 28px; font-size: 16px; }
 
 .hamburger { display: none; flex-direction: column; gap: 5px; width: 28px; z-index: 1200; }
 .hamburger span { display: block; height: 2px; background: var(--white); transition: transform 0.3s var(--ease), opacity 0.3s var(--ease); }
@@ -429,7 +432,7 @@ body::before {
 }
 
 .hero-content { position: relative; z-index: 2; max-width: 1000px; display: flex; flex-direction: column; align-items: center; text-align: center; margin: 0 auto; }
-.eyebrow { display: flex; justify-content: center; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 22px; }
+.eyebrow { display: none; }
 .hero-title { font-family: var(--font-display); font-weight: 900; line-height: 0.94; margin-bottom: 22px; }
 .hero-title .line { display: block; font-size: clamp(64px, 14vw, 172px); letter-spacing: 0.01em; }
 .hero-title .line:first-child { color: var(--white); }
