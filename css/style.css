@@ -342,7 +342,7 @@ body::before {
   filter: invert(1) brightness(1.15) contrast(1.15);
   mix-blend-mode: screen;
   margin-left: -24px;
-  transform: scale(2.2);
+  transform: scale(2.2) translateY(4px);
   transform-origin: left center;
 }
 .brand-name { font-family: var(--font-display); font-weight: 700; font-size: 17px; letter-spacing: 0.04em; }
