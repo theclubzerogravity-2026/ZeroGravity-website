@@ -1,0 +1,45 @@
+Drop each member's photo here with the EXACT filename listed below.
+Square photos (1:1) work best, min 500x500px.
+Missing files just show a tidy placeholder — nothing breaks.
+
+LEADERSHIP
+  pratik-dhakate.jpg        President
+  suraj-ahirwal.jpg         Vice-President
+  vinit-limkar.jpg          Chief Coordinator
+
+TREASURER
+  yash-gaikwad.jpg          Head
+  sanvee-patil.jpg          Co-Head
+
+EXECUTION
+  anushka-murudkar.jpg      Head
+  atharva-vaidya.jpg        Co-Head
+
+DOCUMENTATION
+  mangesh-jagtap.jpg        Head
+  asmita-ransingh.jpg       Co-Head
+
+MAGAZINE
+  pratik-akhade.jpg         Head
+  gauri-padmavar.jpg        Co-Head
+
+TECHNICAL
+  bhaskar-matsagar.jpg      Head
+  bhakti-jadhav.jpg         Co-Head
+
+EVENT MANAGEMENT
+  prarthana-nannaware.jpg   Head
+  vedanti-ingale.jpg        Co-Head
+
+SOCIAL MEDIA
+  sakshi-chavan.jpg         Head
+  parth-ahire.jpg           Co-Head
+
+PUBLIC RELATIONS
+  sumit-mate.jpg            PR Head
+  ayush-karanjkhele.jpg     PR Head
+  aishwarya-gikwad.jpg      PR Head
+
+To add or rename anyone, edit the LEADERSHIP / DEPARTMENTS / PR_TEAM
+arrays at the top of js/script.js — each entry's "img" field is the
+filename it looks for.

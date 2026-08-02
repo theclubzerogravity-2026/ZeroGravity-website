@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZeroGravity — IT Department Club | SKNCOE, Pune</title>
+  <meta name="description"
+    content="ZeroGravity is the official club of the Department of Information Technology, Smt. Kashibai Navale College of Engineering, Pune. Collaborate · Learn · Innovate.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <link rel="icon" href="assets/images/logos/zerogravity-logo.png" type="image/png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+  <!-- ============ PRELOADER ============ -->
+  <div id="preloader" aria-hidden="true">
+    <div class="preloader-inner" id="preloaderInner">
+      <div class="preloader-lockup" id="preloaderLockup">
+        <div class="preloader-astronaut" id="preloaderAstronaut">
+          <img src="assets/images/logos/astronaut.png" alt="Astronaut" class="astronaut-img">
+          <div class="astronaut-glow"></div>
+        </div>
+        <div class="preloader-wordmark" id="preloaderWordmark">
+          <div class="wordmark-line" id="lineZero"></div>
+          <div class="wordmark-line accent-outline" id="lineGravity"></div>
+        </div>
+      </div>
+      <div class="preloader-word-stack">
+        <span class="preloader-word" data-word="0">COLLABORATE</span>
+        <span class="preloader-dot">·</span>
+        <span class="preloader-word" data-word="1">LEARN</span>
+        <span class="preloader-dot">·</span>
+        <span class="preloader-word" data-word="2">INNOVATE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CUSTOM CURSOR ============ -->
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- ============ NAVBAR ============ -->
+  <header class="navbar" id="navbar">
+    <div class="navbar-inner">
+      <a href="#top" class="brand" id="brandHome" aria-label="ZeroGravity — back to top">
+        <img src="assets/images/logos/zerogravity-logo.png" alt="ZeroGravity Club" class="brand-logo brand-logo--club"
+          id="clubLogo">
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#core-team" class="nav-link">Core Team</a>
+        <a href="#events" class="nav-link">Events</a>
+        <a href="#contact" class="nav-link">Contact</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc1SPpZSj6PO8xCcBF_iml9N-ELFkR-QLSEeaFvonpDVKirDQ/viewform"
+          target="_blank" rel="noopener" class="btn btn-primary nav-cta">Register</a>
+      </nav>
+
+      <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#core-team" class="mobile-link">Core Team</a>
+    <a href="#events" class="mobile-link">Events</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSc1SPpZSj6PO8xCcBF_iml9N-ELFkR-QLSEeaFvonpDVKirDQ/viewform"
+      target="_blank" rel="noopener" class="btn btn-primary mobile-cta">Register Now</a>
+  </div>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <canvas id="starfield" class="starfield"></canvas>
+      <div class="hero-grid-overlay" aria-hidden="true"></div>
+
+      <div class="hero-bg hero-bg-dim" aria-hidden="true"></div>
+      <div class="hero-bg hero-bg-sharp" id="heroSpotlight" aria-hidden="true"></div>
+      <div class="hero-scrim" aria-hidden="true"></div>
+
+      <div class="hero-content">
+        <p class="eyebrow reveal-up"><span class="dot"></span>DEPT. OF INFORMATION TECHNOLOGY — SKNCOE, PUNE</p>
+        <h1 class="hero-title reveal-up" style="--d:1">
+          <span class="line">ZERO</span>
+          <span class="line accent-outline">GRAVITY</span>
+        </h1>
+        <p class="hero-tagline reveal-up" style="--d:2">COLLABORATE &nbsp;·&nbsp; LEARN &nbsp;·&nbsp; INNOVATE</p>
+        <p class="hero-sub reveal-up" style="--d:3">The official club of the IT Department — where students
+          break orbit from the ordinary and build what's next.</p>
+        <div class="hero-actions reveal-up" style="--d:4">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSc1SPpZSj6PO8xCcBF_iml9N-ELFkR-QLSEeaFvonpDVKirDQ/viewform"
+            target="_blank" rel="noopener" class="btn btn-primary">Register to Join <span class="arrow">→</span></a>
+          <a href="#events" class="btn btn-ghost">Explore Events</a>
+        </div>
+      </div>
+
+      <a href="#about" class="scroll-cue" aria-label="Scroll to About">
+        <span>SCROLL</span>
+        <span class="scroll-line"></span>
+      </a>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about" id="about">
+      <div class="section-inner">
+        <h2 class="section-title reveal-up">About the Club</h2>
+      <div class="about-grid">
+          <div class="about-copy reveal-up">
+            <p><span class="zg-large">ZeroGravity</span> is the official club of the <strong>Department of Information Technology</strong>, Smt. Kashibai Navale College of Engineering. We provide a platform where students transform ideas into practical skills through innovation, collaboration, leadership, and real-world experiences.</p>
+            <p>Our mission is to bridge the gap between classroom learning and industry expectations by organizing technical, professional, and community-driven initiatives throughout the academic year. Whether you're an aspiring developer, designer, leader, or innovator, ZeroGravity offers opportunities to learn, compete, and grow beyond the curriculum.</p>
+          </div>
+
+          <div class="what-we-do reveal-up">
+            <h3 class="what-we-do-title">What We Do</h3>
+            <ul class="what-we-do-list">
+              <li><strong>🚀 Technology Sessions</strong> — Hands-on workshops on emerging technologies, AI, cybersecurity, cloud computing, web development, and modern software tools.</li>
+              <li><strong>💼 Career & Placement Readiness</strong> — Expert talks, resume-building sessions, mock interviews, aptitude preparation, and guidance from industry professionals.</li>
+              <li><strong>💡 Innovation Challenges</strong> — Project competitions, ideathons, coding contests, hackathons, and technical showcases that encourage creativity and problem-solving.</li>
+              <li><strong>🎯 TechnoSpark</strong> — Our flagship experience where technology meets team spirit through technical challenges, indoor games, sports activities, fun competitions, and collaborative events that strengthen leadership, teamwork, and communication.</li>
+              <li><strong>🌟 Student Development</strong> — Leadership opportunities, event management experience, networking, mentoring, and personality development through club activities.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CORE TEAM ============ -->
+    <section class="core-team" id="core-team">
+      <div class="section-inner">
+        <h2 class="section-title reveal-up">The Core Team</h2>
+
+        <div id="leadershipRow" class="leadership-row"></div>
+        <div id="deptGrid" class="dept-grid"></div>
+      </div>
+    </section>
+
+    <!-- ============ EVENTS ============ -->
+    <section class="events" id="events">
+      <div class="section-inner">
+        <h2 class="section-title reveal-up">What We Run</h2>
+
+        <div id="eventsGrid" class="events-grid"></div>
+      </div>
+    </section>
+
+    <!-- ============ REGISTER CTA ============ -->
+  <section class="register-cta">
+    <div class="register-inner">
+      <div class="register-grid-overlay" aria-hidden="true"></div>
+      <h2 class="register-title reveal-up">Ready to leave orbit?</h2>
+      <p class="register-sub reveal-up">Register to be a part of ZeroGravity Family.</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc1SPpZSj6PO8xCcBF_iml9N-ELFkR-QLSEeaFvonpDVKirDQ/viewform"
+          target="_blank" rel="noopener" class="btn btn-primary btn-lg reveal-up">Open Registration Form <span
+            class="arrow">→</span></a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer" id="contact">
+    <div class="footer-inner">
+      <div class="footer-brand">
+
+        <p class="footer-tag">Dept. of Information Technology<br>Smt. Kashibai Navale College of Engineering, Pune</p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/zerogravity.club.in/" target="_blank" rel="noopener"
+            aria-label="ZeroGravity on Instagram" class="social-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4" />
+              <circle cx="17.2" cy="6.8" r="1" />
+            </svg>
+          </a>
+          <a href="mailto:theclubzerogravity@gmail.com" aria-label="Email ZeroGravity" class="social-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <rect x="3" y="5" width="18" height="14" rx="2" />
+              <path d="M3 7l9 6 9-6" />
+            </svg>
+          </a>
+          <a href="tel:+919860476527" aria-label="Call ZeroGravity" class="social-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path
+                d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="#about">About</a>
+        <a href="#core-team">Core Team</a>
+        <a href="#events">Events</a>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc1SPpZSj6PO8xCcBF_iml9N-ELFkR-QLSEeaFvonpDVKirDQ/viewform"
+          target="_blank" rel="noopener">Register</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="mailto:theclubzerogravity@gmail.com">theclubzerogravity@gmail.com</a>
+        <a href="tel:+919860476527">+91 98604 76527</a>
+        <a href="https://www.instagram.com/zerogravity.club.in/" target="_blank" rel="noopener">@zerogravity.club.in</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Location</h4>
+        <p class="footer-address">S.No. 44/1, Vadgaon (Budruk),<br>Off Sinhgad Road,<br>Pune – 411 041, Maharashtra</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© <span id="year"></span> ZeroGravity — IT Department, SKNCOE. All rights reserved.</p>
+      <p class="footer-signoff">Built to break orbit.</p>
+    </div>
+  </footer>
+
+  <!-- ============ EVENT GALLERY MARQUEE MODAL ============ -->
+  <div class="gallery-modal" id="galleryModal">
+    <button class="gallery-close" id="galleryClose" aria-label="Close Gallery">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    <div class="marquee-container">
+      <div class="marquee-track" id="galleryImgWrapper"></div>
+    </div>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+
+</html>

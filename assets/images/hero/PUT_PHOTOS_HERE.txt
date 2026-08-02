@@ -1,0 +1,7 @@
+Drop your club group photo here with this EXACT filename:
+
+  group-photo.jpg
+
+Recommended size: 1920x1080 or larger, landscape.
+The site checks for this file automatically — no code changes needed.
+If it's missing, the hero section shows a clean placeholder instead of a broken image.

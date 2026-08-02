@@ -1,0 +1,13 @@
+Drop each event's photo here with the EXACT filename listed below.
+Landscape photos (16:10) work best, min 1200px wide.
+
+  technospark.jpg      TechnoSpark (flagship 2-day event)
+  sessions.jpg         Sessions
+  oath-ceremony.jpg     Oath Ceremony
+  innovio.jpg           Innovio
+  no-congestion.jpg     No Congestion
+
+Want more than one photo per event? Duplicate an <article class="event-card">
+block in index.html (Events section) or ask an AI coding assistant to turn
+each event card into a small photo gallery using the same file-check pattern
+already used in js/script.js (tryLoadImage()).
