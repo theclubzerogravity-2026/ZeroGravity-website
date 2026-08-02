@@ -626,8 +626,61 @@ window.openGallery = function(eventIndex) {
   if (gModal) {
     gModal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
+    startMarqueeScroll();
   }
 };
+
+let marqueeAnimationId;
+let isMarqueeHovered = false;
+
+function startMarqueeScroll() {
+  const container = document.getElementById('marqueeContainer');
+  const wrapper = document.getElementById('galleryImgWrapper');
+  if (!container || !wrapper) return;
+  
+  cancelAnimationFrame(marqueeAnimationId);
+  container.scrollLeft = 0;
+  
+  const speed = 2.0; // Fast manual scroll speed (1.5x)
+  
+  function scrollLoop() {
+    if (!isMarqueeHovered) {
+      container.scrollLeft += speed;
+      // Reset scroll position for infinite loop when reaching midpoint
+      if (container.scrollLeft >= wrapper.scrollWidth / 2) {
+        container.scrollLeft = 0;
+      }
+    }
+    marqueeAnimationId = requestAnimationFrame(scrollLoop);
+  }
+  
+  marqueeAnimationId = requestAnimationFrame(scrollLoop);
+}
+
+// Pause scrolling on hover
+const mContainer = document.getElementById('marqueeContainer');
+if (mContainer) {
+  mContainer.addEventListener('mouseenter', () => isMarqueeHovered = true);
+  mContainer.addEventListener('mouseleave', () => isMarqueeHovered = false);
+}
+
+// Navigation arrows
+const gNext = document.getElementById('galleryNext');
+const gPrev = document.getElementById('galleryPrev');
+if (gNext && mContainer) {
+  gNext.addEventListener('click', () => {
+    mContainer.scrollBy({ left: 400, behavior: 'smooth' });
+  });
+}
+if (gPrev && mContainer) {
+  gPrev.addEventListener('click', () => {
+    mContainer.scrollBy({ left: -400, behavior: 'smooth' });
+    if (mContainer.scrollLeft <= 0) {
+      const wrapper = document.getElementById('galleryImgWrapper');
+      mContainer.scrollLeft = wrapper.scrollWidth / 2;
+    }
+  });
+}
 
 const gClose = document.getElementById('galleryClose');
 if (gClose) {
@@ -635,5 +688,7 @@ if (gClose) {
     const gModal = document.getElementById('galleryModal');
     if (gModal) gModal.classList.remove('is-open');
     document.body.style.overflow = '';
+    cancelAnimationFrame(marqueeAnimationId);
   });
 }
+

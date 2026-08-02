@@ -717,22 +717,35 @@ a:focus-visible, button:focus-visible {
 .gallery-close:hover { transform: scale(1.1); color: var(--yellow); }
 
 .marquee-container {
-  width: 100%;
-  overflow: hidden;
+  width: calc(100% - 160px); /* Leave room for arrows */
+  overflow-x: auto;
+  overflow-y: hidden;
   display: flex;
   white-space: nowrap;
+  scroll-behavior: auto; /* JS handles smooth scroll */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+.marquee-container::-webkit-scrollbar { display: none; }
+
 .marquee-track {
   display: flex;
   gap: 20px;
-  padding-left: 20px;
-  animation: marquee-scroll 25s linear infinite;
   align-items: center;
+  width: max-content;
 }
-/* Pause on hover */
-.marquee-container:hover .marquee-track {
-  animation-play-state: paused;
+
+.gallery-nav {
+  background: var(--panel); border: 1px solid var(--line-strong); color: var(--white);
+  width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: background 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease);
+  border-radius: 50%;
+  position: absolute;
+  z-index: 10;
 }
+.gallery-nav:hover { background: var(--blue-2); border-color: var(--blue-2); transform: scale(1.1); }
+.gallery-nav.prev { left: 20px; }
+.gallery-nav.next { right: 20px; }
 
 .gallery-img {
   height: 60vh;
@@ -759,8 +772,4 @@ a:focus-visible, button:focus-visible {
   z-index: 2;
 }
 
-@keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
 
