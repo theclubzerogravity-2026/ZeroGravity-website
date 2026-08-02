@@ -771,6 +771,20 @@ a:focus-visible, button:focus-visible {
   border: 1px solid rgba(255,255,255,0.05);
 }
 
+.crossfade-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 1;
+}
+.crossfade-layer.active {
+  opacity: 1;
+  z-index: 2;
+}
+
 @keyframes marquee-scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }

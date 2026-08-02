@@ -549,7 +549,22 @@ document.querySelectorAll('.event-card').forEach((card, index) => {
   const event = EVENTS[index];
   if (event && event.gallery && event.gallery.length > 0) {
     const mediaEl = card.querySelector('.event-media');
+    
+    // Create two layers for smooth crossfading
+    const layer1 = document.createElement('div');
+    const layer2 = document.createElement('div');
+    layer1.className = 'crossfade-layer active';
+    layer2.className = 'crossfade-layer';
+    
+    // Set the first image
+    layer1.style.backgroundImage = `url('assets/images/events/${event.gallery[0]}')`;
+    mediaEl.appendChild(layer1);
+    mediaEl.appendChild(layer2);
+    mediaEl.style.backgroundImage = 'none'; // Remove direct inline background
+
     let slideIndex = 0;
+    let activeLayer = layer1;
+    let inactiveLayer = layer2;
     
     // Preload gallery images to prevent flickering
     event.gallery.forEach(src => {
@@ -557,10 +572,24 @@ document.querySelectorAll('.event-card').forEach((card, index) => {
       img.src = `assets/images/events/${src}`;
     });
     
+    // Set interval for smooth crossfade
     setInterval(() => {
       slideIndex = (slideIndex + 1) % event.gallery.length;
-      mediaEl.style.backgroundImage = `url('assets/images/events/${event.gallery[slideIndex]}')`;
+      
+      // Load the next image into the hidden layer
+      inactiveLayer.style.backgroundImage = `url('assets/images/events/${event.gallery[slideIndex]}')`;
+      
+      // Fade it in by swapping classes
+      inactiveLayer.classList.add('active');
+      activeLayer.classList.remove('active');
+      
+      // Mark as loaded so placeholder icon hides
       mediaEl.classList.add('is-loaded');
+      
+      // Swap layer references
+      const temp = activeLayer;
+      activeLayer = inactiveLayer;
+      inactiveLayer = temp;
     }, 3000);
   }
 });
