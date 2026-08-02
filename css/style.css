@@ -128,7 +128,7 @@ body::before {
   will-change: transform;
 }
 .preloader-lockup.is-pulsing {
-  filter: drop-shadow(0 0 16px rgba(232, 56, 79, 0.6)) drop-shadow(0 0 32px rgba(255, 255, 255, 0.4));
+  filter: drop-shadow(0 0 32px rgba(255, 255, 255, 0.4));
 }
 
 .preloader-astronaut {
