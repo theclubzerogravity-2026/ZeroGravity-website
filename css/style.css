@@ -308,23 +308,21 @@ body::before {
    NAVBAR
    ========================================================== */
 :root {
-  --nav-h: 145px;
+  --nav-h: 80px;
 }
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1150;
   height: var(--nav-h);
-  background: rgba(8, 8, 12, 0.45);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(244, 244, 242, 0.06);
+  background: transparent;
+  border-bottom: 1px solid transparent;
   transition: background 0.4s var(--ease), border-color 0.4s var(--ease), height 0.35s var(--ease);
 }
 .navbar.is-scrolled {
-  background: rgba(8, 8, 12, 0.65);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
+  background: rgba(8, 8, 12, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom-color: var(--line);
-  height: 120px;
+  height: 70px;
 }
 .navbar-inner {
   max-width: 1440px; margin: 0 auto; height: 100%;
@@ -333,21 +331,21 @@ body::before {
 }
 .brand {
   display: flex; align-items: center; justify-content: flex-start;
-  flex-shrink: 0; min-width: 360px;
+  flex-shrink: 0;
 }
 .brand-logo {
   display: block; width: auto; height: auto; object-fit: contain;
   transition: transform 0.35s ease, filter 0.35s ease;
 }
 .brand-logo--club {
-  height: 170px; width: auto;
+  height: 80px; width: auto;
   filter: invert(1) brightness(1.15) contrast(1.15);
   mix-blend-mode: screen;
-  margin-left: -18px; margin-top: 12px;
+  margin-left: -8px;
 }
 .brand-name { font-family: var(--font-display); font-weight: 700; font-size: 17px; letter-spacing: 0.04em; }
 
-.nav-links { display: flex; align-items: center; gap: 40px; transform: translateY(-24px); }
+.nav-links { display: flex; align-items: center; gap: 36px; }
 .nav-link {
   display: flex; align-items: center; gap: 6px;
   font-size: 17px; font-weight: 600; color: var(--muted);
@@ -385,11 +383,10 @@ body::before {
 .mobile-cta { margin-top: 14px; }
 
 @media (max-width: 900px) {
-  :root { --nav-h: 100px; }
-  .navbar.is-scrolled { height: 90px; }
+  :root { --nav-h: 70px; }
+  .navbar.is-scrolled { height: 60px; }
   .navbar-inner { padding: 0 22px; }
-  .brand { min-width: auto; }
-  .brand-logo--club { height: 120px; margin-left: -6px; margin-top: 8px; }
+  .brand-logo--club { height: 60px; margin-left: -4px; }
   .nav-links { display: none; }
   .hamburger { display: flex; }
 }
