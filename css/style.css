@@ -698,8 +698,8 @@ a:focus-visible, button:focus-visible {
 
 /* ============ GALLERY MARQUEE MODAL ============ */
 .gallery-modal {
-  position: fixed; inset: 0; z-index: 1000;
-  background: rgba(8, 8, 12, 0.95);
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(8, 8, 12, 0.98);
   backdrop-filter: blur(10px);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   opacity: 0; pointer-events: none;
@@ -709,11 +709,11 @@ a:focus-visible, button:focus-visible {
   opacity: 1; pointer-events: auto;
 }
 .gallery-close {
-  position: absolute; top: 32px; right: 32px;
+  position: absolute; top: calc(50vh - 280px); right: 32px;
   background: rgba(255, 255, 255, 0.1); border: 1px solid var(--line-strong); color: var(--white);
   width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
-  cursor: pointer; z-index: 1000;
+  cursor: pointer; z-index: 2001;
   transition: transform 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s var(--ease);
 }
 .gallery-close:hover { transform: scale(1.1); background: var(--red); border-color: var(--red); color: white; }
