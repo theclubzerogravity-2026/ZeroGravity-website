@@ -762,4 +762,167 @@ a:focus-visible, button:focus-visible {
   z-index: 2;
 }
 
+/* ==================================================================
+   COMPREHENSIVE RESPONSIVE — TABLETS (max-width: 860px)
+   ================================================================== */
+@media (max-width: 860px) {
+  /* -- Preloader -- */
+  .astronaut-img { width: 140px; }
+  .wordmark-line { font-size: clamp(48px, 9vw, 72px); }
+  .preloader-lockup { gap: 12px; }
+  .preloader-word-stack { gap: 16px; font-size: clamp(12px, 2.2vw, 18px); }
 
+  /* -- Hero -- */
+  .hero { padding: 0 20px 60px; }
+  .hero-title .line { font-size: clamp(48px, 12vw, 100px); }
+  .hero-sub { font-size: 16px; margin-bottom: 28px; }
+  .hero-actions { gap: 12px; }
+  .btn-lg { padding: 14px 28px; font-size: 14px; }
+
+  /* -- About -- */
+  .section-inner { padding: 100px 22px; }
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .what-we-do::before { display: none; }
+
+  /* -- Core Team -- */
+  .leadership-row { grid-template-columns: 1fr; gap: 20px; }
+  .dept-grid { grid-template-columns: 1fr; gap: 16px; }
+  .pr-row { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .lead-card:hover, .pr-card:hover { transform: scale(1.05); }
+  .dept-pair > div:hover { transform: scale(1.05); }
+
+  /* -- Events -- */
+  .events-grid { grid-template-columns: 1fr; gap: 20px; }
+  .event-card.is-wide { grid-template-columns: 1fr; }
+  .event-card.is-wide .event-media { border-right: none; border-bottom: 1px solid var(--line); aspect-ratio: 16/10; height: auto; }
+
+  /* -- Register CTA -- */
+  .register-inner { padding: 90px 22px; }
+
+  /* -- Footer -- */
+  .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
+
+  /* -- Gallery Modal -- */
+  .gallery-img { height: 45vh; max-height: 350px; }
+  .gallery-close { width: 44px; height: 44px; top: 16px; right: 16px; }
+}
+
+/* ==================================================================
+   RESPONSIVE — SMALL TABLETS / LARGE PHONES (max-width: 700px)
+   ================================================================== */
+@media (max-width: 700px) {
+  /* -- Preloader -- */
+  .preloader-lockup { flex-direction: column; gap: 10px; }
+  .astronaut-img { width: 120px; }
+  .wordmark-line { font-size: clamp(40px, 10vw, 60px); }
+  .preloader-wordmark { align-items: center; }
+  .preloader-word-stack { gap: 12px; font-size: clamp(11px, 2.5vw, 16px); flex-wrap: wrap; justify-content: center; }
+
+  /* -- Hero -- */
+  .hero { padding: 0 16px 50px; min-height: 90vh; }
+  .hero-content { padding: 0 4px; }
+  .hero-title .line { font-size: clamp(40px, 12vw, 80px); }
+  .eyebrow { font-size: 10px; letter-spacing: 0.1em; }
+  .hero-tagline { font-size: clamp(10px, 2.5vw, 14px); letter-spacing: 0.12em; }
+  .hero-sub { font-size: 15px; padding: 0 10px; }
+  .hero-actions { flex-direction: column; align-items: center; width: 100%; }
+  .hero-actions .btn { width: 100%; max-width: 280px; justify-content: center; }
+
+  /* -- Core Team -- */
+  .pr-row { grid-template-columns: 1fr; }
+  .lead-card, .dept-card, .pr-card { padding: 20px; }
+  .member-name { font-size: 15px; }
+  .member-role { font-size: 11px; }
+
+  /* -- Events -- */
+  .event-body { padding: 20px 22px 24px; }
+  .event-title { font-size: 17px; }
+  .event-desc { font-size: 13px; }
+
+  /* -- Gallery Modal -- */
+  .gallery-img { height: 35vh; max-height: 280px; border-radius: 6px; }
+  .marquee-track { gap: 12px; }
+
+  /* -- Scroll cue -- */
+  .scroll-cue { display: none; }
+}
+
+/* ==================================================================
+   RESPONSIVE — PHONES (max-width: 480px)
+   ================================================================== */
+@media (max-width: 480px) {
+  /* -- Preloader -- */
+  .astronaut-img { width: 90px; }
+  .wordmark-line { font-size: clamp(32px, 11vw, 48px); }
+  .preloader-word-stack { gap: 8px; font-size: 11px; }
+  .preloader-inner { gap: 18px; }
+
+  /* -- Navbar -- */
+  :root { --nav-h: 80px; }
+  .navbar.is-scrolled { height: 70px; }
+  .brand-logo--club { height: 90px; margin-left: -4px; margin-top: 4px; }
+  .navbar-inner { padding: 0 16px; }
+  .mobile-link { font-size: 20px; }
+
+  /* -- Hero -- */
+  .hero { padding: 0 14px 40px; }
+  .hero-title .line { font-size: clamp(36px, 13vw, 64px); }
+  .hero-tagline { font-size: 10px; letter-spacing: 0.08em; margin-bottom: 16px; }
+  .hero-sub { font-size: 14px; margin-bottom: 24px; }
+  .btn { padding: 12px 20px; font-size: 13px; }
+  .btn-lg { padding: 14px 24px; font-size: 14px; }
+
+  /* -- Shared sections -- */
+  .section-inner { padding: 70px 16px; }
+  .section-title { font-size: clamp(22px, 6vw, 32px); }
+  .section-lede { font-size: 15px; }
+  .section-eyebrow { font-size: 10px; letter-spacing: 0.12em; }
+
+  /* -- About -- */
+  .about-copy p { font-size: 15px; }
+  .zg-large { font-size: 24px; }
+  .what-we-do-title { font-size: 24px; }
+  .what-we-do-list li { font-size: 15px; }
+
+  /* -- Core Team -- */
+  .dept-pair { grid-template-columns: 1fr; }
+  .lead-card, .dept-card, .pr-card { padding: 16px; }
+  .dept-name { font-size: 13px; }
+
+  /* -- Events -- */
+  .event-card:hover { transform: none; }
+  .event-body { padding: 16px 18px 20px; }
+  .event-title { font-size: 16px; }
+  .event-tag { font-size: 9px; padding: 3px 8px; }
+
+  /* -- Register CTA -- */
+  .register-inner { padding: 60px 16px; }
+  .register-title { font-size: clamp(24px, 7vw, 40px); }
+  .register-sub { font-size: 15px; }
+
+  /* -- Footer -- */
+  .footer-inner { grid-template-columns: 1fr; gap: 28px; padding: 50px 16px 30px; }
+  .footer-logo { height: 80px; }
+  .footer-tag { font-size: 13px; }
+  .footer-bottom { padding: 16px; flex-direction: column; align-items: center; text-align: center; }
+
+  /* -- Gallery Modal -- */
+  .gallery-img { height: 28vh; max-height: 220px; border-radius: 4px; }
+  .gallery-close { width: 40px; height: 40px; top: 12px; right: 12px; }
+  .marquee-track { gap: 10px; }
+}
+
+/* ==================================================================
+   RESPONSIVE — VERY SMALL PHONES (max-width: 360px)
+   ================================================================== */
+@media (max-width: 360px) {
+  .astronaut-img { width: 70px; }
+  .wordmark-line { font-size: clamp(26px, 12vw, 40px); }
+  .hero-title .line { font-size: clamp(30px, 14vw, 50px); }
+  .brand-logo--club { height: 70px; }
+  :root { --nav-h: 70px; }
+  .navbar.is-scrolled { height: 60px; }
+  .section-inner { padding: 50px 12px; }
+  .footer-inner { padding: 40px 12px 24px; }
+  .gallery-img { height: 22vh; max-height: 180px; }
+}
