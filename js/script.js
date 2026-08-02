@@ -664,24 +664,6 @@ if (mContainer) {
   mContainer.addEventListener('mouseleave', () => isMarqueeHovered = false);
 }
 
-// Navigation arrows
-const gNext = document.getElementById('galleryNext');
-const gPrev = document.getElementById('galleryPrev');
-if (gNext && mContainer) {
-  gNext.addEventListener('click', () => {
-    mContainer.scrollBy({ left: 400, behavior: 'smooth' });
-  });
-}
-if (gPrev && mContainer) {
-  gPrev.addEventListener('click', () => {
-    mContainer.scrollBy({ left: -400, behavior: 'smooth' });
-    if (mContainer.scrollLeft <= 0) {
-      const wrapper = document.getElementById('galleryImgWrapper');
-      mContainer.scrollLeft = wrapper.scrollWidth / 2;
-    }
-  });
-}
-
 const gClose = document.getElementById('galleryClose');
 if (gClose) {
   gClose.addEventListener('click', () => {
