@@ -397,6 +397,8 @@ function revealHero() {
   window.addEventListener('mousemove', (e) => {
     mx = e.clientX; my = e.clientY;
     dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    dot.classList.remove('is-hidden');
+    ring.classList.remove('is-hidden');
     
     if (heroSpotlight && hero) {
       const rect = hero.getBoundingClientRect();
