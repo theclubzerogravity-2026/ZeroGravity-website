@@ -557,33 +557,7 @@ body::before {
 .event-card.in-view { opacity: 1; transform: translateY(0); }
 .event-card:hover { border-color: var(--blue); background: var(--panel-2); transform: translateY(-4px); }
 
-/* Gallery Modal */
-.gallery-modal {
-  position: fixed; inset: 0; z-index: 2000;
-  background: rgba(8, 8, 12, 0.95);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.4s var(--ease);
-}
-.gallery-modal.is-open { opacity: 1; pointer-events: auto; }
-.gallery-close {
-  position: absolute; top: 32px; right: 32px;
-  background: transparent; border: 1px solid var(--line-strong); color: var(--white);
-  width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-  font-size: 24px; cursor: pointer; transition: background 0.3s var(--ease), border-color 0.3s var(--ease);
-}
-.gallery-close:hover { background: var(--red); border-color: var(--red); }
-.gallery-content { position: relative; width: 90%; max-width: 1000px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.gallery-img-wrapper { flex: 1; aspect-ratio: 16/9; background: var(--void); border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-.gallery-img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s var(--ease); }
-.gallery-img.is-active { opacity: 1; z-index: 2; }
-.gallery-nav {
-  background: var(--panel); border: 1px solid var(--line-strong); color: var(--white);
-  width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: background 0.3s var(--ease), border-color 0.3s var(--ease), transform 0.3s var(--ease);
-}
-.gallery-nav:hover { background: var(--blue-2); border-color: var(--blue-2); transform: scale(1.05); }
+
 
 /* Corner brackets on event cards */
 .event-card::before,
