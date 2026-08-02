@@ -410,8 +410,8 @@ body::before {
 .hero-bg {
   position: absolute; inset: 0; z-index: 0;
   background-image: url('../assets/images/hero/group-photo.jpg');
-  background-size: contain; background-repeat: no-repeat; background-position: center;
-  transform: scale(1.1);
+  background-size: cover; background-position: center;
+  transform: scale(1.15);
 }
 .hero-bg-dim {
   filter: brightness(0.65) grayscale(0.1);
