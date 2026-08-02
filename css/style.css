@@ -709,7 +709,7 @@ a:focus-visible, button:focus-visible {
   opacity: 1; pointer-events: auto;
 }
 .gallery-close {
-  position: absolute; top: calc(50vh - 280px); right: 32px;
+  position: absolute; top: 24px; right: 32px;
   background: rgba(255, 255, 255, 0.1); border: 1px solid var(--line-strong); color: var(--white);
   width: 50px; height: 50px; display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
