@@ -36,8 +36,8 @@ const PR_TEAM = [
 
 const EVENTS = [
   {
-    tag: 'FLAGSHIP · 2-DAY EVENT', title: 'TechnoSpark',
-    desc: 'A two-day celebration of technology and teamwork featuring expert IT seminars, hands-on workshops, project competitions, coding challenges, indoor games, and sports events including Box Cricket, Badminton, Chess, Carrom, and more.',
+    tag: '11–12 Mar 2024 • SKNCOE', title: 'TechnoSpark', isWide: true,
+    desc: 'Two-day flagship event run like a company simulation — mission, market analysis, financials, and strategic roadmap — giving students a full picture of how a venture is built and pitched.',
     img: 'Technospark/WhatsApp Image 2026-08-02 at 16.38.46 (1).jpeg',
     gallery: [
       "Technospark/WhatsApp Image 2026-08-02 at 16.38.46 (1).jpeg",
@@ -69,7 +69,44 @@ const EVENTS = [
     ]
   },
   {
-    tag: 'TALKS', title: 'Sessions',
+    tag: '15 Mar 2024 • IT Dept, SKNCOE', title: 'Inter-College Project Competition',
+    desc: 'Students from multiple colleges showcased technical projects, judged by Vice-Principal Prof. R.H. Borhade and HoD Dr. M.L. Bangare.',
+    img: '',
+    gallery: []
+  },
+  {
+    tag: '4 Oct 2023 • IT Seminar Hall, SKNCOE', title: 'Guest Lecture: "Achieve It All"',
+    desc: 'Speaker Samyak Jain (DevOps engineer and cloud community organizer) led an interactive session mixing practical and theoretical perspectives.',
+    img: '',
+    gallery: []
+  },
+  {
+    tag: '15 Sep 2023 • IT Seminar Hall, SKNCOE', title: 'Teacher\'s Day & Engineer\'s Day',
+    desc: 'Joint celebration honoring the department\'s teachers and the legacy of engineer Sir M. Visvesvaraya — speeches, cultural performances, and awards.',
+    img: '',
+    gallery: []
+  },
+  {
+    tag: '25 Aug 2023 • IT Seminar Hall, SKNCOE', title: 'Oath Ceremony',
+    desc: 'Formal induction where the incoming committee swore their oaths of duty to the club.',
+    img: 'Oath/WhatsApp Image 2026-08-02 at 16.31.19 (1).jpeg',
+    gallery: [
+      "Oath/WhatsApp Image 2026-08-02 at 16.31.19 (1).jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.31.19.jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.31.48.jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.31.49.jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.31.50.jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.31.52 (1).jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.31.52.jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.32.01.jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.32.02 (1).jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.32.02.jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.32.05 (1).jpeg",
+      "Oath/WhatsApp Image 2026-08-02 at 16.32.05.jpeg"
+    ]
+  },
+  {
+    tag: '[Editable draft — unverified]', title: 'Sessions', isDraft: true,
     desc: 'Expert sessions on placement preparation, Git & GitHub, AI, emerging technologies, resume building, interview skills, and inspiring talks by startup founders and industry professionals.',
     img: 'GitHub/WhatsApp Image 2026-08-02 at 16.34.23.jpeg',
     gallery: [
@@ -94,26 +131,7 @@ const EVENTS = [
     ]
   },
   {
-    tag: 'INDUCTION', title: 'Oath Ceremony',
-    desc: 'An engaging induction for newly recruited members featuring networking, interactive games, team-building activities, and the official ZeroGravity Oath Ceremony welcoming them into the core team.',
-    img: 'Oath/WhatsApp Image 2026-08-02 at 16.31.19 (1).jpeg',
-    gallery: [
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.19 (1).jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.19.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.48.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.49.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.50.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.52 (1).jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.52.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.32.01.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.32.02 (1).jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.32.02.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.32.05 (1).jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.32.05.jpeg"
-    ]
-  },
-  {
-    tag: 'IDEATION', title: 'Innovio',
+    tag: '[Editable draft — unverified]', title: 'Innovio', isDraft: true,
     desc: 'A premier inter-college project showcase where teams present innovative ideas, working prototypes, and real-world solutions while competing for recognition, prizes, and expert feedback.',
     img: 'Innovio/WhatsApp Image 2026-08-02 at 15.26.58.jpeg',
     gallery: [
@@ -201,13 +219,13 @@ deptGrid.innerHTML = DEPARTMENTS.slice(0, DEPARTMENTS.length - 1).map(renderDept
 
 const eventsGrid = document.getElementById('eventsGrid');
 eventsGrid.innerHTML = EVENTS.map((e, index) => `
-  <article class="event-card" style="cursor:pointer;" onclick="openGallery(${index})">
-    <div class="event-media" data-img="assets/images/events/${e.img}">
+  <article class="event-card ${e.isWide ? 'is-wide' : ''}" style="cursor:pointer;" onclick="openGallery(${index})">
+    <div class="event-media" data-img="${e.img ? 'assets/images/events/' + e.img : ''}">
       ${PHOTO_ICON}
       <span class="ph-label">Photos coming soon</span>
     </div>
     <div class="event-body">
-      <span class="event-tag">${e.tag}</span>
+      <span class="event-tag ${e.isDraft ? 'draft' : ''}">${e.tag}</span>
       <h3 class="event-title">${e.title}</h3>
       <p class="event-desc">${e.desc}</p>
     </div>
@@ -675,4 +693,3 @@ if (gClose) {
     cancelAnimationFrame(marqueeAnimationId);
   });
 }
-
