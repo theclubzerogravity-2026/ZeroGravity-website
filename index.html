@@ -17,6 +17,11 @@
 
   <link rel="icon" href="assets/images/logos/astronaut.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- PDF.js & StPageFlip for 3D Magazine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
+  <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
 </head>
 
 <body>
@@ -60,6 +65,7 @@
         <a href="#about" class="nav-link">About</a>
         <a href="#core-team" class="nav-link">Core Team</a>
         <a href="#events" class="nav-link">Events</a>
+        <a href="#timeline" class="nav-link">Magazines</a>
         <a href="#contact" class="nav-link">Contact</a>
         <a href="https://docs.google.com/forms/d/e/1FAIpQLSc1SPpZSj6PO8xCcBF_iml9N-ELFkR-QLSEeaFvonpDVKirDQ/viewform"
           target="_blank" rel="noopener" class="btn btn-primary nav-cta">Register</a>
@@ -76,6 +82,7 @@
     <a href="#about" class="mobile-link">About</a>
     <a href="#core-team" class="mobile-link">Core Team</a>
     <a href="#events" class="mobile-link">Events</a>
+    <a href="#timeline" class="mobile-link">Magazines</a>
     <a href="#contact" class="mobile-link">Contact</a>
     <a href="https://docs.google.com/forms/d/e/1FAIpQLSc1SPpZSj6PO8xCcBF_iml9N-ELFkR-QLSEeaFvonpDVKirDQ/viewform"
       target="_blank" rel="noopener" class="btn btn-primary mobile-cta">Register Now</a>
@@ -145,6 +152,39 @@
 
         <div id="leadershipRow" class="leadership-row"></div>
         <div id="deptGrid" class="dept-grid"></div>
+      </div>
+    </section>
+
+    <!-- ============ WHAT WE DID (TIMELINE & MAGAZINE) ============ -->
+    <section class="timeline cinematic" id="timeline">
+      <div class="cinematic-bg">
+        <div class="cinematic-stars"></div>
+        <div class="cinematic-particles"></div>
+      </div>
+      
+      <div class="section-inner">
+        <h2 class="section-title reveal-up">What We Did</h2>
+        <p class="section-lede reveal-up">Explore our annual magazines. Click the book to expand.</p>
+        
+        <div class="timeline-track reveal-up">
+          <div class="timeline-line"></div>
+          <button class="timeline-node" data-year="2024" onclick="switchMagazine('2024')">2024</button>
+          <button class="timeline-node" data-year="2025" onclick="switchMagazine('2025')">2025</button>
+          <button class="timeline-node" data-year="2026" onclick="switchMagazine('2026')">2026</button>
+        </div>
+        
+        <div class="magazine-stage">
+          <div class="magazine-loading" id="magazineLoading">
+            <div class="magazine-spinner"></div>
+            Loading... <span id="magazineProgress">0</span>%
+          </div>
+          <div class="flip-book-wrapper cinematic-entrance" id="flipBookWrapper" style="opacity:0; pointer-events:none;">
+            <div id="flipBook" class="flip-book hardcover-book">
+              <!-- Pages injected dynamically -->
+            </div>
+            <div class="book-shadow"></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -228,6 +268,13 @@
       <p class="footer-signoff">Built to break orbit.</p>
     </div>
   </footer>
+
+  <div class="fullscreen-backdrop" id="fullscreenBackdrop"></div>
+  <button class="gallery-close" id="magazineClose" aria-label="Close Fullscreen" style="display:none; z-index:3010; position:fixed; top:24px; right:32px;">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 6L6 18M6 6l12 12"/>
+    </svg>
+  </button>
 
   <!-- ============ EVENT GALLERY MARQUEE MODAL ============ -->
   <div class="gallery-modal" id="galleryModal">

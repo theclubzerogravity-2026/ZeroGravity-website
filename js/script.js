@@ -676,3 +676,232 @@ if (gClose) {
   });
 }
 
+/* ============ CINEMATIC MAGAZINE LOGIC ============ */
+let flipBookEl = document.getElementById('flipBook');
+const flipBookWrapper = document.getElementById('flipBookWrapper');
+const magLoading = document.getElementById('magazineLoading');
+const magClose = document.getElementById('magazineClose');
+const timelineNodes = document.querySelectorAll('.timeline-node');
+
+let pageFlip = null;
+let autoplayInterval = null;
+let idleTimeout = null;
+let currentYear = null;
+let isFullscreen = false;
+let isSwitching = false;
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', () => {
+  // Wait a moment for other animations to settle, then load latest
+  setTimeout(() => {
+    switchMagazine('2026');
+  }, 500);
+});
+
+window.switchMagazine = async function(year) {
+  if (isSwitching) return;
+  if (currentYear === year) {
+    // If inline and clicked again, maybe expand
+    if (!isFullscreen) toggleFullscreen();
+    return;
+  }
+  
+  isSwitching = true;
+  currentYear = year;
+  updateTimelineUI(year);
+  
+  if (pageFlip) {
+    // Cinematic exit
+    flipBookWrapper.classList.remove('is-idle', 'cinematic-entrance');
+    
+    // Close the book naturally first
+    if (pageFlip.getCurrentPageIndex() > 0) {
+      pageFlip.flip(0);
+    }
+    
+    // Wait for close animation, then shrink and fade out
+    await new Promise(resolve => setTimeout(resolve, 600));
+    flipBookWrapper.classList.add('is-closing');
+    
+    await new Promise(resolve => setTimeout(resolve, 500));
+    cleanupBook();
+  }
+  
+  await loadMagazineForYear(year);
+  isSwitching = false;
+};
+
+function updateTimelineUI(year) {
+  timelineNodes.forEach(node => {
+    if (node.getAttribute('data-year') === year) {
+      node.classList.add('is-active');
+    } else {
+      node.classList.remove('is-active');
+    }
+  });
+}
+
+function cleanupBook() {
+  clearInterval(autoplayInterval);
+  clearTimeout(idleTimeout);
+  if (pageFlip) {
+    pageFlip.destroy();
+    pageFlip = null;
+  }
+  flipBookEl.innerHTML = '';
+}
+
+async function loadMagazineForYear(year) {
+  flipBookWrapper.style.opacity = '0';
+  flipBookWrapper.style.pointerEvents = 'none';
+  flipBookWrapper.classList.remove('is-closing', 'cinematic-entrance', 'is-idle');
+  
+  if (year !== '2024' && year !== '2025' && year !== '2026') {
+    magLoading.style.display = 'flex';
+    magLoading.innerHTML = `Edition ${year} is Coming Soon!`;
+    return;
+  }
+  
+  magLoading.style.display = 'flex';
+  magLoading.innerHTML = `<div class="magazine-spinner"></div> Loading Edition ${year}...`;
+  
+  try {
+    const oldBook = document.getElementById('flipBook');
+    if (oldBook) oldBook.remove();
+    flipBookEl = document.createElement('div');
+    flipBookEl.id = 'flipBook';
+    flipBookEl.className = 'flip-book hardcover-book';
+    const shadow = flipBookWrapper.querySelector('.book-shadow');
+    flipBookWrapper.insertBefore(flipBookEl, shadow);
+
+    // Map pdfUrl based on year
+    let pdfUrl = 'ZG magazines/ZERO GRAVITY.pdf';
+    if (year === '2026') pdfUrl = 'ZG magazines/ZERO GRAVITY 26.pdf';
+    else if (year === '2025') pdfUrl = 'ZG magazines/ZERO GRAVITY 25.pdf';
+    
+    const loadingTask = pdfjsLib.getDocument(pdfUrl);
+    
+    const pdf = await loadingTask.promise;
+    const numPages = pdf.numPages;
+    
+    for (let i = 1; i <= numPages; i++) {
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({ scale: 2.25 });
+      
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.height = viewport.height;
+      canvas.width = viewport.width;
+      
+      await page.render({ canvasContext: ctx, viewport: viewport }).promise;
+      
+      const pageDiv = document.createElement('div');
+      pageDiv.className = 'page';
+      pageDiv.appendChild(canvas);
+      flipBookEl.appendChild(pageDiv);
+    }
+    
+    magLoading.style.display = 'none';
+    flipBookWrapper.style.opacity = '1';
+    flipBookWrapper.style.pointerEvents = 'auto';
+    
+    // Initialize StPageFlip
+    pageFlip = new St.PageFlip(flipBookEl, {
+      width: 600, height: 849,
+      size: "stretch",
+      minWidth: 472, maxWidth: 1500,
+      minHeight: 630, maxHeight: 2025,
+      showCover: true,
+      maxShadowOpacity: 0.6,
+      drawShadow: true,
+      mobileScrollSupport: false
+    });
+    
+    pageFlip.loadFromHTML(flipBookEl.querySelectorAll('.page'));
+    
+    // Trigger Cinematic Entrance
+    flipBookWrapper.classList.add('cinematic-entrance');
+    
+    // Wait for entrance, then gently open the book
+    setTimeout(() => {
+      if (pageFlip) {
+        pageFlip.flip(1); // open cover
+        flipBookWrapper.classList.add('is-idle'); // add floating effect
+      }
+    }, 1300);
+    
+    startAutoplay();
+    
+    // Hook up interaction events to pause autoplay
+    pageFlip.on('flip', resetIdleTimer);
+    flipBookWrapper.addEventListener('mousemove', resetIdleTimer);
+    flipBookWrapper.addEventListener('touchstart', resetIdleTimer);
+    flipBookWrapper.addEventListener('mousedown', resetIdleTimer);
+    
+  } catch (error) {
+    console.error("Error loading PDF", error);
+    magLoading.innerHTML = `Failed to load ${year} edition. Ensure 'ZERO GRAVITY.pdf' exists in 'ZG magazines/'`;
+  }
+}
+
+function startAutoplay() {
+  clearInterval(autoplayInterval);
+  autoplayInterval = setInterval(() => {
+    if (pageFlip && pageFlip.getCurrentPageIndex() > 0) {
+      // If we are on the last page or the last spread, flip back to start
+      if (pageFlip.getCurrentPageIndex() >= pageFlip.getPageCount() - 2) {
+        pageFlip.flip(0); // loop back
+      } else {
+        pageFlip.flipNext();
+      }
+    }
+  }, 5000);
+}
+
+function resetIdleTimer() {
+  clearInterval(autoplayInterval);
+  clearTimeout(idleTimeout);
+  
+  // Wait 10s of no interaction before resuming
+  idleTimeout = setTimeout(() => {
+    startAutoplay();
+  }, 10000);
+}
+
+// Click to Fullscreen Transition
+flipBookWrapper.addEventListener('click', (e) => {
+  if (!isFullscreen) {
+    toggleFullscreen();
+  }
+});
+
+function toggleFullscreen() {
+  isFullscreen = !isFullscreen;
+  
+  if (isFullscreen) {
+    // Move to body to escape any stacking context traps
+    document.body.appendChild(flipBookWrapper);
+    
+    document.body.classList.add('is-fullscreen-body');
+    flipBookWrapper.classList.add('is-fullscreen');
+    flipBookWrapper.classList.remove('is-idle'); // stop floating
+    document.body.style.overflow = 'hidden';
+    magClose.style.display = 'flex';
+  } else {
+    // Move back to original stage
+    document.querySelector('.magazine-stage').appendChild(flipBookWrapper);
+    
+    document.body.classList.remove('is-fullscreen-body');
+    flipBookWrapper.classList.remove('is-fullscreen');
+    flipBookWrapper.classList.add('is-idle'); // resume floating
+    document.body.style.overflow = '';
+    magClose.style.display = 'none';
+  }
+}
+
+if (magClose) {
+  magClose.addEventListener('click', () => {
+    if (isFullscreen) toggleFullscreen();
+  });
+}
+
