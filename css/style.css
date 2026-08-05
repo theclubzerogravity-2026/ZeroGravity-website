@@ -536,9 +536,17 @@ body::before {
 .pr-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .pr-card .member-photo { aspect-ratio: 1/1; margin-bottom: 16px; }
 
+.mobile-only { display: none !important; }
+
 @media (max-width: 900px) {
   .leadership-row { grid-template-columns: 1fr; }
-  .dept-grid { grid-template-columns: 1fr; }
+  
+  .dept-grid { display: none; grid-template-columns: 1fr; }
+  .dept-grid.is-expanded { display: grid; }
+  
+  .mobile-only { display: inline-flex !important; }
+  .mobile-only.is-hidden { display: none !important; }
+  
   .pr-row { grid-template-columns: 1fr; gap: 16px; }
 }
 @media (max-width: 560px) {
@@ -591,10 +599,19 @@ body::before {
 .timeline-node:disabled { opacity: 0.3; cursor: not-allowed; }
 
 @media (max-width: 600px) {
-  .timeline-track { flex-direction: column; gap: 20px; }
-  .timeline-line { top: 0; bottom: 0; left: 50%; right: auto; width: 1px; height: 100%; transform: translateX(-50%); }
-  .timeline-node::after { left: -8px; top: 50%; bottom: auto; width: 2px; height: 0; transform: translateY(-50%); }
-  .timeline-node.is-active::after { width: 2px; height: 16px; }
+  .timeline-track { 
+    flex-direction: row; 
+    gap: 16px; 
+    overflow-x: auto; 
+    justify-content: flex-start; 
+    padding: 10px 20px; 
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .timeline-track::-webkit-scrollbar { display: none; }
+  .timeline-node { scroll-snap-align: center; flex-shrink: 0; }
+  .timeline-line { display: none; }
 }
 
 /* ============ EVENTS ============ */
@@ -658,7 +675,21 @@ body::before {
 .section-lede { color: var(--muted); font-size: 19px; max-width: 500px; margin-bottom: 30px; }
 
 @media (max-width: 860px) {
-  .events-grid { grid-template-columns: 1fr; }
+  .events-grid { 
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 16px;
+    padding-bottom: 20px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .events-grid::-webkit-scrollbar { display: none; }
+  .event-card { 
+    flex: 0 0 85%;
+    scroll-snap-align: center;
+  }
   .event-card.is-wide { grid-template-columns: 1fr; }
   .event-card.is-wide .event-media { border-right: none; border-bottom: 1px solid var(--line); aspect-ratio: 16/10; height: auto; }
 }

@@ -219,6 +219,18 @@ document.querySelectorAll('.lead-card, .dept-card, .pr-card, .event-card').forEa
   el.style.setProperty('--d', (i % 6));
 });
 
+const coreTeamMoreBtn = document.getElementById('coreTeamMoreBtn');
+if (coreTeamMoreBtn) {
+  coreTeamMoreBtn.addEventListener('click', () => {
+    document.getElementById('deptGrid').classList.add('is-expanded');
+    coreTeamMoreBtn.classList.add('is-hidden');
+    // Reveal the newly visible cards
+    setTimeout(() => {
+      document.querySelectorAll('#deptGrid .dept-card, #deptGrid .pr-card').forEach(el => el.classList.add('in-view'));
+    }, 50);
+  });
+}
+
 /* ---------- 3) IMAGE-OR-PLACEHOLDER LOADER ------------------ */
 function tryLoadImage(el) {
   const src = el.getAttribute('data-img');
@@ -805,16 +817,19 @@ async function loadMagazineForYear(year) {
     flipBookWrapper.style.opacity = '1';
     flipBookWrapper.style.pointerEvents = 'auto';
     
+    const isMobile = window.innerWidth <= 900;
+    
     // Initialize StPageFlip
     pageFlip = new St.PageFlip(flipBookEl, {
-      width: 600, height: 849,
+      width: isMobile ? 300 : 600, height: isMobile ? 425 : 849,
       size: "stretch",
-      minWidth: 472, maxWidth: 1500,
-      minHeight: 630, maxHeight: 2025,
+      minWidth: isMobile ? 300 : 472, maxWidth: 1500,
+      minHeight: isMobile ? 425 : 630, maxHeight: 2025,
       showCover: true,
       maxShadowOpacity: 0.6,
       drawShadow: true,
-      mobileScrollSupport: false
+      mobileScrollSupport: isMobile,
+      usePortrait: isMobile
     });
     
     pageFlip.loadFromHTML(flipBookEl.querySelectorAll('.page'));
@@ -855,7 +870,7 @@ function startAutoplay() {
         pageFlip.flipNext();
       }
     }
-  }, 5000);
+  }, 3000);
 }
 
 function resetIdleTimer() {
