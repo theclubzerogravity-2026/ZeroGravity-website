@@ -22,9 +22,42 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
   <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';</script>
   <script src="https://cdn.jsdelivr.net/npm/page-flip/dist/js/page-flip.browser.js"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- GSAP for Smooth Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 
 <body>
+
+  <!-- ============ LAUNCH SEQUENCE ============ -->
+  <div id="launchSequence" aria-hidden="false">
+    <div id="launchMessage" class="launch-message">Ladies and Gentlemen</div>
+    <div id="launchTimer" class="launch-timer" style="display: none;">
+      <div id="countdownNumber">5</div>
+    </div>
+  </div>
+
+  <!-- ============ RIBBON CUTTING SCENE ============ -->
+  <div id="ribbonScene" class="is-hidden" aria-hidden="true">
+    <div class="ribbon ribbon-left" id="ribbonLeft"></div>
+    <div class="ribbon ribbon-right" id="ribbonRight"></div>
+    <div class="cutting-rocket" id="cuttingRocket">
+      <svg class="svg-rocket" viewBox="0 0 100 150" width="80" height="120">
+        <!-- Body -->
+        <path d="M50 10 C30 40 30 90 30 110 L70 110 C70 90 70 40 50 10 Z" fill="#e2e8f0" />
+        <path d="M50 10 C40 25 35 40 34 50 L66 50 C65 40 60 25 50 10 Z" fill="#e8384f" />
+        <!-- Fins -->
+        <path d="M30 80 L10 120 L30 110 Z" fill="#e8384f" />
+        <path d="M70 80 L90 120 L70 110 Z" fill="#e8384f" />
+        <!-- Window -->
+        <circle cx="50" cy="65" r="8" fill="#1b2845" stroke="#9797a3" stroke-width="2" />
+        <!-- Fire -->
+        <path class="svg-fire" d="M35 110 L50 145 L65 110 Z" fill="#ffc72c" />
+        <path class="svg-fire-inner" d="M42 110 L50 130 L58 110 Z" fill="#ff5468" />
+      </svg>
+    </div>
+  </div>
 
   <!-- ============ PRELOADER ============ -->
   <div id="preloader" aria-hidden="true">
