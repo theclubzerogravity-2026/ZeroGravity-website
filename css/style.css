@@ -308,64 +308,76 @@ body::before {
    NAVBAR
    ========================================================== */
 :root {
-  --nav-h: 80px;
+  --nav-h: 90px;
 }
+
 .navbar {
   position: fixed; top: 0; left: 0; right: 0; z-index: 1150;
   height: var(--nav-h);
   background: transparent;
   border-bottom: 1px solid transparent;
-  transition: background 0.4s var(--ease), border-color 0.4s var(--ease), height 0.35s var(--ease);
+  box-shadow: none;
+  transition: 
+    background 0.4s ease, 
+    backdrop-filter 0.4s ease, 
+    -webkit-backdrop-filter 0.4s ease, 
+    border-color 0.4s ease, 
+    box-shadow 0.4s ease, 
+    height 0.4s ease;
 }
+
 .navbar.is-scrolled {
-  background: rgba(8, 8, 12, 0.45);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-bottom-color: var(--line);
-  height: 70px;
+  background: rgba(15, 15, 20, 0.70);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.20);
+  height: 75px;
 }
+
 .navbar-inner {
   max-width: 1440px; margin: 0 auto; height: 100%;
-  padding: 0 40px;
+  padding: 0 24px;
   display: flex; align-items: center; justify-content: space-between;
 }
+
 .brand {
   display: flex; align-items: center; justify-content: flex-start;
   flex-shrink: 0;
 }
+
 .brand-logo {
-  display: block; width: auto; height: auto; object-fit: contain;
-  transition: transform 0.35s ease, filter 0.35s ease;
+  display: block; width: auto; height: auto;
 }
+
 .brand-logo--club {
-  height: 80px; width: auto;
+  height: 120px; 
+  width: 168px; /* Strictly 1.4 aspect ratio to crop the 1.5 ratio image */
+  object-fit: cover;
+  object-position: 80% center; /* Crops transparent edges perfectly */
   filter: invert(1) brightness(1.15) contrast(1.15);
   mix-blend-mode: screen;
-  margin-left: -44px;
-  transform: scale(2.2) translateY(4px);
-  transform-origin: left center;
 }
-.brand-name { font-family: var(--font-display); font-weight: 700; font-size: 17px; letter-spacing: 0.04em; }
 
-.nav-links { display: flex; align-items: center; gap: 36px; }
-.nav-link {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 17px; font-weight: 600; color: var(--muted);
-  position: relative; transition: color 0.3s var(--ease);
-}
-.nav-link:hover { color: var(--white); }
-.nav-link::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: -8px;
-  height: 2px; background: var(--red);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform 0.3s ease;
-}
-.nav-link:hover::after { transform: scaleX(1); }
-.nav-tag { font-family: var(--font-mono); font-size: 10px; color: var(--muted-2); }
-.nav-cta { padding: 14px 28px; font-size: 16px; }
+.nav-links { display: none; } /* Hidden globally to match requested layout [ LARGE LOGO ] [ ☰ ] */
 
-.hamburger { display: none; flex-direction: column; gap: 5px; width: 28px; z-index: 1200; }
-.hamburger span { display: block; height: 2px; background: var(--white); transition: transform 0.3s var(--ease), opacity 0.3s var(--ease); }
+.hamburger { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 5px; 
+  width: 44px; 
+  height: 44px; 
+  align-items: center; 
+  justify-content: center;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  z-index: 1200; 
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.hamburger:active { background: rgba(255,255,255,0.15); }
+.hamburger span { display: block; width: 22px; height: 2px; background: var(--white); transition: transform 0.3s var(--ease), opacity 0.3s var(--ease); }
 .hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .hamburger.is-open span:nth-child(2) { opacity: 0; }
 .hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
@@ -385,12 +397,36 @@ body::before {
 .mobile-cta { margin-top: 14px; }
 
 @media (max-width: 900px) {
-  :root { --nav-h: 70px; }
-  .navbar.is-scrolled { height: 60px; }
-  .navbar-inner { padding: 0 22px; }
-  .brand-logo--club { height: 50px; margin-left: -16px; transform: scale(2) translateY(2px); }
+  :root { --nav-h: 75px; }
+  
+  .navbar-inner { 
+    padding: 0 20px; 
+  }
+  
+  .brand {
+    /* No margins needed */
+  }
+  
+  .brand-logo--club { 
+    height: 70px;
+    width: 98px; /* 1.4 aspect ratio maintains identical cropping and maximizes gap */
+  }
+  
   .nav-links { display: none; }
-  .hamburger { display: flex; }
+  
+  .hamburger { 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    width: 44px; 
+    height: 44px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    transition: background 0.3s ease;
+  }
+  .hamburger:active { background: rgba(255,255,255,0.15); }
+  .hamburger span { width: 22px; }
 }
 
 /* ============ HERO ============ */
@@ -1139,9 +1175,13 @@ a:focus-visible, button:focus-visible {
   /* -- Navbar -- */
   :root { --nav-h: 80px; }
   .navbar.is-scrolled { height: 70px; }
-  .brand-logo--club { height: 90px; margin-left: 0; margin-top: 4px; }
-  .navbar-inner { padding: 0 16px; justify-content: flex-end; position: relative; }
-  .brand-link { position: absolute; left: 50%; transform: translateX(calc(-50% - 15px)); }
+  .brand-logo--club { 
+    height: 70px; 
+    width: 98px; /* Enforces the 1.4 ratio crop */
+    margin-left: 0; 
+    margin-top: 4px; 
+  }
+  .navbar-inner { padding: 0 16px; /* Removed justify-content: flex-end hack */ }
   .mobile-link { font-size: 20px; }
 
   /* -- Hero -- */

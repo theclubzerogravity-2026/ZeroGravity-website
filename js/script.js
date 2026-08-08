@@ -245,153 +245,9 @@ function tryLoadImage(el) {
 }
 document.querySelectorAll('[data-img]').forEach(tryLoadImage);
 
-/* ---------- 4) LAUNCH SEQUENCE & PRELOADER ----------------- */
-function startLaunchSequence() {
-  const launchSequence = document.getElementById('launchSequence');
-  const launchMessage = document.getElementById('launchMessage');
-  const launchTimer = document.getElementById('launchTimer');
-  const countdownNumber = document.getElementById('countdownNumber');
-  
-  if (!launchSequence || !launchMessage || !launchTimer) {
-    startPreloader();
-    return;
-  }
-
-  document.body.style.overflow = 'hidden';
-
-  const phrases = [
-    "Ladies and Gentlemen",
-    "We welcome you all for",
-    "Website launch of ZeroGravity. 🚀",
-    "Let's have a countdown."
-  ];
-
-  let phraseIndex = 0;
-
-  function showNextPhrase() {
-    if (phraseIndex < phrases.length) {
-      launchMessage.classList.remove('is-visible');
-      
-      setTimeout(() => {
-        launchMessage.textContent = phrases[phraseIndex];
-        launchMessage.classList.add('is-visible');
-        phraseIndex++;
-        // Display each phrase for 2500ms
-        setTimeout(showNextPhrase, 2500);
-      }, 500);
-    } else {
-      launchMessage.classList.remove('is-visible');
-      setTimeout(() => {
-        launchMessage.style.display = 'none';
-        launchTimer.style.display = 'flex';
-        
-        let count = 5;
-        countdownNumber.textContent = count;
-        
-        const interval = setInterval(() => {
-          count--;
-          if (count > 0) {
-            countdownNumber.textContent = count;
-          } else {
-            clearInterval(interval);
-            
-            const ribbonScene = document.getElementById('ribbonScene');
-            const preloader = document.getElementById('preloader');
-            
-            if (preloader) preloader.style.display = 'none';
-            
-            if (ribbonScene) {
-              const cuttingRocket = document.getElementById('cuttingRocket');
-              const ribbonLeft = document.getElementById('ribbonLeft');
-              const ribbonRight = document.getElementById('ribbonRight');
-              
-              // Set initial positions IMMEDIATELY before fading in
-              if (cuttingRocket) gsap.set(cuttingRocket, { y: window.innerHeight + 100, x: 0, rotation: 0 });
-              if (ribbonLeft && ribbonRight) gsap.set([ribbonLeft, ribbonRight], { y: 0, x: 0, rotation: 0, opacity: 1 });
-              
-              ribbonScene.classList.remove('is-hidden');
-              ribbonScene.setAttribute('aria-hidden', 'false');
-            }
-
-            launchSequence.classList.add('is-hidden');
-            
-            // Give ribbonScene 1000ms to fully fade in
-            setTimeout(() => {
-              launchSequence.style.display = 'none';
-              
-              if (ribbonScene && preloader) {
-                const cuttingRocket = document.getElementById('cuttingRocket');
-                const ribbonLeft = document.getElementById('ribbonLeft');
-                const ribbonRight = document.getElementById('ribbonRight');
-                
-                const tl = gsap.timeline({
-                  onComplete: () => {
-                    // Fade out ribbon scene smoothly over top of preloader
-                    ribbonScene.classList.add('is-hidden');
-                    preloader.style.display = 'flex';
-                    
-                    // Delay preloader start until ribbon scene has fully faded out
-                    // This fixes the glitch where the first 1s of preloader is hidden!
-                    setTimeout(() => {
-                      ribbonScene.style.display = 'none';
-                      startPreloader();
-                    }, 1000);
-                  }
-                });
-                
-                // Hand-made feel: Rocket ignites and wobbles at the bottom before launch
-                tl.to(cuttingRocket, {
-                  y: window.innerHeight - 50, 
-                  duration: 0.8, 
-                  ease: "power1.out"
-                });
-                tl.to(cuttingRocket, { x: -3, rotation: -3, duration: 0.1, yoyo: true, repeat: 7 }, "<");
-                
-                // Slow and smooth rocket flight with continuous slight wobble
-                tl.to(cuttingRocket, {
-                  y: -300,
-                  x: "+=5",
-                  rotation: 4,
-                  duration: 2.8,
-                  ease: "power2.in"
-                });
-                
-                // Hand-made tension: Ribbon bows slightly down just before rocket hits it
-                tl.to(ribbonLeft, { rotation: -3, duration: 0.2, ease: "power1.in" }, "-=1.5");
-                tl.to(ribbonRight, { rotation: 3, duration: 0.2, ease: "power1.in" }, "-=1.5");
-                
-                // Smooth ribbon snap and fall away
-                tl.to(ribbonLeft, {
-                  rotation: -65, // swings down like a pendulum from the left edge
-                  opacity: 0,
-                  duration: 2.2,
-                  ease: "power2.in"
-                }, "-=1.3");
-                
-                tl.to(ribbonRight, {
-                  rotation: 65, // swings down like a pendulum from the right edge
-                  opacity: 0,
-                  duration: 2.2,
-                  ease: "power2.in"
-                }, "<");
-              } else {
-                if (preloader) preloader.style.display = 'flex';
-                startPreloader();
-              }
-            }, 1000); // Wait 1s for ribbon scene to fade in before rocket starts
-
-          }
-        }, 1000);
-      }, 500); // 500ms fade out message
-    }
-  }
-
-  // Start sequence
-  showNextPhrase();
-}
-
+/* ---------- 4) PRELOADER ----------------- */
 // Start the sequence
-startLaunchSequence();
+startPreloader();
 
 function startPreloader() {
   const pre = document.getElementById('preloader');
@@ -445,27 +301,8 @@ function startPreloader() {
     l.style.transition = 'transform 1.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 1.8s, color 0.8s ease, text-shadow 0.8s ease';
   });
 
-  // Phase 1 (50ms): Fly letters in and start confetti
+  // Phase 1 (50ms): Fly letters in
   setTimeout(() => {
-    try {
-      if (typeof confetti !== 'undefined') {
-        const duration = 10000;
-        const animationEnd = Date.now() + duration;
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100000 };
-        function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-        const confettiInterval = setInterval(function() {
-          const timeLeft = animationEnd - Date.now();
-          if (timeLeft <= 0) {
-            confetti.reset();
-            return clearInterval(confettiInterval);
-          }
-          const particleCount = 50 * (timeLeft / duration);
-          confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.2, 0.4), y: Math.random() - 0.2 } }));
-          confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.6, 0.8), y: Math.random() - 0.2 } }));
-        }, 250);
-      }
-    } catch(e) { console.warn("Confetti error", e); }
-
     letters.forEach((l, i) => {
       setTimeout(() => {
         l.classList.add('is-active');
@@ -546,7 +383,6 @@ function startPreloader() {
   // End (10000ms): Finish and clean up
   setTimeout(() => {
     if (pre) pre.classList.add('is-hidden');
-    try { if (typeof confetti !== 'undefined') confetti.reset(); } catch(e) {}
     document.body.style.overflow = '';
     revealHero();
   }, 10000);
