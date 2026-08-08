@@ -359,10 +359,28 @@ body::before {
   mix-blend-mode: screen;
 }
 
-.nav-links { display: none; } /* Hidden globally to match requested layout [ LARGE LOGO ] [ ☰ ] */
+.nav-links { 
+  display: flex; 
+  align-items: center; 
+  gap: 32px; 
+}
+
+.nav-link {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  transition: color 0.3s var(--ease);
+}
+
+.nav-link:hover {
+  color: var(--yellow);
+}
 
 .hamburger { 
-  display: flex; 
+  display: none; /* Hidden on desktop */ 
   flex-direction: column; 
   gap: 5px; 
   width: 44px; 
