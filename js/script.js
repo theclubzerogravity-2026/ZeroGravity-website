@@ -983,3 +983,18 @@ if (eventPopupOverlay && eventPopupClose) {
   });
 }
 
+const pdfPopupOverlay = document.getElementById('pdfPopupOverlay');
+const pdfPopupClose = document.getElementById('pdfPopupClose');
+
+if (pdfPopupOverlay && pdfPopupClose) {
+  pdfPopupClose.addEventListener('click', () => {
+    pdfPopupOverlay.classList.remove('is-active');
+  });
+
+  pdfPopupOverlay.addEventListener('click', (e) => {
+    if (e.target === pdfPopupOverlay) {
+      pdfPopupOverlay.classList.remove('is-active');
+    }
+  });
+}
+

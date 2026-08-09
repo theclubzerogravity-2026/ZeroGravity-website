@@ -336,8 +336,20 @@
       </div>
       
       <div class="event-popup-actions">
-        <button onclick="document.getElementById('eventPopupOverlay').classList.remove('is-active'); document.getElementById('magazine').scrollIntoView({behavior: 'smooth'}); setTimeout(() => switchMagazine('events'), 500);" class="btn btn-primary popup-btn">View More <span class="arrow">→</span></button>
+        <button onclick="document.getElementById('eventPopupOverlay').classList.remove('is-active'); document.getElementById('pdfPopupOverlay').classList.add('is-active');" class="btn btn-primary popup-btn">View More <span class="arrow">→</span></button>
       </div>
+    </div>
+  </div>
+
+  <!-- ============ PDF VIEWER POPUP ============ -->
+  <div class="pdf-popup-overlay" id="pdfPopupOverlay" aria-hidden="true">
+    <div class="pdf-popup-modal">
+      <button class="event-popup-close" id="pdfPopupClose" aria-label="Close PDF viewer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <iframe src="ZG events/Events.pdf" class="pdf-popup-iframe" title="Upcoming Events PDF"></iframe>
     </div>
   </div>
 
