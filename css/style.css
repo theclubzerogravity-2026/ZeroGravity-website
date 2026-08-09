@@ -1425,7 +1425,7 @@ a:focus-visible, button:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff; /* PDF background */
+  background: transparent;
   overflow: auto;
   padding: 24px;
 }
