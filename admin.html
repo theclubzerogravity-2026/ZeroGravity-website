@@ -283,7 +283,11 @@
              
              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
                <div id="attReminderStatus" style="font-size:14px; color:var(--admin-muted);">Checking reminder status...</div>
-               <button class="admin-btn" id="btnSaveEventAttendance">Save Attendance</button>
+               <div style="display:flex; gap:12px;">
+                 <button class="admin-btn secondary" onclick="markAll('EVENT', 'present')">Present All</button>
+                 <button class="admin-btn secondary" onclick="markAll('EVENT', null)">Clear All</button>
+                 <button class="admin-btn" id="btnSaveEventAttendance">Save Attendance</button>
+               </div>
              </div>
              
              <div style="overflow-x:auto;">
@@ -338,7 +342,9 @@
                </div>
              </div>
              
-             <div style="display:flex; justify-content:flex-end; margin-bottom:16px;">
+             <div style="display:flex; justify-content:flex-end; margin-bottom:16px; gap:12px;">
+               <button class="admin-btn secondary" onclick="markAll('PREP', 'present')">Present All</button>
+               <button class="admin-btn secondary" onclick="markAll('PREP', null)">Clear All</button>
                <button class="admin-btn" id="btnSavePrepAttendance">Save Prep Attendance</button>
              </div>
              

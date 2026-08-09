@@ -184,6 +184,20 @@ async function loadAttendanceGrid(type, eventId, date, tbodyId) {
   }
 }
 
+window.markAll = function(type, status) {
+  const tbodyId = type === 'EVENT' ? 'eventAttendanceMembersGrid' : 'prepAttendanceMembersGrid';
+  const tbody = document.getElementById(tbodyId);
+  if (!tbody) return;
+  
+  const rows = tbody.querySelectorAll('tr[id^="row_"]');
+  rows.forEach(row => {
+    const memberId = row.id.split('_').pop();
+    if (memberId) {
+      setMemberStatus(type, memberId, status);
+    }
+  });
+};
+
 window.setMemberStatus = function(type, memberId, status) {
   if (status) {
     attendanceState[type][memberId] = status;
