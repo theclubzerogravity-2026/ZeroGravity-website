@@ -287,6 +287,14 @@ startPreloader();
 
 function startPreloader() {
   const pre = document.getElementById('preloader');
+  
+  if (window.location.search.includes('noloader=1')) {
+    pre.style.display = 'none';
+    document.body.style.overflow = '';
+    setTimeout(revealHero, 100);
+    return;
+  }
+
   const inner = document.getElementById('preloaderInner');
   const lockup = document.getElementById('preloaderLockup');
   const astronaut = document.getElementById('preloaderAstronaut');

@@ -360,9 +360,7 @@ body::before {
 }
 
 .nav-links { 
-  display: flex; 
-  align-items: center; 
-  gap: 32px; 
+  display: none; 
 }
 
 .nav-link {
@@ -380,7 +378,7 @@ body::before {
 }
 
 .hamburger { 
-  display: none; /* Hidden on desktop */ 
+  display: flex; /* Always show hamburger */ 
   flex-direction: column; 
   gap: 5px; 
   width: 44px; 
@@ -713,6 +711,48 @@ body::before {
 }
 @media (max-width: 560px) {
   .dept-pair { grid-template-columns: 1fr; }
+}
+
+/* ============ ABOUT STATS ============ */
+.about-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 64px;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+.about-stat-col {
+  padding: 40px 24px;
+  text-align: center;
+  border-right: 1px solid var(--line-strong);
+}
+.about-stat-col:last-child {
+  border-right: none;
+}
+.about-stat-col .stat-number {
+  font-family: var(--font-display);
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.about-stat-col .stat-label {
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 900px) {
+  .about-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-stat-col { border-bottom: 1px solid var(--line-strong); }
+  .about-stat-col:nth-child(even) { border-right: none; }
+  .about-stat-col:nth-last-child(-n+2) { border-bottom: none; }
+}
+@media (max-width: 480px) {
+  .about-stats-grid { grid-template-columns: 1fr; }
+  .about-stat-col { border-right: none; border-bottom: 1px solid var(--line-strong); }
+  .about-stat-col:last-child { border-bottom: none; }
 }
 
 /* ============ TIMELINE & CINEMATIC STAGE ============ */
