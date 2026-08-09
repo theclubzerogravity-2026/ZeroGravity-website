@@ -814,7 +814,7 @@ async function loadMagazineForYear(year) {
   flipBookWrapper.style.pointerEvents = 'none';
   flipBookWrapper.classList.remove('is-closing', 'cinematic-entrance', 'is-idle');
   
-  if (year !== '2024' && year !== '2025' && year !== '2026') {
+  if (year !== '2024' && year !== '2025' && year !== '2026' && year !== 'events') {
     magLoading.style.display = 'flex';
     magLoading.innerHTML = `Edition ${year} is Coming Soon!`;
     return;
@@ -836,6 +836,7 @@ async function loadMagazineForYear(year) {
     let pdfUrl = 'ZG magazines/ZERO GRAVITY.pdf';
     if (year === '2026') pdfUrl = 'ZG magazines/ZERO GRAVITY 26.pdf';
     else if (year === '2025') pdfUrl = 'ZG magazines/ZERO GRAVITY 25.pdf';
+    else if (year === 'events') pdfUrl = 'ZG events/Events.pdf';
     
     const loadingTask = pdfjsLib.getDocument(pdfUrl);
     
