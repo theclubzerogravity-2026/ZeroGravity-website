@@ -96,20 +96,56 @@ const EVENTS = [
   {
     tag: 'INDUCTION', title: 'Oath Ceremony',
     desc: 'An engaging induction for newly recruited members featuring networking, interactive games, team-building activities, and the official ZeroGravity Oath Ceremony welcoming them into the core team.',
-    img: 'Oath/WhatsApp Image 2026-08-02 at 16.31.19 (1).jpeg',
+    img: 'Oath/IMG-20260806-WA0030.jpg',
     gallery: [
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.19 (1).jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.19.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.48.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.49.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.50.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.52 (1).jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.31.52.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.32.01.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.32.02 (1).jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.32.02.jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.32.05 (1).jpeg",
-      "Oath/WhatsApp Image 2026-08-02 at 16.32.05.jpeg"
+      "Oath/IMG-20260806-WA0030.jpg",
+      "Oath/IMG-20260806-WA0031.jpg",
+      "Oath/IMG-20260806-WA0032.jpg",
+      "Oath/IMG-20260806-WA0033.jpg",
+      "Oath/IMG-20260806-WA0034.jpg",
+      "Oath/IMG-20260806-WA0035.jpg",
+      "Oath/IMG-20260806-WA0037.jpg",
+      "Oath/IMG-20260806-WA0038.jpg",
+      "Oath/IMG-20260806-WA0039.jpg",
+      "Oath/IMG-20260806-WA0040.jpg",
+      "Oath/IMG-20260806-WA0041.jpg",
+      "Oath/IMG-20260806-WA0042.jpg",
+      "Oath/IMG-20260806-WA0043.jpg",
+      "Oath/IMG-20260806-WA0044.jpg",
+      "Oath/IMG-20260806-WA0045.jpg",
+      "Oath/IMG-20260806-WA0046.jpg",
+      "Oath/IMG20260806114505.jpg",
+      "Oath/IMG20260806114531.jpg",
+      "Oath/IMG20260806114552.jpg",
+      "Oath/IMG20260806114717.jpg",
+      "Oath/IMG20260806114743.jpg",
+      "Oath/IMG20260806114821.jpg",
+      "Oath/IMG20260806114850.jpg",
+      "Oath/IMG20260806114957.jpg",
+      "Oath/IMG20260806115055.jpg",
+      "Oath/IMG20260806115125.jpg",
+      "Oath/IMG20260806115219.jpg",
+      "Oath/IMG20260806115440.jpg",
+      "Oath/IMG_20260806_105035.jpg",
+      "Oath/IMG_20260806_105058.jpg",
+      "Oath/IMG_20260806_105824.jpg",
+      "Oath/IMG_20260806_111537.jpg",
+      "Oath/IMG_20260806_111554.jpg",
+      "Oath/IMG_20260806_112104.jpg",
+      "Oath/IMG_20260806_113116.jpg",
+      "Oath/IMG_20260806_113356.jpg",
+      "Oath/IMG_20260806_113522.jpg",
+      "Oath/IMG_20260806_113613.jpg",
+      "Oath/IMG_20260806_113734.jpg",
+      "Oath/IMG_20260806_113844.jpg",
+      "Oath/IMG_20260806_114003.jpg",
+      "Oath/IMG_20260806_114143.jpg",
+      "Oath/IMG_20260806_114223.jpg",
+      "Oath/IMG_20260806_114343.jpg",
+      "Oath/IMG_20260806_114454.jpg",
+      "Oath/IMG_20260806_114626.jpg",
+      "Oath/IMG_20260806_115636.jpg",
+      "Oath/IMG_20260806_120032.jpg"
     ]
   },
   {
@@ -385,6 +421,12 @@ function startPreloader() {
     if (pre) pre.classList.add('is-hidden');
     document.body.style.overflow = '';
     revealHero();
+    
+    // Show events popup after a short delay
+    setTimeout(() => {
+      const popup = document.getElementById('eventPopupOverlay');
+      if (popup) popup.classList.add('is-active');
+    }, 800);
   }, 10000);
 }
 
@@ -921,6 +963,22 @@ function toggleFullscreen() {
 if (magClose) {
   magClose.addEventListener('click', () => {
     if (isFullscreen) toggleFullscreen();
+  });
+}
+
+/* ============ UPCOMING EVENTS POPUP ============ */
+const eventPopupOverlay = document.getElementById('eventPopupOverlay');
+const eventPopupClose = document.getElementById('eventPopupClose');
+
+if (eventPopupOverlay && eventPopupClose) {
+  eventPopupClose.addEventListener('click', () => {
+    eventPopupOverlay.classList.remove('is-active');
+  });
+
+  eventPopupOverlay.addEventListener('click', (e) => {
+    if (e.target === eventPopupOverlay) {
+      eventPopupOverlay.classList.remove('is-active');
+    }
   });
 }
 
