@@ -309,15 +309,14 @@
         
         <!-- EVENT PREP ATTENDANCE TAB -->
         <div id="attendance-prep" class="attendance-tab-content" style="display:none;">
-          <div style="background:var(--panel-2); padding:16px; border-radius:8px; margin-bottom:24px; border:1px solid var(--line-strong);">
-            <div style="color:var(--admin-muted); font-size:13px; text-transform:uppercase;">Today's Date (IST)</div>
-            <div id="prepAttendanceDateBanner" style="font-size:20px; font-weight:600; color:var(--white); margin-top:4px;">Loading...</div>
-          </div>
-          
-          <div id="prepAttendanceSelectionArea">
-             <div class="admin-form-group">
+          <div id="prepAttendanceSelectionArea" style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:24px;">
+             <div class="admin-form-group" style="flex:1; min-width:250px;">
                <label>Select Event for Preparation</label>
-               <select class="admin-select" id="prepAttendanceEventSelect" style="max-width: 400px;"></select>
+               <select class="admin-select" id="prepAttendanceEventSelect"></select>
+             </div>
+             <div class="admin-form-group" style="flex:1; min-width:250px;">
+               <label>Preparation Date</label>
+               <input type="date" class="admin-input" id="prepAttendanceDateSelect" disabled>
              </div>
           </div>
           

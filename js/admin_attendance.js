@@ -105,25 +105,49 @@ async function loadPrepAttendanceTab() {
   try {
     const { data: events, error } = await sb
       .from('events')
-      .select('id, name')
+      .select('id, name, event_date')
       .order('event_date', { ascending: false });
       
     if (error) throw error;
     
     select.innerHTML = '<option value="">Choose an event for prep</option>' + 
-      (events || []).map(e => `<option value="${e.id}">${escapeHTML(e.name)}</option>`).join('');
+      (events || []).map(e => `<option value="${e.id}" data-date="${e.event_date}">${escapeHTML(e.name)}</option>`).join('');
   } catch (err) {
     console.error('Error loading prep events:', err);
   }
 }
 
 document.getElementById('prepAttendanceEventSelect').addEventListener('change', (e) => {
-  const eventId = e.target.value;
+  const select = e.target;
+  const eventId = select.value;
+  const dateInput = document.getElementById('prepAttendanceDateSelect');
+  
   if (eventId) {
+    const selectedOption = select.options[select.selectedIndex];
+    const eventDate = selectedOption.getAttribute('data-date');
+    
+    dateInput.disabled = false;
+    dateInput.max = eventDate;
+    
+    // Set default value if empty or if current value is past the event date
+    if (!dateInput.value || dateInput.value > eventDate) {
+      dateInput.value = todayIST > eventDate ? eventDate : todayIST;
+    }
+    
     currentEventId.PREP = eventId;
-    loadAttendanceGrid('PREP', eventId, todayIST, 'prepAttendanceMembersGrid');
+    loadAttendanceGrid('PREP', eventId, dateInput.value, 'prepAttendanceMembersGrid');
   } else {
+    dateInput.disabled = true;
+    dateInput.value = '';
     document.getElementById('prepAttendanceMarkingArea').style.display = 'none';
+  }
+});
+
+document.getElementById('prepAttendanceDateSelect').addEventListener('change', (e) => {
+  const eventId = document.getElementById('prepAttendanceEventSelect').value;
+  const date = e.target.value;
+  if (eventId && date) {
+    loadAttendanceGrid('PREP', eventId, date, 'prepAttendanceMembersGrid');
   }
 });
 
@@ -275,6 +299,9 @@ async function saveAttendance(type) {
   const eventId = currentEventId[type];
   if (!eventId) return;
   
+  const targetDate = type === 'PREP' ? document.getElementById('prepAttendanceDateSelect').value : todayIST;
+  if (!targetDate) return;
+  
   const btnId = type === 'EVENT' ? 'btnSaveEventAttendance' : 'btnSavePrepAttendance';
   const btn = document.getElementById(btnId);
   btn.disabled = true;
@@ -285,13 +312,13 @@ async function saveAttendance(type) {
     await sb.from('attendance')
       .delete()
       .eq('event_id', eventId)
-      .eq('attendance_date', todayIST)
+      .eq('attendance_date', targetDate)
       .eq('attendance_type', type);
       
     const records = Object.entries(attendanceState[type]).map(([memberId, status]) => ({
       event_id: eventId,
       member_id: memberId,
-      attendance_date: todayIST,
+      attendance_date: targetDate,
       attendance_type: type,
       status: status
     }));
