@@ -138,7 +138,7 @@ async function loadAttendanceGrid(type, eventId, date, tbodyId) {
   tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Loading members...</td></tr>';
   
   try {
-    const { data: members, error: memErr } = await sb.from('members').select('id, name, department, year').order('name');
+    const { data: members, error: memErr } = await sb.from('members').select('id, name, department').order('name');
     if (memErr) throw memErr;
     
     const { data: records, error: recErr } = await sb
@@ -180,7 +180,7 @@ async function loadAttendanceGrid(type, eventId, date, tbodyId) {
     
   } catch (err) {
     console.error(`Error loading ${type} grid:`, err);
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--red);">Failed to load</td></tr>';
+    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--red);">Failed to load: ${err.message || JSON.stringify(err)}</td></tr>`;
   }
 }
 
