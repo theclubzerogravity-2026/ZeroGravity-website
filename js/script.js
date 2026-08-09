@@ -985,6 +985,8 @@ if (eventPopupOverlay && eventPopupClose) {
 
 const pdfPopupOverlay = document.getElementById('pdfPopupOverlay');
 const pdfPopupClose = document.getElementById('pdfPopupClose');
+const pdfPopupContainer = document.getElementById('pdfPopupContainer');
+let isPdfLoaded = false;
 
 if (pdfPopupOverlay && pdfPopupClose) {
   pdfPopupClose.addEventListener('click', () => {
@@ -996,5 +998,42 @@ if (pdfPopupOverlay && pdfPopupClose) {
       pdfPopupOverlay.classList.remove('is-active');
     }
   });
+
+  // Render PDF to canvas when opened
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class' && pdfPopupOverlay.classList.contains('is-active') && !isPdfLoaded) {
+        isPdfLoaded = true;
+        if (pdfPopupContainer) {
+          pdfPopupContainer.innerHTML = '<div class="magazine-spinner" style="border-top-color:var(--void);"></div>';
+          
+          pdfjsLib.getDocument('ZG events/Events.pdf').promise.then(pdf => {
+            return pdf.getPage(1);
+          }).then(page => {
+            const viewport = page.getViewport({ scale: window.innerWidth <= 900 ? 1.5 : 2.5 });
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            const renderContext = {
+              canvasContext: ctx,
+              viewport: viewport
+            };
+            
+            return page.render(renderContext).promise.then(() => {
+              pdfPopupContainer.innerHTML = '';
+              pdfPopupContainer.appendChild(canvas);
+            });
+          }).catch(err => {
+            console.error("Error rendering PDF poster", err);
+            pdfPopupContainer.innerHTML = 'Failed to load poster image.';
+          });
+        }
+      }
+    });
+  });
+  
+  observer.observe(pdfPopupOverlay, { attributes: true });
 }
 
