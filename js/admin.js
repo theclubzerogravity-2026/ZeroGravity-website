@@ -351,7 +351,7 @@ function refreshCurrentSection(sectionId) {
   if (sectionId === 'section-overview') renderOverview();
   if (sectionId === 'section-members') renderMembers();
   if (sectionId === 'section-events') renderEvents();
-  if (sectionId === 'section-attendance') renderAttendanceSelect();
+  if (sectionId === 'section-attendance' && window.renderAttendance) window.renderAttendance();
   if (sectionId === 'section-sponsors' && window.renderSponsors) window.renderSponsors();
   if (sectionId === 'section-finance' && window.renderFinance) window.renderFinance();
   if (sectionId === 'section-audit' && window.renderAuditLogs) window.renderAuditLogs();
@@ -404,7 +404,10 @@ async function renderOverview() {
   try {
     const { data: members } = await sb.from('members').select('id, member_type');
     const { data: events } = await sb.from('events').select('id, name, event_date').order('event_date', { ascending: false });
-    const { data: attendance } = await sb.from('attendance').select('event_id, member_id, status');
+    // Fetch only EVENT type attendance for the dashboard rate
+    const { data: attendance } = await sb.from('attendance')
+      .select('event_id, member_id, status')
+      .eq('attendance_type', 'EVENT');
 
     const memberCount = members?.length || 0;
     const eventCount = events?.length || 0;
@@ -414,10 +417,20 @@ async function renderOverview() {
     document.getElementById('statTotalMembers').textContent = memberCount;
     document.getElementById('statCoreMembers').textContent = coreCount;
 
-    // Overall attendance rate
-    const totalMarked = attendance?.length || 0;
-    const totalPresent = attendance?.filter(a => a.status === 'present').length || 0;
-    const overallRate = totalMarked > 0 ? Math.round((totalPresent / totalMarked) * 100) : 0;
+    // Overall attendance rate (average across all events)
+    let totalRate = 0;
+    let eventsWithAttendance = 0;
+    
+    (events || []).forEach(evt => {
+        const evtAtt = attendance?.filter(a => a.event_id === evt.id) || [];
+        if (evtAtt.length > 0) {
+            const present = evtAtt.filter(a => a.status === 'present').length;
+            totalRate += (present / evtAtt.length) * 100;
+            eventsWithAttendance++;
+        }
+    });
+    
+    const overallRate = eventsWithAttendance > 0 ? Math.round(totalRate / eventsWithAttendance) : 0;
     document.getElementById('statAttendanceRate').textContent = `${overallRate}%`;
 
     // Recent events
@@ -698,129 +711,8 @@ window.deleteEvent = async function(id) {
 };
 
 // ─────────────────────────────────────────────
-// ATTENDANCE
+// ATTENDANCE MOVED TO admin_attendance.js
 // ─────────────────────────────────────────────
-let currentAttendanceState = {};
-let currentAttendanceEventId = null;
-
-async function renderAttendanceSelect() {
-  try {
-    const { data: events } = await sb.from('events').select('id, name, event_date').order('event_date', { ascending: false });
-    const select = document.getElementById('attendanceEventSelect');
-    select.innerHTML = '<option value="">Choose an event</option>' +
-      (events || []).map(e => `<option value="${e.id}">${escapeHTML(e.name)} (${e.event_date})</option>`).join('');
-    document.getElementById('attendanceMarkingArea').style.display = 'none';
-  } catch (err) {
-    console.error('Attendance select error:', err);
-  }
-}
-
-document.getElementById('attendanceEventSelect').addEventListener('change', async (e) => {
-  if (e.target.value) {
-    await renderAttendanceGrid(e.target.value);
-  } else {
-    document.getElementById('attendanceMarkingArea').style.display = 'none';
-  }
-});
-
-async function renderAttendanceGrid(eventId) {
-  currentAttendanceEventId = eventId;
-  document.getElementById('attendanceMarkingArea').style.display = 'block';
-
-  try {
-    const { data: members } = await sb.from('members').select('id, name, role, member_type').order('name');
-    const { data: attRecords } = await sb.from('attendance').select('member_id, status').eq('event_id', eventId);
-
-    // Build state map
-    currentAttendanceState = {};
-    (attRecords || []).forEach(a => {
-      currentAttendanceState[a.member_id] = a.status;
-    });
-
-    const grid = document.getElementById('attendanceMembersGrid');
-    grid.innerHTML = (members || []).map(m => {
-      const status = currentAttendanceState[m.id];
-      let cardClass = '';
-      let statusText = 'Not Marked';
-      if (status === 'present') { cardClass = 'present'; statusText = 'Present'; }
-      else if (status === 'absent') { cardClass = 'absent'; statusText = 'Absent'; }
-
-      return `<div class="attendance-card ${cardClass}" onclick="toggleAttendance('${m.id}')" id="attCard_${m.id}">
-        <div>
-          <div style="font-weight:600;">${escapeHTML(m.name)}</div>
-          <div style="font-size:11px; color:var(--admin-muted);">${escapeHTML(m.role || m.member_type)}</div>
-        </div>
-        <div class="att-status ${cardClass}" id="attStatus_${m.id}">${statusText}</div>
-      </div>`;
-    }).join('') || '<p style="color:var(--admin-muted);">No members found.</p>';
-
-  } catch (err) {
-    console.error('Attendance grid error:', err);
-  }
-}
-
-window.toggleAttendance = function(memberId) {
-  const current = currentAttendanceState[memberId];
-  let next = 'present';
-  if (current === 'present') next = 'absent';
-  else if (current === 'absent') next = undefined;
-
-  if (next) {
-    currentAttendanceState[memberId] = next;
-  } else {
-    delete currentAttendanceState[memberId];
-  }
-
-  const card = document.getElementById(`attCard_${memberId}`);
-  const status = document.getElementById(`attStatus_${memberId}`);
-
-  card.className = `attendance-card ${next || ''}`;
-  status.className = `att-status ${next || ''}`;
-  status.textContent = next === 'present' ? 'Present' : (next === 'absent' ? 'Absent' : 'Not Marked');
-};
-
-document.getElementById('btnSaveAttendance').addEventListener('click', async () => {
-  if (!currentAttendanceEventId) return;
-
-  const btn = document.getElementById('btnSaveAttendance');
-  btn.disabled = true;
-  btn.textContent = 'Saving…';
-
-  try {
-    // Delete existing records for this event, then upsert new ones
-    // Using upsert with the unique constraint (event_id, member_id)
-    const records = Object.entries(currentAttendanceState).map(([memberId, status]) => ({
-      event_id: currentAttendanceEventId,
-      member_id: memberId,
-      status: status
-      // marked_by is automatically populated by a secure database trigger
-    }));
-
-    // First delete any records for members no longer in the state
-    await sb.from('attendance').delete().eq('event_id', currentAttendanceEventId);
-
-    // Then insert all current records
-    if (records.length > 0) {
-      const { error } = await sb.from('attendance').insert(records);
-      if (error) throw error;
-    }
-
-    await auditLog('save_attendance', 'attendance', currentAttendanceEventId, {
-      total_records: records.length,
-      present: records.filter(r => r.status === 'present').length,
-      absent: records.filter(r => r.status === 'absent').length
-    });
-
-    await customAlert();
-
-  } catch (err) {
-    await customAlert();
-    console.error('Save attendance error:', err);
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Save Attendance';
-  }
-});
 
 // ─────────────────────────────────────────────
 // UTILITY: HTML ESCAPE

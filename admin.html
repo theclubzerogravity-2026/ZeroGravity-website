@@ -232,23 +232,195 @@
       </section>
 
       <!-- === SECTION: ATTENDANCE === -->
+      <!-- === SECTION: ATTENDANCE === -->
       <section class="admin-section" id="section-attendance">
         <div class="admin-table-header">
-          <div class="admin-table-title">Mark Event Attendance</div>
+          <div class="admin-table-title">Attendance Management</div>
         </div>
-
-        <div class="attendance-event-selector">
-          <label style="font-size: 12px; color: var(--admin-muted); text-transform: uppercase;">Select Event</label>
-          <select class="admin-select" id="attendanceEventSelect" style="max-width: 400px; margin-top: 8px;">
-            <option value="">Choose an event</option>
-          </select>
-        </div>
-
-        <div id="attendanceMarkingArea" style="display:none;">
-          <div class="attendance-grid" id="attendanceMembersGrid">
-            <!-- Rendered via JS -->
+        
+        <nav class="admin-nav" style="margin-bottom: 24px; border-bottom: 1px solid var(--line-strong);">
+          <button class="attendance-nav-item active" data-attendance-target="attendance-event">Event Attendance</button>
+          <button class="attendance-nav-item" data-attendance-target="attendance-prep">Event Prep Attendance</button>
+          <button class="attendance-nav-item" data-attendance-target="attendance-preview">Cumulative Stats</button>
+          <button class="attendance-nav-item" data-attendance-target="attendance-history">History</button>
+        </nav>
+        
+        <!-- EVENT ATTENDANCE TAB -->
+        <div id="attendance-event" class="attendance-tab-content active">
+          <div style="background:var(--panel-2); padding:16px; border-radius:8px; margin-bottom:24px; border:1px solid var(--line-strong);">
+            <div style="color:var(--admin-muted); font-size:13px; text-transform:uppercase;">Today's Date (IST)</div>
+            <div id="eventAttendanceDateBanner" style="font-size:20px; font-weight:600; color:var(--white); margin-top:4px;">Loading...</div>
           </div>
-          <button class="admin-btn inline" id="btnSaveAttendance">Save Attendance</button>
+          
+          <div id="eventAttendanceSelectionArea">
+             <div class="admin-form-group">
+               <label>Events Scheduled For Today</label>
+               <select class="admin-select" id="eventAttendanceEventSelect" style="max-width: 400px;"></select>
+             </div>
+          </div>
+          
+          <div id="eventAttendanceMarkingArea" style="display:none; margin-top:24px;">
+             
+             <!-- Reminder & Counter UI -->
+             <div class="admin-stats-grid" style="margin-bottom:24px;">
+               <div class="admin-stat-card">
+                 <div class="admin-stat-title">Total Members</div>
+                 <div class="admin-stat-value" id="attCounterTotal">-</div>
+               </div>
+               <div class="admin-stat-card">
+                 <div class="admin-stat-title">Present</div>
+                 <div class="admin-stat-value" id="attCounterPresent" style="color:var(--blue);">-</div>
+               </div>
+               <div class="admin-stat-card">
+                 <div class="admin-stat-title">Absent</div>
+                 <div class="admin-stat-value" id="attCounterAbsent" style="color:var(--red);">-</div>
+               </div>
+               <div class="admin-stat-card">
+                 <div class="admin-stat-title">Not Marked</div>
+                 <div class="admin-stat-value" id="attCounterNotMarked" style="color:var(--yellow);">-</div>
+               </div>
+             </div>
+             
+             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+               <div id="attReminderStatus" style="font-size:14px; color:var(--admin-muted);">Checking reminder status...</div>
+               <button class="admin-btn" id="btnSaveEventAttendance">Save Attendance</button>
+             </div>
+             
+             <div style="overflow-x:auto;">
+               <table class="admin-table">
+                 <thead>
+                   <tr>
+                     <th>Member</th>
+                     <th>Department</th>
+                     <th>Year</th>
+                     <th style="width:250px;">Status</th>
+                   </tr>
+                 </thead>
+                 <tbody id="eventAttendanceMembersGrid"></tbody>
+               </table>
+             </div>
+             
+          </div>
+        </div>
+        
+        <!-- EVENT PREP ATTENDANCE TAB -->
+        <div id="attendance-prep" class="attendance-tab-content" style="display:none;">
+          <div style="background:var(--panel-2); padding:16px; border-radius:8px; margin-bottom:24px; border:1px solid var(--line-strong);">
+            <div style="color:var(--admin-muted); font-size:13px; text-transform:uppercase;">Today's Date (IST)</div>
+            <div id="prepAttendanceDateBanner" style="font-size:20px; font-weight:600; color:var(--white); margin-top:4px;">Loading...</div>
+          </div>
+          
+          <div id="prepAttendanceSelectionArea">
+             <div class="admin-form-group">
+               <label>Select Event for Preparation</label>
+               <select class="admin-select" id="prepAttendanceEventSelect" style="max-width: 400px;"></select>
+             </div>
+          </div>
+          
+          <div id="prepAttendanceMarkingArea" style="display:none; margin-top:24px;">
+             <!-- Reusing counters for prep -->
+             <div class="admin-stats-grid" style="margin-bottom:24px;">
+               <div class="admin-stat-card">
+                 <div class="admin-stat-title">Total Members</div>
+                 <div class="admin-stat-value" id="prepCounterTotal">-</div>
+               </div>
+               <div class="admin-stat-card">
+                 <div class="admin-stat-title">Present</div>
+                 <div class="admin-stat-value" id="prepCounterPresent" style="color:var(--blue);">-</div>
+               </div>
+               <div class="admin-stat-card">
+                 <div class="admin-stat-title">Absent</div>
+                 <div class="admin-stat-value" id="prepCounterAbsent" style="color:var(--red);">-</div>
+               </div>
+               <div class="admin-stat-card">
+                 <div class="admin-stat-title">Not Marked</div>
+                 <div class="admin-stat-value" id="prepCounterNotMarked" style="color:var(--yellow);">-</div>
+               </div>
+             </div>
+             
+             <div style="display:flex; justify-content:flex-end; margin-bottom:16px;">
+               <button class="admin-btn" id="btnSavePrepAttendance">Save Prep Attendance</button>
+             </div>
+             
+             <div style="overflow-x:auto;">
+               <table class="admin-table">
+                 <thead>
+                   <tr>
+                     <th>Member</th>
+                     <th>Department</th>
+                     <th>Year</th>
+                     <th style="width:250px;">Status</th>
+                   </tr>
+                 </thead>
+                 <tbody id="prepAttendanceMembersGrid"></tbody>
+               </table>
+             </div>
+          </div>
+        </div>
+        
+        <!-- CUMULATIVE STATS TAB -->
+        <div id="attendance-preview" class="attendance-tab-content" style="display:none;">
+           <div class="admin-form-group" style="display:flex; gap:16px;">
+             <div style="flex:1; max-width:300px;">
+               <label>Select Event</label>
+               <select class="admin-select" id="previewEventSelect"></select>
+             </div>
+             <div style="flex:1; max-width:300px;">
+               <label>Select Day/Date</label>
+               <select class="admin-select" id="previewDateSelect" disabled><option>Select an event first</option></select>
+             </div>
+           </div>
+           
+           <div id="previewResultsArea" style="margin-top:24px; display:none;">
+             <div style="overflow-x:auto;">
+               <table class="admin-table">
+                 <thead>
+                   <tr>
+                     <th>Member</th>
+                     <th>Days Attended</th>
+                     <th>Total Days Till Date</th>
+                     <th>Attendance %</th>
+                   </tr>
+                 </thead>
+                 <tbody id="previewResultsGrid"></tbody>
+               </table>
+             </div>
+           </div>
+        </div>
+        
+        <!-- HISTORY TAB -->
+        <div id="attendance-history" class="attendance-tab-content" style="display:none;">
+           <div class="admin-form-group" style="display:flex; gap:16px;">
+             <div style="flex:1; max-width:250px;">
+               <label>Filter by Type</label>
+               <select class="admin-select" id="historyTypeFilter">
+                 <option value="">All</option>
+                 <option value="EVENT">Event Attendance</option>
+                 <option value="PREP">Prep Attendance</option>
+               </select>
+             </div>
+             <div style="flex:1; max-width:250px;">
+               <label>Filter by Event</label>
+               <select class="admin-select" id="historyEventFilter"></select>
+             </div>
+           </div>
+           
+           <div style="overflow-x:auto; margin-top:24px;">
+             <table class="admin-table">
+               <thead>
+                 <tr>
+                   <th>Date</th>
+                   <th>Event</th>
+                   <th>Type</th>
+                   <th>Present</th>
+                   <th>Absent</th>
+                   <th>Not Marked</th>
+                   <th>Status</th>
+                 </tr>
+               </thead>
+               <tbody id="historyResultsGrid"></tbody>
+             </table>
+           </div>
         </div>
       </section>
       <!-- === SECTION: SPONSORS === -->
@@ -304,6 +476,7 @@
           <button class="finance-nav-item" data-finance-target="finance-settlements">Settlements</button>
           <button class="finance-nav-item" data-finance-target="finance-income">Income</button>
           <button class="finance-nav-item" data-finance-target="finance-sponsorships">Sponsorships</button>
+          <button class="finance-nav-item" data-finance-target="finance-ledger">Transaction Ledger</button>
         </nav>
         
         <div id="finance-events" class="finance-tab-content active">
@@ -397,6 +570,23 @@
                 </tr>
               </thead>
               <tbody id="financeSponsorshipsTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div id="finance-ledger" class="finance-tab-content" style="display:none;">
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Transaction Type</th>
+                  <th>Description / Item</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Receipt</th>
+                </tr>
+              </thead>
+              <tbody id="financeLedgerTableBody"></tbody>
             </table>
           </div>
         </div>
@@ -537,6 +727,10 @@
           <option value="Other">Other</option>
         </select>
       </div>
+      <div class="admin-form-group">
+        <label>Upload Receipt/Screenshot (Optional)</label>
+        <input type="file" id="expenseReceipt" class="admin-input" accept="image/*,application/pdf">
+      </div>
       <button class="admin-btn" id="btnSaveExpense">Save Expenditure</button>
     </div>
   </div>
@@ -566,6 +760,10 @@
           <option value="UPI">UPI</option>
           <option value="Bank Transfer">Bank Transfer</option>
         </select>
+      </div>
+      <div class="admin-form-group">
+        <label>Upload Receipt/Screenshot (Optional)</label>
+        <input type="file" id="settlementReceipt" class="admin-input" accept="image/*,application/pdf">
       </div>
       <button class="admin-btn" id="btnSaveSettlement">Record Settlement</button>
     </div>
@@ -604,6 +802,10 @@
       <div class="admin-form-group">
         <label>Date</label>
         <input type="date" id="incomeDate" class="admin-input">
+      </div>
+      <div class="admin-form-group">
+        <label>Upload Receipt/Screenshot (Optional)</label>
+        <input type="file" id="incomeReceipt" class="admin-input" accept="image/*,application/pdf">
       </div>
       <button class="admin-btn" id="btnSaveIncome">Save Income</button>
     </div>
@@ -753,7 +955,8 @@
 
   <!-- ZeroGravity Admin Application -->
   <script src="js/admin.js"></script>
-
+  
+  <script src="js/admin_attendance.js"></script>
   <script src="js/admin_sponsors.js"></script>
   <script src="js/admin_finance.js"></script>
   <script src="js/admin_audit.js"></script>

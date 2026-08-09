@@ -46,7 +46,8 @@ window.renderFinance = async function() {
     renderFinanceExpenses(),
     renderFinanceSettlements(),
     renderFinanceIncome(),
-    renderFinanceSponsorships()
+    renderFinanceSponsorships(),
+    renderFinanceLedger()
   ]);
   calculateFinanceTotals();
 };
@@ -262,21 +263,43 @@ document.getElementById('btnSaveExpense')?.addEventListener('click', async () =>
   if (!item || isNaN(amt) || !date) { await customAlert(); return; }
   if (mode === 'member' && !memId) { await customAlert(); return; }
   
-  const payload = {
-    event_id: eventId,
-    expense_item: item,
-    category: cat,
-    amount: amt,
-    expense_date: date,
-    paid_by_club: mode === 'club',
-    paid_by_member_id: mode === 'member' ? memId : null,
-    payment_method: method
-  };
+  const btn = document.getElementById('btnSaveExpense');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
   
-  const { data: resData, error } = await sb.from('expenses').insert([payload]).select('id').single();
-  if (error) {
+  try {
+    let receiptUrl = null;
+    const receiptInput = document.getElementById('expenseReceipt');
+    if (receiptInput && receiptInput.files[0]) {
+      receiptUrl = await uploadReceipt(receiptInput.files[0]);
+    }
+    
+    const payload = {
+      event_id: eventId,
+      expense_item: item,
+      category: cat,
+      amount: amt,
+      expense_date: date,
+      paid_by_club: mode === 'club',
+      paid_by_member_id: mode === 'member' ? memId : null,
+      payment_method: method,
+      receipt_url: receiptUrl
+    };
+    
+    const { data: resData, error } = await sb.from('expenses').insert([payload]).select('id').single();
+    if (error) throw error;
+    
+    auditLog('inserted', 'expenses', resData.id, { expense_item: item, amount: amt });
+    
+    closeModal('modalAddExpense');
+    window.renderFinance();
+    if (receiptInput) receiptInput.value = '';
+  } catch (err) {
+    console.error(err);
     await customAlert();
-    return;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save Expenditure';
   }
   
   auditLog('inserted', 'expenses', resData.id, { expense_item: item, amount: amt });
@@ -302,16 +325,38 @@ document.getElementById('btnSaveSettlement')?.addEventListener('click', async ()
   
   if (isNaN(amt) || !date) { await customAlert(); return; }
   
-  const { data: resData, error } = await sb.from('expense_settlements').insert([{
-    expense_id: currentSettlementExpenseId,
-    amount: amt,
-    payment_date: date,
-    payment_method: method
-  }]).select('id').single();
+  const btn = document.getElementById('btnSaveSettlement');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
   
-  if (error) {
+  try {
+    let receiptUrl = null;
+    const receiptInput = document.getElementById('settlementReceipt');
+    if (receiptInput && receiptInput.files[0]) {
+      receiptUrl = await uploadReceipt(receiptInput.files[0]);
+    }
+    
+    const { data: resData, error } = await sb.from('expense_settlements').insert([{
+      expense_id: currentSettlementExpenseId,
+      amount: amt,
+      payment_date: date,
+      payment_method: method,
+      receipt_url: receiptUrl
+    }]).select('id').single();
+    
+    if (error) throw error;
+    
+    auditLog('inserted', 'expense_settlements', resData.id, { expense_id: currentSettlementExpenseId, amount: amt });
+    
+    closeModal('modalAddSettlement');
+    window.renderFinance();
+    if (receiptInput) receiptInput.value = '';
+  } catch(err) {
+    console.error(err);
     await customAlert();
-    return;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Record Settlement';
   }
   
   auditLog('inserted', 'expense_settlements', resData.id, { expense_id: currentSettlementExpenseId, amount: amt });
@@ -330,19 +375,41 @@ document.getElementById('btnSaveIncome')?.addEventListener('click', async () => 
   
   if (!src || isNaN(amt) || !date) { await customAlert(); return; }
   
-  const payload = {
-    income_type: type,
-    source: src,
-    event_id: eventId,
-    amount: amt,
-    income_date: date,
-    payment_method: 'Other' // Default for now unless added to UI
-  };
+  const btn = document.getElementById('btnSaveIncome');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
   
-  const { data: resData, error } = await sb.from('income_transactions').insert([payload]).select('id').single();
-  if (error) {
+  try {
+    let receiptUrl = null;
+    const receiptInput = document.getElementById('incomeReceipt');
+    if (receiptInput && receiptInput.files[0]) {
+      receiptUrl = await uploadReceipt(receiptInput.files[0]);
+    }
+    
+    const payload = {
+      income_type: type,
+      source: src,
+      event_id: eventId,
+      amount: amt,
+      income_date: date,
+      payment_method: 'Other', // Default for now unless added to UI
+      receipt_url: receiptUrl
+    };
+    
+    const { data: resData, error } = await sb.from('income_transactions').insert([payload]).select('id').single();
+    if (error) throw error;
+    
+    auditLog('inserted', 'income_transactions', resData.id, { source: src, amount: amt });
+    
+    closeModal('modalAddIncome');
+    window.renderFinance();
+    if (receiptInput) receiptInput.value = '';
+  } catch(err) {
+    console.error(err);
     await customAlert();
-    return;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save Income';
   }
   
   auditLog('inserted', 'income_transactions', resData.id, { source: src, amount: amt });
@@ -383,3 +450,102 @@ window.voidIncome = async function(id) {
     window.renderFinance();
   }
 };
+
+// ─────────────────────────────────────────────
+// RECEIPTS & LEDGER
+// ─────────────────────────────────────────────
+async function uploadReceipt(file) {
+  if (!file) return null;
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Math.random().toString(36).substring(2)}_${Date.now()}.${fileExt}`;
+  
+  const { error } = await sb.storage.from('receipts').upload(fileName, file);
+  if (error) throw error;
+  
+  const { data } = sb.storage.from('receipts').getPublicUrl(fileName);
+  return data.publicUrl;
+}
+
+async function renderFinanceLedger() {
+  const tbody = document.getElementById('financeLedgerTableBody');
+  if (!tbody) return;
+  
+  tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Loading ledger...</td></tr>';
+  
+  const ledger = [];
+  
+  // Expenses
+  globalExpenses.forEach(e => {
+    ledger.push({
+      date: e.expense_date,
+      type: 'Expense',
+      desc: e.expense_item,
+      amount: -parseFloat(e.amount),
+      status: e.status,
+      receipt: e.receipt_url || null,
+      created_at: e.created_at
+    });
+  });
+  
+  // Income
+  globalIncome.forEach(i => {
+    ledger.push({
+      date: i.income_date,
+      type: 'Income',
+      desc: i.source,
+      amount: parseFloat(i.amount),
+      status: i.status,
+      receipt: i.receipt_url || null,
+      created_at: i.created_at
+    });
+  });
+  
+  // Settlements
+  globalSettlements.forEach(s => {
+    ledger.push({
+      date: s.payment_date || s.created_at.split('T')[0],
+      type: 'Settlement',
+      desc: 'Expense Reimbursement',
+      amount: -parseFloat(s.amount),
+      status: s.status,
+      receipt: s.receipt_url || null,
+      created_at: s.created_at
+    });
+  });
+  
+  // Sort chronologically (newest first)
+  ledger.sort((a, b) => {
+    if (a.date === b.date) {
+      return new Date(b.created_at) - new Date(a.created_at);
+    }
+    return new Date(b.date) - new Date(a.date);
+  });
+  
+  if (ledger.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--admin-muted);">No transactions found.</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = ledger.map(t => {
+    const isVoided = t.status === 'voided';
+    const amtColor = isVoided ? 'var(--admin-muted)' : (t.amount >= 0 ? 'var(--green)' : 'var(--red)');
+    const sign = t.amount >= 0 ? '+' : '';
+    
+    return `
+      <tr style="${isVoided ? 'opacity:0.5; text-decoration:line-through;' : ''}">
+        <td>${t.date}</td>
+        <td><strong>${t.type}</strong></td>
+        <td>${escapeHTML(t.desc)}</td>
+        <td style="color:${amtColor}">${sign}₹${Math.abs(t.amount).toFixed(2)}</td>
+        <td>
+          <span style="font-size:11px; padding:2px 6px; border-radius:4px; background:var(--panel-2); color:${isVoided?'var(--red)':'var(--admin-text)'}">
+            ${t.status ? t.status.toUpperCase() : 'COMPLETED'}
+          </span>
+        </td>
+        <td>
+          ${t.receipt ? `<a href="${t.receipt}" target="_blank" style="color:var(--blue); font-size:12px;">View</a>` : '<span style="color:var(--admin-muted); font-size:12px;">None</span>'}
+        </td>
+      </tr>
+    `;
+  }).join('');
+}

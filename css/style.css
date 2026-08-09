@@ -1356,7 +1356,8 @@ a:focus-visible, button:focus-visible {
   margin-bottom: 24px;
 }
 .popup-title {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-weight: 800;
   font-size: 24px;
   color: var(--yellow);
   margin-bottom: 4px;
@@ -1393,11 +1394,11 @@ a:focus-visible, button:focus-visible {
 .event-popup-item:nth-child(4) { border-left-color: var(--white); }
 
 .event-popup-date {
-  font-family: var(--font-display);
-  font-size: 13px;
+  font-family: var(--font-body);
+  font-size: 16px;
   font-weight: 700;
   color: var(--white);
-  min-width: 60px;
+  min-width: 75px;
   text-align: center;
 }
 .event-popup-details h4 {
