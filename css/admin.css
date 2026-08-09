@@ -155,27 +155,40 @@ body.admin-body {
   border-bottom: 1px solid var(--admin-border);
 }
 
-.admin-nav-item, .finance-nav-item {
+.admin-nav-item, .finance-nav-item, .attendance-nav-item {
   color: var(--admin-muted);
   background: none;
   border: none;
-  padding: 16px 0;
-  font-size: 14px;
+  padding: 16px 24px;
+  font-size: 15px;
   font-weight: 500;
   cursor: pointer;
   position: relative;
   white-space: nowrap;
+  transition: all 0.2s ease;
+  border-radius: 8px 8px 0 0;
 }
 
-.admin-nav-item.active, .finance-nav-item.active { color: var(--admin-text); }
-.admin-nav-item.active::after, .finance-nav-item.active::after {
+.admin-nav-item:hover, .finance-nav-item:hover, .attendance-nav-item:hover {
+  color: var(--admin-text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.admin-nav-item.active, .finance-nav-item.active, .attendance-nav-item.active { 
+  color: var(--admin-primary); 
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+}
+
+.admin-nav-item.active::after, .finance-nav-item.active::after, .attendance-nav-item.active::after {
   content: '';
   position: absolute;
   bottom: -1px;
   left: 0;
   right: 0;
-  height: 2px;
+  height: 3px;
   background: var(--admin-primary);
+  border-radius: 3px 3px 0 0;
 }
 
 .admin-main { padding: 32px; max-width: 1400px; margin: 0 auto; }
