@@ -323,25 +323,60 @@
   </button>
 
   <!-- ============ UPCOMING EVENTS POPUP ============ -->
-  <div class="event-popup-overlay" id="eventPopupOverlay">
+  <div class="event-popup-overlay" id="eventPopupOverlay" aria-hidden="true">
     <div class="event-popup-modal">
-      <button class="event-popup-close" id="eventPopupClose" aria-label="Close Popup">&times;</button>
+      <button class="event-popup-close" id="eventPopupClose" aria-label="Close popup">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      
       <div class="event-popup-header">
-        <h2 class="popup-title">Upcoming Event</h2>
-        <p class="popup-subtitle">Don't miss out!</p>
+        <h2 class="popup-title">Upcoming Events</h2>
+        <p class="popup-subtitle">Mark your calendars</p>
       </div>
+      
       <div class="event-popup-list">
         <div class="event-popup-item">
-          <div class="event-popup-date">TBA</div>
+          <div class="event-popup-date">18 AUG</div>
           <div class="event-popup-details">
-            <h4>Next Big Event</h4>
-            <p>Stay tuned for details!</p>
+            <h4>CLOUDPULSE — Enter the Future of Intelligent Computing AI and Data</h4>
+            <p>Session on AI, Cloud, and Data</p>
+          </div>
+        </div>
+        
+        <div class="event-popup-item">
+          <div class="event-popup-date">07-08 SEP</div>
+          <div class="event-popup-details">
+            <h4>Technical Workshop</h4>
+            <p>2026 (Tentative)</p>
+          </div>
+        </div>
+        
+        <div class="event-popup-item">
+          <div class="event-popup-date">29-30 SEP</div>
+          <div class="event-popup-details">
+            <h4>TechnoSpark</h4>
+            <p>2026 (Tentative)</p>
           </div>
         </div>
       </div>
+      
       <div class="event-popup-actions">
-        <a href="#events" class="btn btn-primary popup-btn" id="eventPopupBtn">View Events</a>
+        <button onclick="document.getElementById('eventPopupOverlay').classList.remove('is-active'); document.getElementById('pdfPopupOverlay').classList.add('is-active');" class="btn btn-primary popup-btn">View More <span class="arrow">→</span></button>
       </div>
+    </div>
+  </div>
+
+  <!-- ============ PDF VIEWER POPUP ============ -->
+  <div class="pdf-popup-overlay" id="pdfPopupOverlay" aria-hidden="true">
+    <div class="pdf-popup-modal">
+      <button class="event-popup-close" id="pdfPopupClose" aria-label="Close PDF viewer">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+      <div id="pdfPopupContainer" class="pdf-popup-container"></div>
     </div>
   </div>
 

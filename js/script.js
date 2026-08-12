@@ -440,6 +440,201 @@ function startPreloader() {
     
     if (pre) pre.style.background = 'transparent';
     if (inner) {
+    </div>
+    <div class="event-body">
+      <span class="event-tag">${e.tag}</span>
+      <h3 class="event-title">${e.title}</h3>
+      <p class="event-desc">${e.desc}</p>
+    </div>
+  </article>
+`).join('');
+
+const guestsGrid = document.getElementById('guestsGrid');
+if (guestsGrid) {
+  guestsGrid.innerHTML = GUESTS.map((g, i) => `
+    <div class="lead-card guest-card reveal-up" style="--d:${i}; cursor:pointer;" onclick="window.open('${g.linkedin}', '_blank')">
+      <span class="corner-bracket tl"></span><span class="corner-bracket br"></span>
+      <div class="member-photo" data-img="assets/images/guests/${g.img}">
+        ${PHOTO_ICON}
+        <span class="ph-label">GUEST</span>
+      </div>
+      <h3 class="member-name"><a href="${g.linkedin}" target="_blank" rel="noopener" class="linkedin-link">${g.name}</a></h3>
+      <div style="font-family: var(--font-display), sans-serif; font-weight: bold; font-size: 14px; margin: 4px 0 2px; color: var(--white);">CloudPULSE Speaker</div>
+      <div style="font-size: 12px; color: var(--muted-2); margin-bottom: 12px;">18/8/2026</div>
+      <p class="member-role">${g.company}<br><span style="color:var(--muted-2); font-weight:400; font-size:13px;">${g.position}</span></p>
+    </div>
+  `).join('');
+}
+
+/* All cards observed for reveal + hover-cursor after render */
+document.querySelectorAll('.lead-card, .dept-card, .pr-card, .event-card').forEach((el, i) => {
+  el.style.setProperty('--d', (i % 6));
+});
+
+const coreTeamMoreBtn = document.getElementById('coreTeamMoreBtn');
+if (coreTeamMoreBtn) {
+  coreTeamMoreBtn.addEventListener('click', () => {
+    document.getElementById('deptGrid').classList.add('is-expanded');
+    coreTeamMoreBtn.classList.add('is-hidden');
+    // Reveal the newly visible cards
+    setTimeout(() => {
+      document.querySelectorAll('#deptGrid .dept-card, #deptGrid .pr-card').forEach(el => el.classList.add('in-view'));
+    }, 50);
+  });
+}
+
+/* ---------- 3) IMAGE-OR-PLACEHOLDER LOADER ------------------ */
+function tryLoadImage(el) {
+  const src = el.getAttribute('data-img');
+  if (!src) return;
+  const img = new Image();
+  img.onload = () => {
+    el.style.backgroundImage = `url('${src}')`;
+    el.classList.add('is-loaded');
+  };
+  img.onerror = () => { /* keep placeholder — file not added yet */ };
+  img.src = src;
+}
+document.querySelectorAll('[data-img]').forEach(tryLoadImage);
+
+/* ---------- 4) PRELOADER ----------------- */
+// Start the sequence
+startPreloader();
+
+function startPreloader() {
+  const pre = document.getElementById('preloader');
+  
+  if (window.location.search.includes('noloader=1')) {
+    pre.style.display = 'none';
+    document.body.style.overflow = '';
+    setTimeout(revealHero, 100);
+    return;
+  }
+
+  const inner = document.getElementById('preloaderInner');
+  const lockup = document.getElementById('preloaderLockup');
+  const astronaut = document.getElementById('preloaderAstronaut');
+  const glow = astronaut.querySelector('.astronaut-glow');
+  const lineZero = document.getElementById('lineZero');
+  const lineGravity = document.getElementById('lineGravity');
+  const words = document.querySelectorAll('.preloader-word');
+  const navLogo = document.getElementById('clubLogo');
+
+  const textZero = 'ZERO';
+  const textGravity = 'GRAVITY';
+  const letters = [];
+
+  function createLetters(text, container) {
+    for (let i = 0; i < text.length; i++) {
+      const span = document.createElement('span');
+      span.textContent = text[i];
+      span.className = 'preloader-letter';
+      container.appendChild(span);
+      letters.push(span);
+    }
+  }
+  createLetters(textZero, lineZero);
+  createLetters(textGravity, lineGravity);
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    astronaut.classList.add('is-visible');
+    letters.forEach(l => l.classList.add('is-active'));
+    setTimeout(() => {
+      pre.classList.add('is-hidden');
+      document.body.style.overflow = '';
+      revealHero();
+    }, 5000);
+    document.body.style.overflow = 'hidden';
+    return;
+  }
+
+  document.body.style.overflow = 'hidden';
+
+  // Phase 0: Scatter letters
+  letters.forEach((l) => {
+    const angle = Math.random() * Math.PI * 2;
+    const dist = Math.max(window.innerWidth, window.innerHeight) * 0.8;
+    const tx = Math.cos(angle) * dist;
+    const ty = Math.sin(angle) * dist;
+    const rot = (Math.random() - 0.5) * 180;
+    l.style.transform = `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(0.5)`;
+    l.style.transition = 'transform 1.8s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 1.8s, color 0.8s ease, text-shadow 0.8s ease';
+  });
+
+  // Phase 1 (50ms): Fly letters in
+  setTimeout(() => {
+    letters.forEach((l, i) => {
+      setTimeout(() => {
+        l.classList.add('is-active');
+        setTimeout(() => {
+          l.style.color = 'var(--white)';
+          l.style.textShadow = '0 0 10px var(--white)';
+          setTimeout(() => {
+            l.style.color = '';
+            l.style.textShadow = '';
+          }, 1200);
+        }, 1600);
+      }, i * 150 + Math.random() * 100);
+    });
+  }, 50);
+
+  // Phase 2 (3500ms): Pulse Lockup
+  setTimeout(() => {
+    if (lockup) lockup.classList.add('is-pulsing');
+    if (lineGravity) lineGravity.classList.remove('accent-outline');
+    setTimeout(() => { if (lockup) lockup.classList.remove('is-pulsing') }, 300);
+  }, 3500);
+
+  // Phase 3 (4000ms): Astronaut Reveal
+  setTimeout(() => {
+    if (astronaut) {
+      astronaut.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s';
+      astronaut.classList.add('is-visible');
+      astronaut.style.transform = 'translateY(0) scale(1)';
+    }
+    setTimeout(() => { if (glow) glow.classList.add('is-breathing') }, 500);
+  }, 4000);
+
+  // Phase 4 (5500ms): Reveal Word Stack
+  setTimeout(() => {
+    if (words) {
+      words.forEach((w, i) => {
+        setTimeout(() => w.classList.add('is-active'), i * 500);
+      });
+    }
+    if (lockup) {
+      lockup.classList.add('is-pulsing');
+      setTimeout(() => lockup.classList.remove('is-pulsing'), 300);
+    }
+  }, 5500);
+
+  // Phase 5 (8500ms): Exit Animation
+  setTimeout(() => {
+    if (words) words.forEach(w => w.classList.add('is-done'));
+    if (glow) {
+      glow.classList.remove('is-breathing');
+      glow.style.opacity = '0';
+    }
+    
+    if (navLogo && lockup) {
+      const targetRect = navLogo.getBoundingClientRect();
+      const startRect = lockup.getBoundingClientRect();
+      const scaleX = targetRect.width / startRect.width;
+      const scaleY = targetRect.height / startRect.height;
+      const scale = Math.min(scaleX, scaleY);
+      
+      const tx = (targetRect.left + targetRect.width / 2) - (startRect.left + startRect.width / 2);
+      const ty = (targetRect.top + targetRect.height / 2) - (startRect.top + startRect.height / 2);
+      
+      lockup.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`;
+      lockup.style.opacity = '0';
+    } else if (lockup) {
+      lockup.style.transform = `scale(1.1)`;
+      lockup.style.opacity = '0';
+    }
+    
+    if (pre) pre.style.background = 'transparent';
+    if (inner) {
       inner.style.transition = 'opacity 1s ease';
       inner.style.opacity = '0';
     }
@@ -450,6 +645,12 @@ function startPreloader() {
     if (pre) pre.classList.add('is-hidden');
     document.body.style.overflow = '';
     revealHero();
+    
+    // Show events popup after a short delay
+    setTimeout(() => {
+      const popup = document.getElementById('eventPopupOverlay');
+      if (popup) popup.classList.add('is-active');
+    }, 800);
   }, 10000);
 }
 
@@ -990,22 +1191,72 @@ if (magClose) {
   });
 }
 
-// ============ UPCOMING EVENTS POPUP ============
+/* ============ UPCOMING EVENTS POPUP ============ */
 const eventPopupOverlay = document.getElementById('eventPopupOverlay');
 const eventPopupClose = document.getElementById('eventPopupClose');
-const eventPopupBtn = document.getElementById('eventPopupBtn');
 
-if (eventPopupOverlay) {
-  setTimeout(() => {
-    eventPopupOverlay.classList.add('is-active');
-  }, 3000);
-
-  const closePopup = () => eventPopupOverlay.classList.remove('is-active');
-  
-  if (eventPopupClose) eventPopupClose.addEventListener('click', closePopup);
-  if (eventPopupBtn) eventPopupBtn.addEventListener('click', closePopup);
-  
-  eventPopupOverlay.addEventListener('click', (e) => {
-    if (e.target === eventPopupOverlay) closePopup();
+if (eventPopupOverlay && eventPopupClose) {
+  eventPopupClose.addEventListener('click', () => {
+    eventPopupOverlay.classList.remove('is-active');
   });
+
+  eventPopupOverlay.addEventListener('click', (e) => {
+    if (e.target === eventPopupOverlay) {
+      eventPopupOverlay.classList.remove('is-active');
+    }
+  });
+}
+
+const pdfPopupOverlay = document.getElementById('pdfPopupOverlay');
+const pdfPopupClose = document.getElementById('pdfPopupClose');
+const pdfPopupContainer = document.getElementById('pdfPopupContainer');
+let isPdfLoaded = false;
+
+if (pdfPopupOverlay && pdfPopupClose) {
+  pdfPopupClose.addEventListener('click', () => {
+    pdfPopupOverlay.classList.remove('is-active');
+  });
+
+  pdfPopupOverlay.addEventListener('click', (e) => {
+    if (e.target === pdfPopupOverlay) {
+      pdfPopupOverlay.classList.remove('is-active');
+    }
+  });
+
+  // Render PDF to canvas when opened
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class' && pdfPopupOverlay.classList.contains('is-active') && !isPdfLoaded) {
+        isPdfLoaded = true;
+        if (pdfPopupContainer) {
+          pdfPopupContainer.innerHTML = '<div class="magazine-spinner" style="border-top-color:var(--void);"></div>';
+          
+          pdfjsLib.getDocument('ZG events/Events.pdf').promise.then(pdf => {
+            return pdf.getPage(1);
+          }).then(page => {
+            const viewport = page.getViewport({ scale: window.innerWidth <= 900 ? 1.5 : 2.5 });
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+            
+            const renderContext = {
+              canvasContext: ctx,
+              viewport: viewport
+            };
+            
+            return page.render(renderContext).promise.then(() => {
+              pdfPopupContainer.innerHTML = '';
+              pdfPopupContainer.appendChild(canvas);
+            });
+          }).catch(err => {
+            console.error("Error rendering PDF poster", err);
+            pdfPopupContainer.innerHTML = 'Failed to load poster image.';
+          });
+        }
+      }
+    });
+  });
+  
+  observer.observe(pdfPopupOverlay, { attributes: true });
 }
