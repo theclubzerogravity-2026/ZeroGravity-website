@@ -264,6 +264,8 @@ if (guestsGrid) {
         <span class="ph-label">GUEST</span>
       </div>
       <h3 class="member-name"><a href="${g.linkedin}" target="_blank" rel="noopener" class="linkedin-link">${g.name}</a></h3>
+      <div style="font-family: var(--font-display), sans-serif; font-weight: bold; font-size: 14px; margin: 4px 0 2px; color: var(--white);">CloudPULSE Speaker</div>
+      <div style="font-size: 12px; color: var(--muted-2); margin-bottom: 12px;">18/8/2026</div>
       <p class="member-role">${g.company}<br><span style="color:var(--muted-2); font-weight:400; font-size:13px;">${g.position}</span></p>
     </div>
   `).join('');
@@ -988,5 +990,22 @@ if (magClose) {
   });
 }
 
+// ============ UPCOMING EVENTS POPUP ============
+const eventPopupOverlay = document.getElementById('eventPopupOverlay');
+const eventPopupClose = document.getElementById('eventPopupClose');
+const eventPopupBtn = document.getElementById('eventPopupBtn');
 
+if (eventPopupOverlay) {
+  setTimeout(() => {
+    eventPopupOverlay.classList.add('is-active');
+  }, 3000);
 
+  const closePopup = () => eventPopupOverlay.classList.remove('is-active');
+  
+  if (eventPopupClose) eventPopupClose.addEventListener('click', closePopup);
+  if (eventPopupBtn) eventPopupBtn.addEventListener('click', closePopup);
+  
+  eventPopupOverlay.addEventListener('click', (e) => {
+    if (e.target === eventPopupOverlay) closePopup();
+  });
+}
