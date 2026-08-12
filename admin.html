@@ -958,6 +958,48 @@
     </div>
   </div>
 
+  <!-- View Attendance Modal -->
+  <div class="admin-modal-overlay" id="modalViewAttendance">
+    <div class="admin-modal" style="max-width: 600px;">
+      <div class="admin-modal-header">
+        <div class="admin-modal-title" id="viewAttEventName">Attendance Details</div>
+        <button class="admin-modal-close" onclick="closeModal('modalViewAttendance')">&times;</button>
+      </div>
+      <div class="admin-form-group">
+        <p style="color:var(--admin-muted); font-size:13px; margin-bottom:16px;" id="viewAttEventMeta"></p>
+      </div>
+      
+      <div id="viewAttLoading" style="text-align:center; padding:20px; display:none;">
+        <div class="admin-spinner"></div>
+      </div>
+      
+      <div id="viewAttContent" style="display:none; max-height: 50vh; overflow-y: auto;">
+        <!-- Present Section -->
+        <div style="margin-bottom: 24px;">
+          <h4 style="color:var(--admin-success); margin-bottom: 8px; font-family: var(--font-display); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">Present (<span id="viewAttPresentCount">0</span>)</h4>
+          <div id="viewAttPresentList" style="font-size: 14px; color: var(--admin-text); display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"></div>
+        </div>
+
+        <!-- Absent Section -->
+        <div style="margin-bottom: 24px;">
+          <h4 style="color:var(--admin-danger); margin-bottom: 8px; font-family: var(--font-display); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">Absent (<span id="viewAttAbsentCount">0</span>)</h4>
+          <div id="viewAttAbsentList" style="font-size: 14px; color: var(--admin-text); display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"></div>
+        </div>
+        
+        <!-- Excused Section -->
+        <div style="margin-bottom: 16px;">
+          <h4 style="color:var(--admin-warning); margin-bottom: 8px; font-family: var(--font-display); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">Excused (<span id="viewAttExcusedCount">0</span>)</h4>
+          <div id="viewAttExcusedList" style="font-size: 14px; color: var(--admin-text); display: grid; grid-template-columns: 1fr 1fr; gap: 8px;"></div>
+        </div>
+      </div>
+      
+      <div style="margin-top:20px;">
+        <button class="admin-btn" onclick="closeModal('modalViewAttendance')">Close</button>
+      </div>
+    </div>
+  </div>
+
+
 
   <!-- Add Member Modal -->
   <div class="admin-modal-overlay" id="modalAddMember">

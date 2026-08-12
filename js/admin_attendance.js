@@ -932,6 +932,7 @@ async function fetchHistory() {
             <span class="count" style="color:var(--admin-success);">${g.present}P</span>
             <span class="count" style="color:var(--admin-danger);">${g.absent}A</span>
             ${badge}
+            <button class="admin-action-btn primary" style="margin-left:8px; padding:4px 8px; font-size:11px;" onclick="viewAttendanceHistory('${g.eventId}', '${g.date}', '${g.type}', \`${escapeHTML(g.event)}\`)">View</button>
             <button class="admin-action-btn delete" style="margin-left:8px; padding:4px 8px; font-size:11px;" onclick="deleteAttendanceHistory('${g.eventId}', '${g.date}', '${g.type}')">Delete</button>
           </div>
         </div>`;
@@ -990,3 +991,60 @@ async function auditLog(action, resourceType, resourceId, metadata) {
     console.warn('Audit log failed:', err);
   }
 }
+
+window.viewAttendanceHistory = async function(eventId, date, type, eventName) {
+  openModal('modalViewAttendance');
+  
+  const viewAttEventName = document.getElementById('viewAttEventName');
+  const viewAttEventMeta = document.getElementById('viewAttEventMeta');
+  const viewAttLoading = document.getElementById('viewAttLoading');
+  const viewAttContent = document.getElementById('viewAttContent');
+  
+  const viewAttPresentList = document.getElementById('viewAttPresentList');
+  const viewAttAbsentList = document.getElementById('viewAttAbsentList');
+  const viewAttExcusedList = document.getElementById('viewAttExcusedList');
+  const viewAttPresentCount = document.getElementById('viewAttPresentCount');
+  const viewAttAbsentCount = document.getElementById('viewAttAbsentCount');
+  const viewAttExcusedCount = document.getElementById('viewAttExcusedCount');
+
+  viewAttEventName.textContent = eventName;
+  viewAttEventMeta.textContent = `${formatDateDisplay(date)} • ${type === 'PREP' ? 'Event Prep' : 'Main Event'}`;
+  
+  viewAttLoading.style.display = 'block';
+  viewAttContent.style.display = 'none';
+  
+  try {
+    const { data: records, error } = await sb.from('attendance')
+      .select('status, members(id, name)')
+      .eq('event_id', eventId)
+      .eq('attendance_date', date)
+      .eq('attendance_type', type);
+
+    if (error) throw error;
+    
+    // Group records
+    const present = records.filter(r => r.status === 'present').map(r => r.members).sort((a,b) => a.name.localeCompare(b.name));
+    const absent = records.filter(r => r.status === 'absent').map(r => r.members).sort((a,b) => a.name.localeCompare(b.name));
+    const excused = records.filter(r => r.status === 'excused').map(r => r.members).sort((a,b) => a.name.localeCompare(b.name));
+    
+    // Render lists
+    viewAttPresentCount.textContent = present.length;
+    viewAttAbsentCount.textContent = absent.length;
+    viewAttExcusedCount.textContent = excused.length;
+    
+    const renderMember = (m) => `<div>• ${escapeHTML(m.name)}</div>`;
+    
+    viewAttPresentList.innerHTML = present.length ? present.map(renderMember).join('') : '<div style="color:var(--admin-muted);">None</div>';
+    viewAttAbsentList.innerHTML = absent.length ? absent.map(renderMember).join('') : '<div style="color:var(--admin-muted);">None</div>';
+    viewAttExcusedList.innerHTML = excused.length ? excused.map(renderMember).join('') : '<div style="color:var(--admin-muted);">None</div>';
+    
+    viewAttLoading.style.display = 'none';
+    viewAttContent.style.display = 'block';
+
+  } catch (err) {
+    console.error('Failed to fetch attendance details:', err);
+    viewAttLoading.style.display = 'none';
+    if (window.showToast) window.showToast('Failed to load attendance details', 'error');
+  }
+};
+
