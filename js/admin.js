@@ -55,6 +55,29 @@ window.customConfirm = function(msg, title = 'Confirm') {
 const sb = window.supabaseClient;
 
 // ─────────────────────────────────────────────
+// TOAST NOTIFICATION SYSTEM
+// ─────────────────────────────────────────────
+window.showToast = function(message, type = 'info', duration = 4000) {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  
+  const iconMap = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  toast.innerHTML = `<span class="toast-icon">${iconMap[type] || 'ℹ'}</span><span class="toast-msg">${message}</span>`;
+
+  container.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('toast-visible'));
+
+  setTimeout(() => {
+    toast.classList.remove('toast-visible');
+    toast.classList.add('toast-exit');
+    setTimeout(() => toast.remove(), 400);
+  }, duration);
+};
+
+// ─────────────────────────────────────────────
 // SCREENS
 // ─────────────────────────────────────────────
 const screens = {
@@ -403,7 +426,7 @@ async function auditLog(action, resourceType, resourceId, metadata) {
 async function renderOverview() {
   try {
     const { data: members } = await sb.from('members').select('id, member_type');
-    const { data: events } = await sb.from('events').select('id, name, event_date').order('event_date', { ascending: false });
+    const { data: events } = await sb.from('events').select('id, name, event_date, status').order('event_date', { ascending: false });
     // Fetch only EVENT type attendance for the dashboard rate
     const { data: attendance } = await sb.from('attendance')
       .select('event_id, member_id, status')
@@ -417,11 +440,12 @@ async function renderOverview() {
     document.getElementById('statTotalMembers').textContent = memberCount;
     document.getElementById('statCoreMembers').textContent = coreCount;
 
-    // Overall attendance rate (average across all events)
+    // Overall attendance rate — only non-cancelled events with attendance
+    const activeEvents = (events || []).filter(e => e.status !== 'cancelled');
     let totalRate = 0;
     let eventsWithAttendance = 0;
     
-    (events || []).forEach(evt => {
+    activeEvents.forEach(evt => {
         const evtAtt = attendance?.filter(a => a.event_id === evt.id) || [];
         if (evtAtt.length > 0) {
             const present = evtAtt.filter(a => a.status === 'present').length;
@@ -431,7 +455,7 @@ async function renderOverview() {
     });
     
     const overallRate = eventsWithAttendance > 0 ? Math.round(totalRate / eventsWithAttendance) : 0;
-    document.getElementById('statAttendanceRate').textContent = `${overallRate}%`;
+    document.getElementById('statAttendanceRate').textContent = eventsWithAttendance > 0 ? `${overallRate}%` : 'N/A';
 
     // Recent events
     const recent = (events || []).slice(0, 5);
@@ -440,10 +464,11 @@ async function renderOverview() {
       const evtAtt = attendance?.filter(a => a.event_id === evt.id) || [];
       const present = evtAtt.filter(a => a.status === 'present').length;
       const total = evtAtt.length;
+      const statusBadge = evt.status === 'cancelled' ? '<span class="att-badge att-badge-cancelled">Cancelled</span>' : '';
       return `<tr>
-        <td>${escapeHTML(evt.name)}</td>
+        <td>${escapeHTML(evt.name)} ${statusBadge}</td>
         <td>${evt.event_date}</td>
-        <td>${total > 0 ? `${present} / ${total} Present` : 'Not Marked'}</td>
+        <td>${evt.status === 'cancelled' ? 'N/A' : (total > 0 ? `${present} / ${total} Present` : 'Not Marked')}</td>
       </tr>`;
     }).join('') || '<tr><td colspan="3" style="text-align:center; color:var(--admin-muted);">No events yet</td></tr>';
 
@@ -465,12 +490,22 @@ async function renderMembers() {
     if (error) throw error;
     cachedMembers = members || [];
 
-    const { data: attendance } = await sb.from('attendance').select('member_id, status');
+    // Only fetch EVENT type attendance for member stats (fixes 200% bug)
+    const { data: attendance } = await sb.from('attendance')
+      .select('member_id, status, attendance_type, event_id')
+      .eq('attendance_type', 'EVENT');
     cachedAttendance = attendance || [];
+
+    // Get non-cancelled events for eligible day calculation
+    const { data: activeEvts } = await sb.from('events').select('id, event_date, status');
+    const eligibleEventDates = new Set(
+      (activeEvts || []).filter(e => e.status !== 'cancelled').map(e => e.event_date)
+    );
+    const eligibleDays = eligibleEventDates.size;
 
     const tbody = document.getElementById('membersTableBody');
     tbody.innerHTML = cachedMembers.map(m => {
-      const stats = getMemberStatsFromCache(m.id);
+      const stats = getMemberStatsFromCache(m.id, eligibleDays);
       let badgeClass = 'badge-general';
       if (m.member_type === 'Core Committee') badgeClass = 'badge-core';
       if (m.member_type === 'Volunteer') badgeClass = 'badge-volunteer';
@@ -480,7 +515,6 @@ async function renderMembers() {
         <td>${escapeHTML(m.role || '—')}</td>
         <td><span class="admin-badge ${badgeClass}">${escapeHTML(m.member_type)}</span></td>
         <td>${stats.attended}</td>
-        <td>${stats.rate}%</td>
         <td onclick="event.stopPropagation()">
           <button class="admin-action-btn" onclick="editMember('${m.id}')">Edit</button>
           <button class="admin-action-btn delete" onclick="deleteMember('${m.id}')">Delete</button>
@@ -493,13 +527,16 @@ async function renderMembers() {
   }
 }
 
-function getMemberStatsFromCache(memberId) {
+function getMemberStatsFromCache(memberId, eligibleDays) {
+  // Only count EVENT attendance (not PREP)
   const memberAtt = cachedAttendance.filter(a => a.member_id === memberId);
   const attended = memberAtt.filter(a => a.status === 'present').length;
   const missed = memberAtt.filter(a => a.status === 'absent').length;
-  const total = attended + missed;
-  const rate = total > 0 ? Math.round((attended / total) * 100) : 0;
-  return { attended, missed, rate };
+  // Rate is based on eligible event days, not just records
+  const denom = eligibleDays || (attended + missed);
+  const rate = denom > 0 ? Math.round((attended / denom) * 100) : 0;
+  const rateDisplay = denom > 0 ? `${rate}%` : 'N/A';
+  return { attended, missed, rate, rateDisplay };
 }
 
 document.getElementById('btnAddMember').addEventListener('click', () => {
@@ -517,7 +554,7 @@ document.getElementById('btnSaveMember').addEventListener('click', async () => {
   const role = document.getElementById('memRole').value.trim();
   const department = document.getElementById('memDept').value.trim();
 
-  if (!name) { await customAlert(); return; }
+  if (!name) { await customAlert('Please enter a member name.', 'Missing Field'); return; }
 
   try {
     if (editingMemberId) {
@@ -537,7 +574,7 @@ document.getElementById('btnSaveMember').addEventListener('click', async () => {
     closeModal('modalAddMember');
     renderMembers();
   } catch (err) {
-    await customAlert();
+    await customAlert('Failed to save member. Check the console for details.', 'Error');
     console.error("MEMBER SAVE ERROR", {
         message: err?.message,
         code: err?.code,
@@ -559,14 +596,14 @@ window.editMember = async function(id) {
 };
 
 window.deleteMember = async function(id) {
-  if (!(await customConfirm())) return;
+  if (!(await customConfirm('Are you sure you want to delete this member? Their attendance history will also be removed. This action cannot be undone.', 'Delete Member'))) return;
   try {
     const { error } = await sb.from('members').delete().eq('id', id);
     if (error) throw error;
     await auditLog('delete_member', 'members', id);
     renderMembers();
   } catch (err) {
-    await customAlert();
+    await customAlert('Failed to delete member.', 'Error');
     console.error('Delete member error:', err);
   }
 };
@@ -579,28 +616,38 @@ window.showMemberDetails = async function(id) {
     document.getElementById('detMemName').textContent = m.name;
     document.getElementById('detMemRole').textContent = `${m.role || '—'} — ${m.department || '—'} | ${m.member_type}`;
 
-    // Fetch attendance for this member with event details
+    // Fetch EVENT attendance only for this member (separate from PREP)
     const { data: attRecords } = await sb.from('attendance')
-      .select('status, event_id, events(name, event_date)')
-      .eq('member_id', id);
+      .select('status, event_id, attendance_type, events(name, event_date, status)')
+      .eq('member_id', id)
+      .eq('attendance_type', 'EVENT');
 
-    const attended = attRecords?.filter(a => a.status === 'present').length || 0;
-    const missed = attRecords?.filter(a => a.status === 'absent').length || 0;
-    const total = attended + missed;
-    const rate = total > 0 ? Math.round((attended / total) * 100) : 0;
+    // Filter out cancelled events
+    const validRecords = (attRecords || []).filter(a => a.events?.status !== 'cancelled');
+    const attended = validRecords.filter(a => a.status === 'present').length;
+    const missed = validRecords.filter(a => a.status === 'absent').length;
+    
+    // Get eligible event days (unique non-cancelled event dates)
+    const { data: allEvts } = await sb.from('events').select('event_date, status');
+    const eligibleDays = new Set(
+      (allEvts || []).filter(e => e.status !== 'cancelled').map(e => e.event_date)
+    ).size;
+    
+    const rate = eligibleDays > 0 ? Math.round((attended / eligibleDays) * 100) : 0;
 
     document.getElementById('detAttended').textContent = attended;
     document.getElementById('detMissed').textContent = missed;
-    document.getElementById('detRate').textContent = `${rate}%`;
+    document.getElementById('detRate').textContent = eligibleDays > 0 ? `${rate}%` : 'N/A';
 
     const historyTbody = document.getElementById('detHistoryTable');
     historyTbody.innerHTML = (attRecords || []).map(a => {
       const statusColor = a.status === 'present' ? 'var(--admin-success)' : 'var(--admin-danger)';
       const statusText = a.status === 'present' ? 'Present' : 'Absent';
+      const cancelled = a.events?.status === 'cancelled';
       return `<tr>
-        <td>${escapeHTML(a.events?.name || '—')}</td>
+        <td>${escapeHTML(a.events?.name || '—')} ${cancelled ? '<span class="att-badge att-badge-cancelled" style="font-size:9px;">Cancelled</span>' : ''}</td>
         <td>${a.events?.event_date || '—'}</td>
-        <td><span style="color:${statusColor}">${statusText}</span></td>
+        <td><span style="color:${cancelled ? 'var(--admin-muted)' : statusColor}">${cancelled ? 'N/A' : statusText}</span></td>
       </tr>`;
     }).join('') || '<tr><td colspan="3" style="text-align:center;">No attendance history</td></tr>';
 
@@ -623,16 +670,25 @@ async function renderEvents() {
     cachedEvents = events || [];
 
     const tbody = document.getElementById('eventsTableBody');
-    tbody.innerHTML = cachedEvents.map(e => `<tr>
-      <td><strong>${escapeHTML(e.name)}</strong></td>
+    tbody.innerHTML = cachedEvents.map(e => {
+      const derivedStatus = deriveEventStatus(e);
+      const statusBadge = derivedStatus === 'cancelled' ? 'att-badge-cancelled'
+        : derivedStatus === 'completed' ? 'att-badge-completed'
+        : derivedStatus === 'ongoing' ? 'att-badge-pending'
+        : derivedStatus === 'upcoming' ? 'att-badge-upcoming'
+        : 'att-badge-locked';
+      return `<tr>
+      <td><a href="#" onclick="showEventDetail('${e.id}'); return false;" style="color:var(--admin-primary); text-decoration:none;"><strong>${escapeHTML(e.name)}</strong></a></td>
       <td>${e.event_date}</td>
       <td>${escapeHTML(e.event_type)}</td>
+      <td><span class="att-badge ${statusBadge}">${escapeHTML(derivedStatus)}</span></td>
       <td>${escapeHTML(e.venue || '—')}</td>
       <td>
         <button class="admin-action-btn" onclick="editEvent('${e.id}')">Edit</button>
         <button class="admin-action-btn delete" onclick="deleteEvent('${e.id}')">Delete</button>
       </td>
-    </tr>`).join('') || '<tr><td colspan="5" style="text-align:center; color:var(--admin-muted);">No events yet</td></tr>';
+    </tr>`;
+    }).join('') || '<tr><td colspan="6" style="text-align:center; color:var(--admin-muted);">No events yet</td></tr>';
 
   } catch (err) {
     console.error('Events render error:', err);
@@ -643,39 +699,55 @@ document.getElementById('btnAddEvent').addEventListener('click', () => {
   editingEventId = null;
   document.getElementById('evtName').value = '';
   document.getElementById('evtDate').value = '';
+  document.getElementById('evtEndDate').value = '';
   document.getElementById('evtType').value = 'Workshop';
+  document.getElementById('evtStatus').value = 'upcoming';
   document.getElementById('evtVenue').value = '';
+  document.getElementById('evtPrepDates').value = '';
   openModal('modalAddEvent');
 });
 
 document.getElementById('btnSaveEvent').addEventListener('click', async () => {
   const name = document.getElementById('evtName').value.trim();
   const event_date = document.getElementById('evtDate').value;
+  const end_date = document.getElementById('evtEndDate').value || event_date;
   const event_type = document.getElementById('evtType').value;
+  const status = document.getElementById('evtStatus').value;
   const venue = document.getElementById('evtVenue').value.trim();
+  const prepDatesRaw = document.getElementById('evtPrepDates').value.trim();
 
-  if (!name || !event_date) { await customAlert(); return; }
+  if (!name || !event_date) { await customAlert('Please enter event name and date.', 'Missing Fields'); return; }
+
+  // Parse prep dates
+  const prep_dates = prepDatesRaw
+    ? prepDatesRaw.split(',').map(d => d.trim()).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d))
+    : [];
 
   try {
+    const payload = {
+      name, event_date, end_date, event_type, status,
+      venue: venue || null,
+      prep_dates: prep_dates
+    };
+
     if (editingEventId) {
       const { error } = await sb.from('events')
-        .update({ name, event_date, event_type, venue: venue || null })
+        .update(payload)
         .eq('id', editingEventId);
       if (error) throw error;
-      await auditLog('update_event', 'events', editingEventId, { name });
+      await auditLog('update_event', 'events', editingEventId, { name, event_date, status });
     } else {
       const { data, error } = await sb.from('events')
-        .insert({ name, event_date, event_type, venue: venue || null })
+        .insert(payload)
         .select('id')
         .single();
       if (error) throw error;
-      await auditLog('create_event', 'events', data.id, { name });
+      await auditLog('create_event', 'events', data.id, { name, event_date, status });
     }
     closeModal('modalAddEvent');
     renderEvents();
-    renderAttendanceSelect();
   } catch (err) {
-    await customAlert();
+    await customAlert('Failed to save event. Check the console for details.', 'Error');
     console.error("Event save failed:", {
         message: err?.message,
         code: err?.code,
@@ -691,22 +763,82 @@ window.editEvent = function(id) {
   editingEventId = e.id;
   document.getElementById('evtName').value = e.name;
   document.getElementById('evtDate').value = e.event_date;
+  document.getElementById('evtEndDate').value = e.end_date || e.event_date;
   document.getElementById('evtType').value = e.event_type;
+  document.getElementById('evtStatus').value = e.status || 'upcoming';
   document.getElementById('evtVenue').value = e.venue || '';
+  document.getElementById('evtPrepDates').value = (e.prep_dates || []).join(', ');
   openModal('modalAddEvent');
 };
 
 window.deleteEvent = async function(id) {
-  if (!(await customConfirm())) return;
+  if (!(await customConfirm('Are you sure you want to delete this event? Attendance records will also be removed.', 'Delete Event'))) return;
   try {
     const { error } = await sb.from('events').delete().eq('id', id);
     if (error) throw error;
     await auditLog('delete_event', 'events', id);
     renderEvents();
-    renderAttendanceSelect();
   } catch (err) {
-    await customAlert();
+    await customAlert('Failed to delete event.', 'Error');
     console.error('Delete event error:', err);
+  }
+};
+
+// ─────────────────────────────────────────────
+// DERIVED EVENT STATUS
+// ─────────────────────────────────────────────
+function deriveEventStatus(event) {
+  // Manual overrides take priority
+  if (event.status === 'cancelled') return 'cancelled';
+  if (event.status === 'archived') return 'archived';
+  if (event.status === 'draft') return 'draft';
+
+  // Date-based derivation using IST
+  const options = { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' };
+  const formatter = new Intl.DateTimeFormat('en-CA', options);
+  const parts = formatter.formatToParts(new Date());
+  let y, m, d;
+  for (let p of parts) {
+    if (p.type === 'year') y = p.value;
+    if (p.type === 'month') m = p.value;
+    if (p.type === 'day') d = p.value;
+  }
+  const todayStr = `${y}-${m}-${d}`;
+
+  const endDate = event.end_date || event.event_date;
+  
+  if (endDate < todayStr) return 'completed';
+  if (event.event_date > todayStr) return 'upcoming';
+  return 'ongoing';
+}
+window.deriveEventStatus = deriveEventStatus;
+
+// ─────────────────────────────────────────────
+// DUPLICATE EVENT
+// ─────────────────────────────────────────────
+window.duplicateEvent = async function(id) {
+  const e = cachedEvents.find(x => x.id === id);
+  if (!e) return;
+  if (!(await customConfirm(`Create a duplicate of "${e.name}"? You can edit the copy after creation.`, 'Duplicate Event'))) return;
+
+  try {
+    const payload = {
+      name: e.name + ' (Copy)',
+      event_date: e.event_date,
+      end_date: e.end_date || e.event_date,
+      event_type: e.event_type,
+      status: 'upcoming',
+      venue: e.venue || null,
+      prep_dates: e.prep_dates || [],
+      description: e.description || null
+    };
+    const { data, error } = await sb.from('events').insert(payload).select('id').single();
+    if (error) throw error;
+    await auditLog('duplicate_event', 'events', data.id, { original_id: id, name: payload.name });
+    showToast(`Event duplicated: ${payload.name}`, 'success');
+    renderEvents();
+  } catch (err) {
+    await customAlert('Failed to duplicate event: ' + (err.message || 'Unknown error'), 'Error');
   }
 };
 
@@ -723,6 +855,92 @@ window.escapeHTML = function escapeHTML(str) {
   div.textContent = str;
   return div.innerHTML;
 }
+
+// ─────────────────────────────────────────────
+// HAMBURGER MENU (Mobile)
+// ─────────────────────────────────────────────
+const hamburgerBtn = document.getElementById('btnHamburger');
+const adminNav = document.querySelector('.admin-nav');
+if (hamburgerBtn && adminNav) {
+  hamburgerBtn.addEventListener('click', () => {
+    hamburgerBtn.classList.toggle('active');
+    adminNav.classList.toggle('mobile-open');
+  });
+
+  // Close mobile nav when a nav item is clicked
+  document.querySelectorAll('.admin-nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      hamburgerBtn.classList.remove('active');
+      adminNav.classList.remove('mobile-open');
+    });
+  });
+}
+
+// ─────────────────────────────────────────────
+// MISSING CRUD FOR MEMBERS & EVENTS
+// ─────────────────────────────────────────────
+window.editMember = async function(id) {
+  const member = cachedMembers.find(m => m.id === id);
+  if (!member) return;
+  editingMemberId = id;
+  document.getElementById('memName').value = member.name;
+  document.getElementById('memType').value = member.member_type;
+  document.getElementById('memRole').value = member.role || '';
+  document.getElementById('memDept').value = member.department || '';
+  openModal('modalAddMember');
+};
+
+window.deleteMember = async function(id) {
+  if (!await customConfirm('Are you sure you want to soft-delete this member? This will mark them inactive rather than breaking attendance history.')) return;
+  try {
+    const { error } = await sb.from('members').update({ status: 'inactive' }).eq('id', id);
+    if (error) throw error;
+    showToast('Member marked inactive', 'success');
+    renderMembers();
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+};
+
+window.editEvent = async function(id) {
+  const evt = cachedEvents.find(e => e.id === id);
+  if (!evt) return;
+  editingEventId = id;
+  document.getElementById('evtName').value = evt.name;
+  document.getElementById('evtDate').value = evt.event_date;
+  document.getElementById('evtEndDate').value = evt.end_date || evt.event_date;
+  document.getElementById('evtType').value = evt.event_type;
+  document.getElementById('evtStatus').value = evt.status;
+  document.getElementById('evtVenue').value = evt.venue || '';
+  document.getElementById('evtPrepDates').value = (evt.prep_dates || []).join(', ');
+  openModal('modalAddEvent');
+};
+
+window.duplicateEvent = async function(id) {
+  const evt = cachedEvents.find(e => e.id === id);
+  if (!evt) return;
+  editingEventId = null; // Create new
+  document.getElementById('evtName').value = evt.name + ' (Copy)';
+  document.getElementById('evtDate').value = evt.event_date;
+  document.getElementById('evtEndDate').value = evt.end_date || evt.event_date;
+  document.getElementById('evtType').value = evt.event_type;
+  document.getElementById('evtStatus').value = 'upcoming';
+  document.getElementById('evtVenue').value = evt.venue || '';
+  document.getElementById('evtPrepDates').value = '';
+  openModal('modalAddEvent');
+};
+
+window.deleteEvent = async function(id) {
+  if (!await customConfirm('Are you sure you want to soft-delete this event? It will be archived to prevent breaking related data.')) return;
+  try {
+    const { error } = await sb.from('events').update({ status: 'archived' }).eq('id', id);
+    if (error) throw error;
+    showToast('Event archived successfully', 'success');
+    renderEvents();
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+};
 
 // ─────────────────────────────────────────────
 // INIT

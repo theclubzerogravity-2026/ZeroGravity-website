@@ -22,4 +22,5 @@ if (!window.supabaseClient) {
             }
         }
     );
+
 }

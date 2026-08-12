@@ -43,6 +43,23 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
 }
+
+/* --- CUSTOM SCROLLBAR --- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--void); 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong); 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted); 
+}
+
 body.custom-cursor-active, body.custom-cursor-active a, body.custom-cursor-active button { cursor: none; }
 img { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -678,6 +695,30 @@ body::before {
 .linkedin-link:hover { color: var(--blue-2); text-decoration: underline; }
 .member-role { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.08em; color: var(--yellow); text-transform: uppercase; }
 .lead-card .member-role { color: var(--red-2); }
+
+/* Guest Card (Smaller adjustment) */
+.guest-card {
+  width: 100%;
+  max-width: 350px;
+  padding: 32px;
+}
+.guest-card .member-photo {
+  margin-bottom: 24px;
+  border-width: 1px;
+}
+.guest-card .member-name {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+.guest-card .member-role {
+  font-size: 15px;
+}
+.guest-card .member-role span {
+  font-size: 14px !important;
+}
+.lead-card.guest-card:hover {
+  transform: scale(1.10); /* Re-adjust hover scale */
+}
 
 .dept-card { display: flex; flex-direction: column; }
 .dept-card--centered { grid-column: 1 / -1; max-width: calc(50% - 10px); margin: 0 auto; width: 100%; }

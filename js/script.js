@@ -34,6 +34,10 @@ const PR_TEAM = [
   { name: 'Aishwarya Gikwad', year: 'BE', role: 'PR Head', img: 'aishwarya-gikwad.jpg', linkedin: 'https://www.linkedin.com/in/aishwarya-gaikwad-a3154236a/' },
 ];
 
+const GUESTS = [
+  { name: 'Kiran Devkar', position: 'GCP Data Engineer', company: 'Atos', img: 'kiran-devkar.png', linkedin: 'https://www.linkedin.com/in/kiran-devkar-🇮🇳-84a951188?utm_source=share_via&utm_content=profile&utm_medium=member_ios' }
+];
+
 const EVENTS = [
   {
     tag: 'FLAGSHIP · 2-DAY EVENT', title: 'TechnoSpark',
@@ -250,6 +254,21 @@ eventsGrid.innerHTML = EVENTS.map((e, index) => `
   </article>
 `).join('');
 
+const guestsGrid = document.getElementById('guestsGrid');
+if (guestsGrid) {
+  guestsGrid.innerHTML = GUESTS.map((g, i) => `
+    <div class="lead-card guest-card reveal-up" style="--d:${i}; cursor:pointer;" onclick="window.open('${g.linkedin}', '_blank')">
+      <span class="corner-bracket tl"></span><span class="corner-bracket br"></span>
+      <div class="member-photo" data-img="assets/images/guests/${g.img}">
+        ${PHOTO_ICON}
+        <span class="ph-label">GUEST</span>
+      </div>
+      <h3 class="member-name"><a href="${g.linkedin}" target="_blank" rel="noopener" class="linkedin-link">${g.name}</a></h3>
+      <p class="member-role">${g.company}<br><span style="color:var(--muted-2); font-weight:400; font-size:13px;">${g.position}</span></p>
+    </div>
+  `).join('');
+}
+
 /* All cards observed for reveal + hover-cursor after render */
 document.querySelectorAll('.lead-card, .dept-card, .pr-card, .event-card').forEach((el, i) => {
   el.style.setProperty('--d', (i % 6));
@@ -429,12 +448,6 @@ function startPreloader() {
     if (pre) pre.classList.add('is-hidden');
     document.body.style.overflow = '';
     revealHero();
-    
-    // Show events popup after a short delay
-    setTimeout(() => {
-      const popup = document.getElementById('eventPopupOverlay');
-      if (popup) popup.classList.add('is-active');
-    }, 800);
   }, 10000);
 }
 
@@ -975,73 +988,5 @@ if (magClose) {
   });
 }
 
-/* ============ UPCOMING EVENTS POPUP ============ */
-const eventPopupOverlay = document.getElementById('eventPopupOverlay');
-const eventPopupClose = document.getElementById('eventPopupClose');
 
-if (eventPopupOverlay && eventPopupClose) {
-  eventPopupClose.addEventListener('click', () => {
-    eventPopupOverlay.classList.remove('is-active');
-  });
-
-  eventPopupOverlay.addEventListener('click', (e) => {
-    if (e.target === eventPopupOverlay) {
-      eventPopupOverlay.classList.remove('is-active');
-    }
-  });
-}
-
-const pdfPopupOverlay = document.getElementById('pdfPopupOverlay');
-const pdfPopupClose = document.getElementById('pdfPopupClose');
-const pdfPopupContainer = document.getElementById('pdfPopupContainer');
-let isPdfLoaded = false;
-
-if (pdfPopupOverlay && pdfPopupClose) {
-  pdfPopupClose.addEventListener('click', () => {
-    pdfPopupOverlay.classList.remove('is-active');
-  });
-
-  pdfPopupOverlay.addEventListener('click', (e) => {
-    if (e.target === pdfPopupOverlay) {
-      pdfPopupOverlay.classList.remove('is-active');
-    }
-  });
-
-  // Render PDF to canvas when opened
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.attributeName === 'class' && pdfPopupOverlay.classList.contains('is-active') && !isPdfLoaded) {
-        isPdfLoaded = true;
-        if (pdfPopupContainer) {
-          pdfPopupContainer.innerHTML = '<div class="magazine-spinner" style="border-top-color:var(--void);"></div>';
-          
-          pdfjsLib.getDocument('ZG events/Events.pdf').promise.then(pdf => {
-            return pdf.getPage(1);
-          }).then(page => {
-            const viewport = page.getViewport({ scale: window.innerWidth <= 900 ? 1.5 : 2.5 });
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            
-            const renderContext = {
-              canvasContext: ctx,
-              viewport: viewport
-            };
-            
-            return page.render(renderContext).promise.then(() => {
-              pdfPopupContainer.innerHTML = '';
-              pdfPopupContainer.appendChild(canvas);
-            });
-          }).catch(err => {
-            console.error("Error rendering PDF poster", err);
-            pdfPopupContainer.innerHTML = 'Failed to load poster image.';
-          });
-        }
-      }
-    });
-  });
-  
-  observer.observe(pdfPopupOverlay, { attributes: true });
-}
 

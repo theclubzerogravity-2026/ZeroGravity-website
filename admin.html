@@ -15,6 +15,9 @@
 </head>
 <body class="admin-body">
 
+  <!-- ==================== TOAST CONTAINER ==================== -->
+  <div id="toastContainer" class="toast-container"></div>
+
   <!-- ==================== LOADING SCREEN ==================== -->
   <div class="admin-login-wrapper" id="adminLoadingScreen">
     <div class="admin-login-card">
@@ -120,6 +123,9 @@
   <div class="admin-dashboard-wrapper" id="adminDashboardScreen">
     <header class="admin-header">
       <div class="admin-header-left">
+        <button class="hamburger-btn" id="btnHamburger" aria-label="Toggle navigation">
+          <span></span><span></span><span></span>
+        </button>
         <img src="assets/images/logos/zerogravity-logo.png" alt="ZeroGravity" class="admin-header-logo">
         <div class="admin-header-title">Admin</div>
       </div>
@@ -158,8 +164,8 @@
             <div class="admin-stat-value" id="statCoreMembers">–</div>
           </div>
           <div class="admin-stat-card">
-            <div class="admin-stat-title">Overall Attendance Rate</div>
-            <div class="admin-stat-value" id="statAttendanceRate">–</div>
+            <div class="admin-stat-title">Attendance Rate</div>
+            <div class="admin-stat-value" id="statAttendanceRate" style="color:var(--admin-success);">–</div>
           </div>
         </div>
 
@@ -193,9 +199,8 @@
               <tr>
                 <th>Name</th>
                 <th>Role</th>
-                <th>Type</th>
+                <th>Member Type</th>
                 <th>Attended</th>
-                <th>Rate</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -220,6 +225,7 @@
                 <th>Event Name</th>
                 <th>Date</th>
                 <th>Type</th>
+                <th>Status</th>
                 <th>Venue</th>
                 <th>Actions</th>
               </tr>
@@ -231,203 +237,331 @@
         </div>
       </section>
 
-      <!-- === SECTION: ATTENDANCE === -->
+      <!-- === SECTION: EVENT DETAIL HUB (Overlay) === -->
+      <section class="admin-section" id="section-event-detail" style="display:none;">
+        <div class="admin-table-header" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+          <button class="admin-btn small secondary" onclick="closeEventDetail()">&larr; Back to Events</button>
+          <div class="admin-table-title" id="edhEventTitle">Event Details</div>
+          <p style="color:var(--admin-muted); font-size:13px; margin:0;" id="edhEventMeta">Date: — | Status: —</p>
+        </div>
+
+        <nav class="admin-nav" style="margin-bottom: 24px; border-bottom: 1px solid var(--line-strong);">
+          <button class="edh-nav-item active" data-edh-target="edh-overview">Overview</button>
+          <button class="edh-nav-item" data-edh-target="edh-registrations">Registrations</button>
+          <button class="edh-nav-item" data-edh-target="edh-attendance">Attendance</button>
+          <button class="edh-nav-item" data-edh-target="edh-tasks">Tasks</button>
+          <button class="edh-nav-item" data-edh-target="edh-finance">Finance</button>
+        </nav>
+
+        <div id="edh-overview" class="edh-tab-content active">
+          <!-- Rendered dynamically -->
+        </div>
+        <div id="edh-registrations" class="edh-tab-content" style="display:none;">
+           <div class="admin-table-header">
+            <h4>Registrations</h4>
+            <button class="admin-btn small" onclick="openModal('modalAddRegistration')">+ Add Registration</button>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="edhRegistrationsBody"></tbody>
+          </table>
+        </div>
+        <div id="edh-attendance" class="edh-tab-content" style="display:none;">
+           <!-- We will move or reuse the attendance logic here -->
+           <p>Manage attendance below.</p>
+           <div id="edhAttendanceContainer"></div>
+        </div>
+        <div id="edh-tasks" class="edh-tab-content" style="display:none;">
+           <div class="admin-table-header">
+            <h4>Tasks</h4>
+            <button class="admin-btn small" onclick="openModal('modalAddTask')">+ Add Task</button>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr><th>Title</th><th>Assigned To</th><th>Due Date</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody id="edhTasksBody"></tbody>
+          </table>
+        </div>
+        <div id="edh-finance" class="edh-tab-content" style="display:none;">
+           <!-- Event Scoped Finance -->
+           <div class="admin-stats-grid" style="margin-bottom: 24px;">
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Income</div>
+                <div class="admin-stat-value" id="edhStatIncome" style="color:var(--blue);">₹0.00</div>
+              </div>
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Expenses</div>
+                <div class="admin-stat-value" id="edhStatExpenses" style="color:var(--red);">₹0.00</div>
+              </div>
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Net Balance</div>
+                <div class="admin-stat-value" id="edhStatBalance">₹0.00</div>
+              </div>
+            </div>
+            <div class="admin-table-header">
+              <h4>Transactions</h4>
+              <div>
+                <button class="admin-btn small secondary" onclick="openModal('modalAddIncome')">+ Add Income</button>
+                <button class="admin-btn small" onclick="openModal('modalAddExpense')">+ Add Expense</button>
+              </div>
+            </div>
+            <table class="admin-table">
+              <thead>
+                <tr><th>Date</th><th>Type</th><th>Category/Source</th><th>Amount</th><th>Method</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="edhFinanceBody"></tbody>
+            </table>
+        </div>
+      </section>
+
+
       <!-- === SECTION: ATTENDANCE === -->
       <section class="admin-section" id="section-attendance">
         <div class="admin-table-header">
           <div class="admin-table-title">Attendance Management</div>
+          <p style="color:var(--admin-muted); font-size:13px; margin:0;">Track member attendance based on scheduled events.</p>
         </div>
-        
+
+
+
+        <!-- ATTENDANCE TYPE TABS -->
         <nav class="admin-nav" style="margin-bottom: 24px; border-bottom: 1px solid var(--line-strong);">
           <button class="attendance-nav-item active" data-attendance-target="attendance-event">Event Attendance</button>
           <button class="attendance-nav-item" data-attendance-target="attendance-prep">Event Prep Attendance</button>
-          <button class="attendance-nav-item" data-attendance-target="attendance-preview">Cumulative Stats</button>
           <button class="attendance-nav-item" data-attendance-target="attendance-history">History</button>
         </nav>
-        
-        <!-- EVENT ATTENDANCE TAB -->
+
+        <!-- ============ EVENT ATTENDANCE TAB ============ -->
         <div id="attendance-event" class="attendance-tab-content active">
-          <div style="background:var(--panel-2); padding:16px; border-radius:8px; margin-bottom:24px; border:1px solid var(--line-strong);">
-            <div style="color:var(--admin-muted); font-size:13px; text-transform:uppercase;">Today's Date (IST)</div>
-            <div id="eventAttendanceDateBanner" style="font-size:20px; font-weight:600; color:var(--white); margin-top:4px;">Loading...</div>
+
+          <!-- Event Selector with Auto-Date -->
+          <div class="att-event-selector">
+            <div class="admin-form-group">
+              <label>Select Event</label>
+              <select class="admin-select" id="attEventSelect">
+                <option value="">Loading events...</option>
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label>Event Date</label>
+              <div class="att-date-display" id="attEventDateDisplay">
+                <span class="lock-icon">🔒</span>
+                <span id="attEventDateText">Select an event</span>
+              </div>
+            </div>
+            <div class="admin-form-group" style="flex:0; min-width:auto;">
+              <label>&nbsp;</label>
+              <span class="att-badge" id="attEventStatusBadge" style="display:none;">—</span>
+            </div>
           </div>
-          
-          <div id="eventAttendanceSelectionArea">
-             <div class="admin-form-group">
-               <label>Events Scheduled For Today</label>
-               <select class="admin-select" id="eventAttendanceEventSelect" style="max-width: 400px;"></select>
-             </div>
+
+          <!-- Marking Area (hidden until event selected) -->
+          <div id="attEventMarkingArea" style="display:none;">
+
+            <!-- Summary Stats -->
+            <div class="admin-stats-grid" style="margin-bottom:24px;">
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Total Members</div>
+                <div class="admin-stat-value" id="attEvtTotal">-</div>
+              </div>
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Present</div>
+                <div class="admin-stat-value" id="attEvtPresent" style="color:var(--admin-success);">-</div>
+              </div>
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Absent</div>
+                <div class="admin-stat-value" id="attEvtAbsent" style="color:var(--admin-danger);">-</div>
+              </div>
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Not Marked</div>
+                <div class="admin-stat-value" id="attEvtNotMarked" style="color:var(--admin-warning);">-</div>
+              </div>
+            </div>
+
+            <!-- Search + Filter Bar -->
+            <div class="att-filter-bar">
+              <input type="text" class="admin-input" id="attEvtSearch" placeholder="Search member...">
+              <select class="admin-select" id="attEvtFilterDept">
+                <option value="">All Departments</option>
+              </select>
+              <select class="admin-select" id="attEvtFilterStatus">
+                <option value="">All Statuses</option>
+                <option value="present">Present</option>
+                <option value="absent">Absent</option>
+                <option value="pending">Not Marked</option>
+              </select>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="att-action-bar">
+              <div id="attEvtReminderStatus" style="font-size:13px; color:var(--admin-muted);"></div>
+              <div class="att-actions">
+                <button class="admin-btn small secondary" id="btnAttEvtPresentAll">Present All</button>
+                <button class="admin-btn small secondary" id="btnAttEvtClearAll">Clear All</button>
+                <button class="admin-btn small" id="btnAttEvtSave">Save Attendance</button>
+
+              </div>
+            </div>
+
+            <!-- Members Grid -->
+            <div style="overflow-x:auto;">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Member</th>
+                    <th>Department</th>
+                    <th>Year</th>
+                    <th style="width:250px;">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="attEvtMembersGrid"></tbody>
+              </table>
+            </div>
           </div>
-          
-          <div id="eventAttendanceMarkingArea" style="display:none; margin-top:24px;">
-             
-             <!-- Reminder & Counter UI -->
-             <div class="admin-stats-grid" style="margin-bottom:24px;">
-               <div class="admin-stat-card">
-                 <div class="admin-stat-title">Total Members</div>
-                 <div class="admin-stat-value" id="attCounterTotal">-</div>
-               </div>
-               <div class="admin-stat-card">
-                 <div class="admin-stat-title">Present</div>
-                 <div class="admin-stat-value" id="attCounterPresent" style="color:var(--blue);">-</div>
-               </div>
-               <div class="admin-stat-card">
-                 <div class="admin-stat-title">Absent</div>
-                 <div class="admin-stat-value" id="attCounterAbsent" style="color:var(--red);">-</div>
-               </div>
-               <div class="admin-stat-card">
-                 <div class="admin-stat-title">Not Marked</div>
-                 <div class="admin-stat-value" id="attCounterNotMarked" style="color:var(--yellow);">-</div>
-               </div>
-             </div>
-             
-             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-               <div id="attReminderStatus" style="font-size:14px; color:var(--admin-muted);">Checking reminder status...</div>
-               <div style="display:flex; gap:12px;">
-                 <button class="admin-btn secondary" onclick="markAll('EVENT', 'present')">Present All</button>
-                 <button class="admin-btn secondary" onclick="markAll('EVENT', null)">Clear All</button>
-                 <button class="admin-btn" id="btnSaveEventAttendance">Save Attendance</button>
-               </div>
-             </div>
-             
-             <div style="overflow-x:auto;">
-               <table class="admin-table">
-                 <thead>
-                   <tr>
-                     <th>Member</th>
-                     <th>Department</th>
-                     <th>Year</th>
-                     <th style="width:250px;">Status</th>
-                   </tr>
-                 </thead>
-                 <tbody id="eventAttendanceMembersGrid"></tbody>
-               </table>
-             </div>
-             
+
+          <!-- Locked State (for future events) -->
+          <div id="attEventLockedArea" style="display:none;">
+            <div class="att-locked-overlay">
+              <div class="lock-icon">🔒</div>
+              <h3>Attendance Not Available</h3>
+              <p id="attEventLockedMessage">Attendance opens on the event date.</p>
+            </div>
           </div>
+
+          <!-- Cancelled State -->
+          <div id="attEventCancelledArea" style="display:none;">
+            <div class="att-locked-overlay">
+              <div class="lock-icon">🚫</div>
+              <h3>Event Cancelled</h3>
+              <p>Attendance is not required for cancelled events.</p>
+            </div>
+          </div>
+
         </div>
-        
-        <!-- EVENT PREP ATTENDANCE TAB -->
+
+        <!-- ============ EVENT PREP ATTENDANCE TAB ============ -->
         <div id="attendance-prep" class="attendance-tab-content" style="display:none;">
-          <div id="prepAttendanceSelectionArea" style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:24px;">
-             <div class="admin-form-group" style="flex:1; min-width:250px;">
-               <label>Select Event for Preparation</label>
-               <select class="admin-select" id="prepAttendanceEventSelect"></select>
-             </div>
-             <div class="admin-form-group" style="flex:1; min-width:250px;">
-               <label>Preparation Date</label>
-               <input type="date" class="admin-input" id="prepAttendanceDateSelect" disabled>
-             </div>
+
+          <div class="att-event-selector">
+            <div class="admin-form-group">
+              <label>Select Event for Preparation</label>
+              <select class="admin-select" id="attPrepEventSelect">
+                <option value="">Loading events...</option>
+              </select>
+            </div>
+            <div class="admin-form-group" style="margin-bottom:0; flex:1;">
+              <label class="admin-label">Select Date</label>
+              <input type="date" class="admin-select" id="attPrepDateSelect" disabled />
+            </div>
+          </div>
+
+          <!-- No Prep Dates Message -->
+          <div id="attPrepNoDates" style="display:none;">
+            <div class="att-empty-state">
+              <div class="icon">📋</div>
+              <h4>No Preparation Dates</h4>
+              <p>This event does not have preparation dates configured. Add prep dates in the Events module.</p>
+            </div>
+          </div>
+
+          <!-- Prep Locked/Cancelled Areas -->
+          <div id="attPrepCancelledArea" style="display:none; margin-top:24px;">
+            <div class="att-empty-state">
+              <div class="icon">🚫</div>
+              <h4>Event Cancelled</h4>
+              <p>Attendance is closed because this event has been cancelled.</p>
+            </div>
           </div>
           
-          <div id="prepAttendanceMarkingArea" style="display:none; margin-top:24px;">
-             <!-- Reusing counters for prep -->
-             <div class="admin-stats-grid" style="margin-bottom:24px;">
-               <div class="admin-stat-card">
-                 <div class="admin-stat-title">Total Members</div>
-                 <div class="admin-stat-value" id="prepCounterTotal">-</div>
-               </div>
-               <div class="admin-stat-card">
-                 <div class="admin-stat-title">Present</div>
-                 <div class="admin-stat-value" id="prepCounterPresent" style="color:var(--blue);">-</div>
-               </div>
-               <div class="admin-stat-card">
-                 <div class="admin-stat-title">Absent</div>
-                 <div class="admin-stat-value" id="prepCounterAbsent" style="color:var(--red);">-</div>
-               </div>
-               <div class="admin-stat-card">
-                 <div class="admin-stat-title">Not Marked</div>
-                 <div class="admin-stat-value" id="prepCounterNotMarked" style="color:var(--yellow);">-</div>
-               </div>
-             </div>
-             
-             <div style="display:flex; justify-content:flex-end; margin-bottom:16px; gap:12px;">
-               <button class="admin-btn secondary" onclick="markAll('PREP', 'present')">Present All</button>
-               <button class="admin-btn secondary" onclick="markAll('PREP', null)">Clear All</button>
-               <button class="admin-btn" id="btnSavePrepAttendance">Save Prep Attendance</button>
-             </div>
-             
-             <div style="overflow-x:auto;">
-               <table class="admin-table">
-                 <thead>
-                   <tr>
-                     <th>Member</th>
-                     <th>Department</th>
-                     <th>Year</th>
-                     <th style="width:250px;">Status</th>
-                   </tr>
-                 </thead>
-                 <tbody id="prepAttendanceMembersGrid"></tbody>
-               </table>
-             </div>
+          <div id="attPrepLockedArea" style="display:none; margin-top:24px;">
+            <div class="att-empty-state">
+              <div class="icon">🔒</div>
+              <h4>Attendance Locked</h4>
+              <p id="attPrepLockedMessage">Attendance for this preparation date has been submitted and locked.</p>
+            </div>
+          </div>
+
+          <!-- Prep Marking Area -->
+          <div id="attPrepMarkingArea" style="display:none;">
+            <div class="admin-stats-grid" style="margin-bottom:24px;">
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Total Members</div>
+                <div class="admin-stat-value" id="attPrepTotal">-</div>
+              </div>
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Present</div>
+                <div class="admin-stat-value" id="attPrepPresent" style="color:var(--admin-success);">-</div>
+              </div>
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Absent</div>
+                <div class="admin-stat-value" id="attPrepAbsent" style="color:var(--admin-danger);">-</div>
+              </div>
+              <div class="admin-stat-card">
+                <div class="admin-stat-title">Not Marked</div>
+                <div class="admin-stat-value" id="attPrepNotMarked" style="color:var(--admin-warning);">-</div>
+              </div>
+            </div>
+
+            <div class="att-action-bar">
+              <div></div>
+              <div class="att-actions">
+                <button class="admin-btn small secondary" id="btnAttPrepPresentAll">Present All</button>
+                <button class="admin-btn small secondary" id="btnAttPrepClearAll">Clear All</button>
+                <button class="admin-btn small" id="btnAttPrepSave">Save Prep Attendance</button>
+
+              </div>
+            </div>
+
+            <div style="overflow-x:auto;">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Member</th>
+                    <th>Department</th>
+                    <th>Year</th>
+                    <th style="width:250px;">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="attPrepMembersGrid"></tbody>
+              </table>
+            </div>
           </div>
         </div>
-        
-        <!-- CUMULATIVE STATS TAB -->
-        <div id="attendance-preview" class="attendance-tab-content" style="display:none;">
-           <div class="admin-form-group" style="display:flex; gap:16px;">
-             <div style="flex:1; max-width:300px;">
-               <label>Select Event</label>
-               <select class="admin-select" id="previewEventSelect"></select>
-             </div>
-             <div style="flex:1; max-width:300px;">
-               <label>Select Day/Date</label>
-               <select class="admin-select" id="previewDateSelect" disabled><option>Select an event first</option></select>
-             </div>
-           </div>
-           
-           <div id="previewResultsArea" style="margin-top:24px; display:none;">
-             <div style="overflow-x:auto;">
-               <table class="admin-table">
-                 <thead>
-                   <tr>
-                     <th>Member</th>
-                     <th>Days Attended</th>
-                     <th>Total Days Till Date</th>
-                     <th>Attendance %</th>
-                   </tr>
-                 </thead>
-                 <tbody id="previewResultsGrid"></tbody>
-               </table>
-             </div>
-           </div>
-        </div>
-        
-        <!-- HISTORY TAB -->
+
+
+
+        <!-- ============ HISTORY TAB ============ -->
         <div id="attendance-history" class="attendance-tab-content" style="display:none;">
-           <div class="admin-form-group" style="display:flex; gap:16px;">
-             <div style="flex:1; max-width:250px;">
-               <label>Filter by Type</label>
-               <select class="admin-select" id="historyTypeFilter">
-                 <option value="">All</option>
-                 <option value="EVENT">Event Attendance</option>
-                 <option value="PREP">Prep Attendance</option>
-               </select>
-             </div>
-             <div style="flex:1; max-width:250px;">
-               <label>Filter by Event</label>
-               <select class="admin-select" id="historyEventFilter"></select>
-             </div>
-           </div>
-           
-           <div style="overflow-x:auto; margin-top:24px;">
-             <table class="admin-table">
-               <thead>
-                 <tr>
-                   <th>Date</th>
-                   <th>Event</th>
-                   <th>Type</th>
-                   <th>Present</th>
-                   <th>Absent</th>
-                   <th>Not Marked</th>
-                   <th>Status</th>
-                 </tr>
-               </thead>
-               <tbody id="historyResultsGrid"></tbody>
-             </table>
-           </div>
+
+          <div class="att-filter-bar">
+            <select class="admin-select" id="attHistoryTypeFilter">
+              <option value="">All Types</option>
+              <option value="EVENT">Event Attendance</option>
+              <option value="PREP">Prep Attendance</option>
+            </select>
+            <select class="admin-select" id="attHistoryEventFilter">
+              <option value="">All Events</option>
+            </select>
+            <select class="admin-select" id="attHistoryStatusFilter">
+              <option value="">All Statuses</option>
+              <option value="completed">Completed</option>
+              <option value="pending">Pending</option>
+            </select>
+          </div>
+
+          <div id="attHistoryList" class="att-event-list">
+            <div class="att-loading">
+              <div class="admin-spinner"></div>
+              <span>Loading history...</span>
+            </div>
+          </div>
         </div>
+
       </section>
+
       <!-- === SECTION: SPONSORS === -->
       <section class="admin-section" id="section-sponsors">
         <div class="admin-table-header">
@@ -502,7 +636,12 @@
           </div>
         </div>
         <div id="finance-expenses" class="finance-tab-content" style="display:none;">
-          <div style="display:flex; justify-content:flex-end; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <select class="admin-select" id="financeExpenseEventFilter" style="max-width:300px; margin:0;" onchange="renderFinanceExpensesList()">
+              <option value="">-- Select Event to View Expenditures --</option>
+              <option value="GENERAL">General (No Event)</option>
+              <option value="ALL">All Expenditures</option>
+            </select>
             <button class="admin-btn inline" onclick="openModal('modalAddExpense')">Add Expense</button>
           </div>
           <div style="overflow-x:auto;">
@@ -677,8 +816,9 @@
       </div>
       <div class="admin-form-group">
         <label>Event (Optional)</label>
-        <input list="eventListOptions" id="expenseEvent" class="admin-input" placeholder="Type to search event..." autocomplete="off">
-        <datalist id="eventListOptions"></datalist>
+        <select id="expenseEventSelect" class="admin-select">
+          <option value="">No Event (General)</option>
+        </select>
       </div>
       <div class="admin-form-group">
         <label>Expense Item / Title</label>
@@ -798,7 +938,9 @@
       </div>
       <div class="admin-form-group">
         <label>Event (Optional)</label>
-        <input list="eventListOptions" id="incomeEvent" class="admin-input" placeholder="Type to search event..." autocomplete="off">
+        <select id="incomeEventSelect" class="admin-select">
+          <option value="">No Event (General)</option>
+        </select>
       </div>
       <div class="admin-form-group">
         <label>Amount (₹)</label>
@@ -866,6 +1008,12 @@
           <input type="date" id="evtDate" class="admin-input">
         </div>
         <div style="flex:1;">
+          <label>End Date (if multi-day)</label>
+          <input type="date" id="evtEndDate" class="admin-input" placeholder="Same as event date">
+        </div>
+      </div>
+      <div class="admin-form-group flex-row">
+        <div style="flex:1;">
           <label>Event Type</label>
           <select id="evtType" class="admin-select">
             <option value="Workshop">Workshop</option>
@@ -878,10 +1026,23 @@
             <option value="Other">Other</option>
           </select>
         </div>
+        <div style="flex:1;">
+          <label>Status</label>
+          <select id="evtStatus" class="admin-select">
+            <option value="upcoming">Upcoming</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="archived">Archived</option>
+          </select>
+        </div>
       </div>
       <div class="admin-form-group">
         <label>Venue</label>
         <input type="text" id="evtVenue" class="admin-input">
+      </div>
+      <div class="admin-form-group">
+        <label>Preparation Dates <span style="color:var(--admin-muted); font-weight:400; font-size:11px;">(comma-separated, e.g. 2026-08-03, 2026-08-04)</span></label>
+        <input type="text" id="evtPrepDates" class="admin-input" placeholder="2026-08-03, 2026-08-04, 2026-08-05">
       </div>
       <button class="admin-btn" id="btnSaveEvent">Save Event</button>
     </div>
@@ -896,20 +1057,20 @@
       </div>
       <p style="margin-top:0; color:var(--admin-muted);" id="detMemRole">Role - Dept</p>
       
-      <div class="admin-stats-grid" style="margin-bottom: 24px; gap: 12px; grid-template-columns: 1fr 1fr 1fr;">
-        <div class="admin-stat-card" style="padding: 12px;">
-          <div class="admin-stat-title" style="font-size: 10px;">Attended</div>
-          <div class="admin-stat-value" style="font-size: 20px;" id="detAttended">0</div>
+      <div class="admin-stats-grid" style="margin-bottom: 24px;">
+          <div class="admin-stat-card" style="padding: 12px; text-align: center;">
+            <div class="admin-stat-title" style="font-size: 10px;">Attended</div>
+            <div class="admin-stat-value" style="font-size: 20px; color: var(--admin-success);" id="detAttended">0</div>
+          </div>
+          <div class="admin-stat-card" style="padding: 12px; text-align: center;">
+            <div class="admin-stat-title" style="font-size: 10px;">Missed</div>
+            <div class="admin-stat-value" style="font-size: 20px; color: var(--admin-danger);" id="detMissed">0</div>
+          </div>
+          <div class="admin-stat-card" style="padding: 12px; text-align: center;">
+            <div class="admin-stat-title" style="font-size: 10px;">Rate</div>
+            <div class="admin-stat-value" style="font-size: 20px; color: var(--admin-primary);" id="detRate">N/A</div>
+          </div>
         </div>
-        <div class="admin-stat-card" style="padding: 12px;">
-          <div class="admin-stat-title" style="font-size: 10px;">Missed</div>
-          <div class="admin-stat-value" style="font-size: 20px;" id="detMissed">0</div>
-        </div>
-        <div class="admin-stat-card" style="padding: 12px;">
-          <div class="admin-stat-title" style="font-size: 10px;">Rate</div>
-          <div class="admin-stat-value" style="font-size: 20px;" id="detRate">0%</div>
-        </div>
-      </div>
 
       <h4 style="margin-bottom: 8px;">Attendance History</h4>
       <div class="admin-table-container">
@@ -965,6 +1126,7 @@
   <script src="js/admin_sponsors.js"></script>
   <script src="js/admin_finance.js"></script>
   <script src="js/admin_audit.js"></script>
+  <script src="js/admin_event_detail.js"></script>
 
 
 </body>

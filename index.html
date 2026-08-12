@@ -197,7 +197,6 @@
           <button class="timeline-node" data-year="2024" onclick="switchMagazine('2024')">2024</button>
           <button class="timeline-node" data-year="2025" onclick="switchMagazine('2025')">2025</button>
           <button class="timeline-node" data-year="2026" onclick="switchMagazine('2026')">2026</button>
-          <button class="timeline-node" data-year="events" onclick="switchMagazine('events')">Events</button>
         </div>
         
         <div class="magazine-stage">
@@ -228,9 +227,7 @@
     <section class="events" id="guests" style="padding-top: 40px; padding-bottom: 40px;">
       <div class="section-inner">
         <h2 class="section-title reveal-up" style="margin-bottom: 16px;">Guests</h2>
-        <div class="reveal-up" style="text-align: center; padding: 60px 40px; border: 1px dashed var(--line-strong); border-radius: 12px; color: var(--muted); font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase;">
-          Revealing Soon
-        </div>
+        <div id="guestsGrid" class="leadership-row" style="display: flex; justify-content: center;"></div>
       </div>
     </section>
 
@@ -256,29 +253,7 @@
       </div>
     </section>
 
-    <!-- ============ ZEROGRAVITY AT A GLANCE ============ -->
-    <section class="events" style="padding-top:0;" id="glance">
-      <div class="section-inner" style="border-top: 1px solid var(--line-strong); padding-top: 60px;">
-        <h2 class="section-title reveal-up">Building Experiences.<br>Creating Impact.</h2>
-        <p class="reveal-up" style="color:var(--muted); max-width:600px; margin-bottom:40px; font-size:18px;">
-          ZeroGravity is a dynamic student-driven community focused on creating engaging experiences, fostering collaboration, and delivering impactful events that connect students, innovators, and emerging talent.
-        </p>
-        <div class="admin-stats-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
-          <div class="admin-stat-card reveal-up" style="background:var(--panel-2); border:1px solid var(--line-strong); border-radius:12px; padding:24px; text-align:center;">
-            <div style="font-family:var(--font-display); font-size:48px; color:var(--blue); margin-bottom:8px;">10+</div>
-            <div style="color:var(--white); font-weight:600;">Events & Experiences Delivered</div>
-          </div>
-          <div class="admin-stat-card reveal-up" style="background:var(--panel-2); border:1px solid var(--line-strong); border-radius:12px; padding:24px; text-align:center;">
-            <div style="font-family:var(--font-display); font-size:48px; color:var(--yellow); margin-bottom:8px;">100+</div>
-            <div style="color:var(--white); font-weight:600;">Active Community Members</div>
-          </div>
-          <div class="admin-stat-card reveal-up" style="background:var(--panel-2); border:1px solid var(--line-strong); border-radius:12px; padding:24px; text-align:center;">
-            <div style="font-family:var(--font-display); font-size:48px; color:var(--red); margin-bottom:8px;">500+</div>
-            <div style="color:var(--white); font-weight:600;">Participants Engaged</div>
-          </div>
-        </div>
-      </div>
-    </section>
+
 
   </main>
 
@@ -360,63 +335,6 @@
     </div>
   </div>
 
-  <!-- ============ UPCOMING EVENTS POPUP ============ -->
-  <div class="event-popup-overlay" id="eventPopupOverlay" aria-hidden="true">
-    <div class="event-popup-modal">
-      <button class="event-popup-close" id="eventPopupClose" aria-label="Close popup">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12"/>
-        </svg>
-      </button>
-      
-      <div class="event-popup-header">
-        <h2 class="popup-title">Upcoming Events</h2>
-        <p class="popup-subtitle">Mark your calendars</p>
-      </div>
-      
-      <div class="event-popup-list">
-        <div class="event-popup-item">
-          <div class="event-popup-date">18 AUG</div>
-          <div class="event-popup-details">
-            <h4>CLOUDPULSE — Enter the Future of Intelligent Computing AI and Data</h4>
-            <p>Session on AI, Cloud, and Data</p>
-          </div>
-        </div>
-        
-        <div class="event-popup-item">
-          <div class="event-popup-date">07-08 SEP</div>
-          <div class="event-popup-details">
-            <h4>Technical Workshop</h4>
-            <p>2026 (Tentative)</p>
-          </div>
-        </div>
-        
-        <div class="event-popup-item">
-          <div class="event-popup-date">29-30 SEP</div>
-          <div class="event-popup-details">
-            <h4>TechnoSpark</h4>
-            <p>2026 (Tentative)</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="event-popup-actions">
-        <button onclick="document.getElementById('eventPopupOverlay').classList.remove('is-active'); document.getElementById('pdfPopupOverlay').classList.add('is-active');" class="btn btn-primary popup-btn">View More <span class="arrow">→</span></button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ PDF VIEWER POPUP ============ -->
-  <div class="pdf-popup-overlay" id="pdfPopupOverlay" aria-hidden="true">
-    <div class="pdf-popup-modal">
-      <button class="event-popup-close" id="pdfPopupClose" aria-label="Close PDF viewer">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12"/>
-        </svg>
-      </button>
-      <div id="pdfPopupContainer" class="pdf-popup-container"></div>
-    </div>
-  </div>
 
   <script src="js/script.js"></script>
 </body>

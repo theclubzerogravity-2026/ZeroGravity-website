@@ -1,7 +1,7 @@
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts"
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-serve(async (req) => {
+serve(async (req: Request) => {
   try {
     // We only accept POST (or allow GET for testing/cron)
     
@@ -43,10 +43,11 @@ serve(async (req) => {
     
     const isFinalCheck = (hr === 23 && min >= 45);
 
-    // 1. Get all events happening today
+    // 1. Get all non-cancelled events happening today
     const { data: events, error: eventsErr } = await supabase
       .from('events')
-      .select('id, name')
+      .select('id, name, status')
+      .neq('status', 'cancelled')
       .lte('event_date', todayIST)
       .gte('end_date', todayIST);
       

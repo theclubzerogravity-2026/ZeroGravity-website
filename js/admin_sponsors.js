@@ -27,6 +27,7 @@ window.renderSponsors = async function() {
       <td>${escapeHTML(s.domain || '-')}</td>
       <td>
         <button class="admin-btn small secondary" onclick="editSponsor('${s.id}')">Edit</button>
+        <button class="admin-btn small danger" style="margin-left:4px;" onclick="deleteSponsor('${s.id}', '${escapeHTML(s.company_name).replace(/'/g, "\\'")}')" >Delete</button>
       </td>
     </tr>
   `).join('');
@@ -36,7 +37,7 @@ window.editSponsor = async function(id) {
   currentSponsorId = id;
   const { data, error } = await sb.from('sponsors').select('*').eq('id', id).single();
   if (error) {
-    await customAlert();
+    await customAlert('Failed to load sponsor details.', 'Error');
     return;
   }
   
@@ -55,7 +56,7 @@ document.getElementById('btnSaveSponsor')?.addEventListener('click', async () =>
   const mobile = document.getElementById('sponsorMobile').value.trim();
   const domain = document.getElementById('sponsorDomain').value.trim();
   
-  if (!name) { await customAlert(); return; }
+  if (!name) { await customAlert('Please enter a company name.', 'Missing Field'); return; }
   
   const payload = {
     company_name: name,
@@ -79,7 +80,7 @@ document.getElementById('btnSaveSponsor')?.addEventListener('click', async () =>
     closeModal('modalAddSponsor');
     window.renderSponsors();
   } catch (err) {
-    await customAlert();
+    await customAlert('Failed to save sponsor. Check the console for details.', 'Error');
     console.error("Sponsor save error:", err);
   }
 });
@@ -96,4 +97,18 @@ window.openModal = function(id) {
     document.querySelector('#modalAddSponsor .admin-modal-title').textContent = 'Add Sponsor';
   }
   originalOpenModalSponsor(id);
+};
+window.deleteSponsor = async function(id, name) {
+  if (!(await customConfirm(`Are you sure you want to delete sponsor "${name}"? Any associated sponsorship records will also be removed.`, 'Delete Sponsor'))) return;
+
+  try {
+    const { error } = await sb.from('sponsors').delete().eq('id', id);
+    if (error) throw error;
+    auditLog('deleted', 'sponsors', id, { company_name: name });
+    if (window.showToast) window.showToast('Sponsor deleted', 'success');
+    window.renderSponsors();
+  } catch (err) {
+    console.error('Sponsor delete error:', err);
+    await customAlert('Failed to delete sponsor: ' + (err.message || 'Unknown error'), 'Error');
+  }
 };
