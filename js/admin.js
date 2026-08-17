@@ -790,7 +790,6 @@ window.deleteEvent = async function(id) {
 function deriveEventStatus(event) {
   // Manual overrides take priority
   if (event.status === 'cancelled') return 'cancelled';
-  if (event.status === 'archived') return 'archived';
   if (event.status === 'draft') return 'draft';
 
   // Date-based derivation using IST
@@ -931,11 +930,11 @@ window.duplicateEvent = async function(id) {
 };
 
 window.deleteEvent = async function(id) {
-  if (!await customConfirm('Are you sure you want to soft-delete this event? It will be archived to prevent breaking related data.')) return;
+  if (!await customConfirm('Are you sure you want to permanently delete this event? This action cannot be undone and will delete all related records.')) return;
   try {
-    const { error } = await sb.from('events').update({ status: 'archived' }).eq('id', id);
+    const { error } = await sb.from('events').delete().eq('id', id);
     if (error) throw error;
-    showToast('Event archived successfully', 'success');
+    showToast('Event completely deleted successfully', 'success');
     renderEvents();
   } catch (err) {
     showToast(err.message, 'error');
