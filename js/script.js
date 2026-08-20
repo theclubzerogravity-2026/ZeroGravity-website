@@ -40,7 +40,40 @@ const GUESTS = [
 
 const EVENTS = [
   {
-    tag: 'FLAGSHIP · 2-DAY EVENT', title: 'TechnoSpark',
+    tag: '18 AUG', title: 'CLOUDPULSE',
+    desc: 'Enter the Future of Intelligent Computing AI and Data. Session on AI, Cloud, and Data.',
+    img: 'CloudPulse/IMG_4828.jpg',
+    gallery: [
+      "CloudPulse/IMG_4828.jpg",
+      "CloudPulse/IMG_4829.jpg",
+      "CloudPulse/IMG_4830.jpg",
+      "CloudPulse/IMG_4831.jpg",
+      "CloudPulse/IMG_4832.jpg",
+      "CloudPulse/IMG_4834.jpg",
+      "CloudPulse/IMG_4846.jpg",
+      "CloudPulse/IMG_4858.jpg",
+      "CloudPulse/IMG_4859.jpg",
+      "CloudPulse/IMG_4860.jpg",
+      "CloudPulse/IMG_4861.jpg",
+      "CloudPulse/IMG_4873.jpg",
+      "CloudPulse/IMG_4874.jpg",
+      "CloudPulse/IMG_4877.jpg",
+      "CloudPulse/IMG_4881.jpg",
+      "CloudPulse/IMG_4883.jpg",
+      "CloudPulse/IMG_4886.jpg",
+      "CloudPulse/IMG_4888.jpg",
+      "CloudPulse/IMG_4889.jpg",
+      "CloudPulse/IMG_4891.jpg",
+      "CloudPulse/IMG_4899.jpg",
+      "CloudPulse/IMG_7787.jpg",
+      "CloudPulse/IMG_7788.jpg",
+      "CloudPulse/IMG_7789.jpg",
+      "CloudPulse/IMG_7790.jpg",
+      "CloudPulse/IMG_7818.jpg"
+    ]
+  },
+  {
+    tag: 'FLAGSHIP · 2-DAY EVENT', title: 'TechnoSpark 2k24',
     desc: 'A two-day celebration of technology and teamwork featuring expert IT seminars, hands-on workshops, project competitions, coding challenges, indoor games, and sports events including Box Cricket, Badminton, Chess, Carrom, and more.',
     img: 'Technospark/WhatsApp Image 2026-08-02 at 16.38.46 (1).jpeg',
     gallery: [
@@ -73,7 +106,7 @@ const EVENTS = [
     ]
   },
   {
-    tag: 'TALKS', title: 'Sessions',
+    tag: 'TALKS', title: 'Git and GitHub Workshop',
     desc: 'Expert sessions on placement preparation, Git & GitHub, AI, emerging technologies, resume building, interview skills, and inspiring talks by startup founders and industry professionals.',
     img: 'GitHub/WhatsApp Image 2026-08-02 at 16.34.23.jpeg',
     gallery: [
@@ -153,7 +186,7 @@ const EVENTS = [
     ]
   },
   {
-    tag: 'IDEATION', title: 'Innovio',
+    tag: 'IDEATION', title: 'Innovio 2k25',
     desc: 'A premier inter-college project showcase where teams present innovative ideas, working prototypes, and real-world solutions while competing for recognition, prizes, and expert feedback.',
     img: 'Innovio/WhatsApp Image 2026-08-02 at 15.26.58.jpeg',
     gallery: [

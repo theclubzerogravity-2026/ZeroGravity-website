@@ -945,3 +945,29 @@ window.deleteEvent = async function(id) {
 // INIT
 // ─────────────────────────────────────────────
 checkSession();
+
+// Mobile Hamburger Menu Logic
+const btnHamburger = document.getElementById('btnHamburger');
+const adminNav = document.querySelector('.admin-nav');
+
+if (btnHamburger && adminNav) {
+  btnHamburger.addEventListener('click', () => {
+    adminNav.classList.toggle('mobile-open');
+  });
+
+  // Close menu when clicking a nav item on mobile
+  document.querySelectorAll('.admin-nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+      adminNav.classList.remove('mobile-open');
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (adminNav.classList.contains('mobile-open') && 
+        !adminNav.contains(e.target) && 
+        !btnHamburger.contains(e.target)) {
+      adminNav.classList.remove('mobile-open');
+    }
+  });
+}
