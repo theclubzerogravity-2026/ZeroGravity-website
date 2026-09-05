@@ -17,6 +17,7 @@
 
   <link rel="icon" href="assets/images/logos/astronaut.png" type="image/png">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/technospark.css">
 
   <!-- PDF.js & StPageFlip for 3D Magazine -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
@@ -26,7 +27,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 </head>
 
-<body>
+<body class="technospark-page">
 
   <!-- ============ PRELOADER ============ -->
   <div id="preloader" aria-hidden="true">
@@ -94,181 +95,156 @@
   </div>
 
   <main id="top">
-
     <!-- ============ HERO ============ -->
-    <section class="hero" id="hero">
-      <canvas id="starfield" class="starfield"></canvas>
-      <div class="hero-grid-overlay" aria-hidden="true"></div>
-
-      <div class="hero-bg hero-bg-dim" aria-hidden="true"></div>
-      <div class="hero-bg hero-bg-sharp" id="heroSpotlight" aria-hidden="true"></div>
-      <div class="hero-scrim" aria-hidden="true"></div>
-
-      <div class="hero-content">
-        <p class="eyebrow reveal-up"><span class="dot"></span>DEPT. OF INFORMATION TECHNOLOGY — SKNCOE, PUNE</p>
-        <h1 class="hero-title reveal-up" style="--d:1">
-          <span class="line">ZERO</span>
-          <span class="line accent-outline">GRAVITY</span>
-        </h1>
-        <p class="hero-tagline reveal-up" style="--d:2">COLLABORATE &nbsp;·&nbsp; LEARN &nbsp;·&nbsp; INNOVATE</p>
-        <p class="hero-sub reveal-up" style="--d:3">The official club of the IT Department — where students
-          break orbit from the ordinary and build what's next.</p>
-        <div class="hero-actions reveal-up" style="--d:4">
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSc1SPpZSj6PO8xCcBF_iml9N-ELFkR-QLSEeaFvonpDVKirDQ/viewform"
-            target="_blank" rel="noopener" class="btn btn-primary">Register to Join <span class="arrow">→</span></a>
-          <a href="#events" class="btn btn-ghost">Explore Events</a>
-        </div>
-        <div class="reveal-up" style="--d:5; margin-top: 28px; display: flex; justify-content: center; width: 100%;">
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSeX9KqWief9RfUxIGEn-XeJoLq5yaL6dIb-l7nqhUW5osJu3A/viewform" target="_blank" rel="noopener" class="btn-technospark-banner">
-            <img src="technospark/technospark.png?v=4" alt="TechnoSpark 2K26" class="ts-logo-img">
-            <span class="ts-banner-date">29 & 30 SEPTEMBER 2026</span>
-            <span class="ts-banner-cta">REGISTER NOW</span>
-          </a>
-        </div>
-      </div>
-
-      <a href="#about" class="scroll-cue" aria-label="Scroll to About">
-        <span>SCROLL</span>
-        <span class="scroll-line"></span>
-      </a>
-    </section>
-
-    <!-- ============ ABOUT ============ -->
-    <section class="about" id="about">
-      <div class="section-inner">
-        <h2 class="section-title reveal-up">About the Club</h2>
-      <div class="about-grid">
-          <div class="about-copy reveal-up">
-            <p><span class="zg-large">ZeroGravity</span> is the official club of the <strong>Department of Information Technology</strong>, Smt. Kashibai Navale College of Engineering. We provide a platform where students transform ideas into practical skills through innovation, collaboration, leadership, and real-world experiences.</p>
-            <p>Our mission is to bridge the gap between classroom learning and industry expectations by organizing technical, professional, and community-driven initiatives throughout the academic year. Whether you're an aspiring developer, designer, leader, or innovator, ZeroGravity offers opportunities to learn, compete, and grow beyond the curriculum.</p>
-          </div>
-
-          <div class="what-we-do reveal-up">
-            <h3 class="what-we-do-title">What We Do</h3>
-            <ul class="what-we-do-list">
-              <li><strong>🚀 Technology Sessions</strong> — Hands-on workshops on emerging technologies, AI, cybersecurity, cloud computing, web development, and modern software tools.</li>
-              <li><strong>💼 Career & Placement Readiness</strong> — Expert talks, resume-building sessions, mock interviews, aptitude preparation, and guidance from industry professionals.</li>
-              <li><strong>💡 Innovation Challenges</strong> — Project competitions, ideathons, coding contests, hackathons, and technical showcases that encourage creativity and problem-solving.</li>
-              <li><strong>🎯 TechnoSpark</strong> — Our flagship experience where technology meets team spirit through technical challenges, indoor games, sports activities, fun competitions, and collaborative events that strengthen leadership, teamwork, and communication.</li>
-              <li><strong>🌟 Student Development</strong> — Leadership opportunities, event management experience, networking, mentoring, and personality development through club activities.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="about-stats-grid reveal-up">
-          <div class="about-stat-col">
-            <div class="stat-number" style="color: var(--blue);">30+</div>
-            <div class="stat-label">Active Members</div>
-          </div>
-          <div class="about-stat-col">
-            <div class="stat-number" style="color: var(--red);">10+</div>
-            <div class="stat-label">Events Till Now</div>
-          </div>
-          <div class="about-stat-col">
-            <div class="stat-number" style="color: var(--yellow);">350+</div>
-            <div class="stat-label">Participants</div>
-          </div>
-          <div class="about-stat-col">
-            <div class="stat-number" style="color: var(--blue-2);">5000+</div>
-            <div class="stat-label">Footfall</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ CORE TEAM ============ -->
-    <section class="core-team" id="core-team">
-      <div class="section-inner">
-        <h2 class="section-title reveal-up">The Core Team</h2>
-
-        <div id="leadershipRow" class="leadership-row"></div>
-        <div style="display: flex; justify-content: center;">
-          <button id="coreTeamMoreBtn" class="btn btn-ghost mobile-only reveal-up" style="margin-top: 32px;">Tap to see more <span class="arrow">↓</span></button>
-        </div>
-        <div id="deptGrid" class="dept-grid"></div>
-      </div>
-    </section>
-
-    <!-- ============ WHAT WE DID (TIMELINE & MAGAZINE) ============ -->
-    <section class="timeline cinematic" id="magazine">
-      <div class="cinematic-bg">
-        <div class="cinematic-stars"></div>
-        <div class="cinematic-particles"></div>
-      </div>
+    <section class="ts-hero" id="ts-hero">
+      <div class="ts-hero-bg"></div>
+      <div class="ts-hero-halftone"></div>
+      <div class="ts-hero-grid"></div>
       
-      <div class="section-inner">
-        <h2 class="section-title reveal-up">What We Did</h2>
-        <p class="section-lede reveal-up">Explore our annual magazines. Click the book to expand.</p>
+      <div class="ts-hero-content reveal-up">
+        <h1 class="ts-hero-title">TECHNOSPARK</h1>
+        <h2 class="ts-hero-year">2K26</h2>
+        <p class="ts-hero-tagline">THE FLAGSHIP TECHNOLOGY & CULTURAL FEST</p>
         
-        <div class="timeline-track reveal-up">
-          <div class="timeline-line"></div>
-          <button class="timeline-node" data-year="2024" onclick="switchMagazine('2024')">2024</button>
-          <button class="timeline-node" data-year="2025" onclick="switchMagazine('2025')">2025</button>
-          <button class="timeline-node" data-year="2026" onclick="switchMagazine('2026')">2026</button>
+        <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+          <button class="btn-ts-primary" onclick="window.location.href=TECHNOSPARK_REGISTRATION_URL">REGISTER NOW</button>
+          <a href="#ts-events" class="btn btn-ghost" style="padding: 12px 30px; font-size: 16px; border-color: var(--ts-border); color: var(--white);">EXPLORE EVENTS</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT TECHNOSPARK ============ -->
+    <section class="ts-section" id="ts-about">
+      <div class="ts-diagonal-top"></div>
+      <div class="section-inner">
+        <h2 class="ts-section-title reveal-up">ABOUT TECHNOSPARK</h2>
+        <div class="reveal-up" style="max-width: 800px; color: var(--muted); font-size: 18px; line-height: 1.6;">
+          --
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EVENT INFORMATION ============ -->
+    <section class="ts-section" id="ts-info" style="background: var(--panel-2);">
+      <div class="section-inner">
+        <h2 class="ts-section-title reveal-up">EVENT INFORMATION</h2>
+        
+        <div class="ts-info-grid reveal-up">
+          <div class="ts-card">
+            <div class="ts-card-label">EVENT DATE</div>
+            <div class="ts-card-value">--</div>
+          </div>
+          <div class="ts-card">
+            <div class="ts-card-label">VENUE</div>
+            <div class="ts-card-value">--</div>
+          </div>
+          <div class="ts-card">
+            <div class="ts-card-label">ORGANIZED BY</div>
+            <div class="ts-card-value">ZeroGravity — IT Department</div>
+          </div>
+          <div class="ts-card">
+            <div class="ts-card-label">EVENT DESCRIPTION</div>
+            <div class="ts-card-value">--</div>
+          </div>
+        </div>
+
+        <h3 style="font-family: var(--ts-font-display); font-size: 32px; color: var(--white); margin-top: 60px; margin-bottom: 20px;" class="reveal-up">EVENT HIGHLIGHTS</h3>
+        <div class="reveal-up" style="color: var(--muted); font-size: 16px; line-height: 1.6;">
+          --
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EVENTS (CATEGORIES) ============ -->
+    <section class="ts-section" id="ts-events">
+      <div class="ts-diagonal-top"></div>
+      <div class="section-inner">
+        <h2 class="ts-section-title reveal-up">EVENTS</h2>
+        
+        <div style="margin-bottom: 40px;" class="reveal-up">
+          <h3 style="font-family: var(--ts-font-display); font-size: 32px; color: var(--ts-yellow); margin-bottom: 16px;">TECHNICAL EVENTS</h3>
+          <div style="color: var(--muted); font-size: 16px;">--</div>
+        </div>
+
+        <div style="margin-bottom: 40px;" class="reveal-up">
+          <h3 style="font-family: var(--ts-font-display); font-size: 32px; color: var(--ts-yellow); margin-bottom: 16px;">NON-TECHNICAL EVENTS</h3>
+          <div style="color: var(--muted); font-size: 16px;">--</div>
         </div>
         
-        <div class="magazine-stage">
-          <div class="magazine-loading" id="magazineLoading">
-            <div class="magazine-spinner"></div>
-            Loading... <span id="magazineProgress">0</span>%
-          </div>
-          <div class="flip-book-wrapper cinematic-entrance" id="flipBookWrapper" style="opacity:0; pointer-events:none;">
-            <div id="flipBook" class="flip-book hardcover-book">
-              <!-- Pages injected dynamically -->
-            </div>
-            <div class="book-shadow"></div>
-          </div>
+        <div style="margin-bottom: 40px;" class="reveal-up">
+          <h3 style="font-family: var(--ts-font-display); font-size: 32px; color: var(--ts-yellow); margin-bottom: 16px;">TECHNICAL SESSIONS</h3>
+          <div style="color: var(--muted); font-size: 16px;">--</div>
+        </div>
+
+        <div style="margin-bottom: 60px;" class="reveal-up">
+          <h3 style="font-family: var(--ts-font-display); font-size: 32px; color: var(--ts-yellow); margin-bottom: 16px;">COMPETITIONS</h3>
+          <div style="color: var(--muted); font-size: 16px;">--</div>
+        </div>
+
+        <!-- The Indoor/Outdoor games will be rendered here by JS -->
+        <div id="gamesCategoriesContainer" class="reveal-up"></div>
+
+      </div>
+    </section>
+
+    <!-- ============ EVENT SCHEDULE ============ -->
+    <section class="ts-section" id="ts-schedule" style="background: var(--panel-2);">
+      <div class="section-inner">
+        <h2 class="ts-section-title reveal-up">EVENT SCHEDULE</h2>
+        <div class="reveal-up" style="overflow-x: auto;">
+          <table class="ts-schedule-table">
+            <thead>
+              <tr>
+                <th>Day</th>
+                <th>Date</th>
+                <th>Events</th>
+              </tr>
+            </thead>
+            <tbody id="tsScheduleBody">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
 
-    <!-- ============ EVENTS ============ -->
-    <section class="events" id="events">
+    <!-- ============ RULES & GUIDELINES ============ -->
+    <section class="ts-section" id="ts-rules">
+      <div class="ts-diagonal-top"></div>
       <div class="section-inner">
-        <h2 class="section-title reveal-up">What We Run</h2>
-
-        <div id="eventsGrid" class="events-grid"></div>
-      </div>
-    </section>
-
-    <!-- ============ GUESTS ============ -->
-    <section class="events" id="guests" style="padding-top: 40px; padding-bottom: 40px;">
-      <div class="section-inner">
-        <h2 class="section-title reveal-up" style="margin-bottom: 16px;">Guests</h2>
-        <div id="guestsGrid" class="leadership-row" style="display: flex; justify-content: center;"></div>
-      </div>
-    </section>
-
-    <!-- ============ SPONSORS ============ -->
-    <section class="events" id="sponsors" style="padding-top: 0px; padding-bottom: 80px;">
-      <div class="section-inner">
-        <h2 class="section-title reveal-up" style="margin-bottom: 16px;">Our Sponsors</h2>
-        <div class="reveal-up sponsors-grid" style="display: flex; justify-content: center; align-items: center; padding: 40px; gap: 2rem; flex-wrap: wrap;">
-          <a href="https://www.benchmarkespl.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: 12px; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-            <img src="assets/images/logos/sponsor%20Logo.png" alt="BenchMark Engicon Solutions Logo" style="max-height: 160px; object-fit: contain; border-radius: 8px;">
-            <div style="text-align: center; display: flex; flex-direction: column; gap: 4px;">
-              <span style="color: #f8fafc; font-size: 1.1rem; font-weight: 600;">BenchMark Engicon Solutions</span>
-              <span style="color: var(--muted); font-size: 1rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;">Infrastructure Partner</span>
-              <span style="color: var(--muted); font-size: 0.8rem; opacity: 0.6; text-decoration: underline;">Visit Website</span>
-            </div>
-          </a>
+        <h2 class="ts-section-title reveal-up">RULES & GUIDELINES</h2>
+        <div class="reveal-up" style="max-width: 800px; color: var(--muted); font-size: 16px; line-height: 1.6;">
+          --
         </div>
       </div>
     </section>
 
-    <!-- ============ REGISTER CTA ============ -->
-  <section class="register-cta">
-    <div class="register-inner">
-      <div class="register-grid-overlay" aria-hidden="true"></div>
-      <h2 class="register-title reveal-up">Ready to leave orbit?</h2>
-      <p class="register-sub reveal-up">Register to be a part of ZeroGravity Family.</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc1SPpZSj6PO8xCcBF_iml9N-ELFkR-QLSEeaFvonpDVKirDQ/viewform"
-          target="_blank" rel="noopener" class="btn btn-primary btn-lg reveal-up">Open Registration Form <span
-            class="arrow">→</span></a>
+    <!-- ============ FAQ ============ -->
+    <section class="ts-section" id="ts-faq" style="background: var(--panel-2);">
+      <div class="section-inner">
+        <h2 class="ts-section-title reveal-up">FAQ</h2>
+        <div class="reveal-up" style="max-width: 800px;" id="tsFaqContainer">
+          <!-- Injected by JS -->
+        </div>
       </div>
     </section>
 
+    <!-- ============ CONTACT / ORGANIZERS ============ -->
+    <section class="ts-section" id="ts-contact">
+      <div class="ts-diagonal-top"></div>
+      <div class="section-inner">
+        <h2 class="ts-section-title reveal-up">CONTACT / ORGANIZERS</h2>
+        <div class="ts-info-grid reveal-up" id="tsContactContainer">
+          <!-- Injected by JS -->
+        </div>
+      </div>
+    </section>
 
-
+    <!-- ============ BOTTOM CTA ============ -->
+    <section class="ts-section" style="text-align: center; border-bottom: none; padding-bottom: 120px;">
+      <h2 style="font-family: var(--ts-font-display); font-size: clamp(30px, 5vw, 50px); color: var(--white); margin-bottom: 40px; text-transform: uppercase;">READY TO JOIN THE BATTLE?</h2>
+      <button class="btn-ts-primary" onclick="window.location.href=TECHNOSPARK_REGISTRATION_URL">REGISTER NOW</button>
+    </section>
   </main>
 
   <!-- ============ FOOTER ============ -->
@@ -355,8 +331,8 @@
       </button>
       
       <div class="event-popup-header">
-        <img src="technospark/technospark.png?v=4" alt="TechnoSpark 2K26" class="ts-popup-logo">
-        <h2 class="popup-title">29 AND 30TH SEPTEMBER</h2>
+        <h2 class="popup-title">Upcoming Events</h2>
+        <p class="popup-subtitle">TechnoSpark 2K26 Games</p>
       </div>
       
       <div class="games-categories-container" id="gamesCategoriesContainer">

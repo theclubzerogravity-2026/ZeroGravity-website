@@ -1029,21 +1029,167 @@ if (magClose) {
   });
 }
 
-/* ============ UPCOMING EVENTS POPUP ============ */
+/* ============ UPCOMING EVENTS POPUP (GAMES) ============ */
 const eventPopupOverlay = document.getElementById('eventPopupOverlay');
+const mainGamesModal = document.getElementById('mainGamesModal');
+const gameDetailsModal = document.getElementById('gameDetailsModal');
 const eventPopupClose = document.getElementById('eventPopupClose');
+const gameDetailsClose = document.getElementById('gameDetailsClose');
+const gameDetailsBack = document.getElementById('gameDetailsBack');
+const gamesCategoriesContainer = document.getElementById('gamesCategoriesContainer');
 
-if (eventPopupOverlay && eventPopupClose) {
-  eventPopupClose.addEventListener('click', () => {
+if (gamesCategoriesContainer) {
+  let html = '';
+  
+  // Indoor Games
+  html += `
+    <div class="games-category">
+      <h3 class="games-category-title">INDOOR GAMES</h3>
+      <div class="games-grid">
+        ${GAMES_DATA.indoor.map(g => `
+          <div class="game-card">
+            <h4 class="game-card-title">${g.name}</h4>
+            <p class="game-card-desc">${g.desc}</p>
+            <div class="game-card-info">
+              <span><strong>Date:</strong> ${g.info.date}</span>
+              <span><strong>Registration Fee:</strong> ${g.info.fee}</span>
+              <span><strong>Prize Worth:</strong> ${g.info.prize}</span>
+            </div>
+            <button class="btn btn-ghost" onclick="openGameDetails('indoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  
+  // Outdoor Games
+  html += `
+    <div class="games-category">
+      <h3 class="games-category-title">OUTDOOR GAMES</h3>
+      <div class="games-grid">
+        ${GAMES_DATA.outdoor.map(g => `
+          <div class="game-card">
+            <h4 class="game-card-title">${g.name}</h4>
+            <p class="game-card-desc">${g.desc}</p>
+            <div class="game-card-info">
+              <span><strong>Date:</strong> ${g.info.date}</span>
+              <span><strong>Registration Fee:</strong> ${g.info.fee}</span>
+              <span><strong>Prize Worth:</strong> ${g.info.prize}</span>
+            </div>
+            <button class="btn btn-ghost" onclick="openGameDetails('outdoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  
+  gamesCategoriesContainer.innerHTML = html;
+}
+
+window.openGameDetails = function(category, gameId) {
+  const game = GAMES_DATA[category].find(g => g.id === gameId);
+  if (!game) return;
+  
+  document.getElementById('detailGameTitle').textContent = game.name;
+  document.getElementById('detailGameSubtitle').textContent = game.desc;
+  
+  let infoHtml = '';
+  for (const [key, value] of Object.entries(game.info)) {
+    let label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+    if (key === 'participants') label = 'Participants';
+    if (key === 'teamSize') label = 'Team Size';
+    infoHtml += `
+      <div class="game-info-item">
+        <span class="game-info-label">${label}</span>
+        <span class="game-info-value">${value}</span>
+      </div>
+    `;
+  }
+  document.getElementById('detailGameInfoGrid').innerHTML = infoHtml;
+  
+  document.getElementById('detailGameRules').innerHTML = 'Rules will be updated soon';
+  document.getElementById('detailGameImportant').innerHTML = game.info.important || '--';
+  
+  if (mainGamesModal && gameDetailsModal) {
+    mainGamesModal.style.display = 'none';
+    gameDetailsModal.style.display = 'block';
+  }
+};
+
+if (eventPopupOverlay) {
+  const closePopup = () => {
     eventPopupOverlay.classList.remove('is-active');
+    setTimeout(() => {
+      if (mainGamesModal && gameDetailsModal) {
+        gameDetailsModal.style.display = 'none';
+        mainGamesModal.style.display = 'block';
+      }
+    }, 400); // Wait for transition
+  };
+
+  eventPopupClose?.addEventListener('click', closePopup);
+  gameDetailsClose?.addEventListener('click', closePopup);
+  
+  gameDetailsBack?.addEventListener('click', () => {
+    if (mainGamesModal && gameDetailsModal) {
+      gameDetailsModal.style.display = 'none';
+      mainGamesModal.style.display = 'block';
+    }
   });
 
   eventPopupOverlay.addEventListener('click', (e) => {
     if (e.target === eventPopupOverlay) {
-      eventPopupOverlay.classList.remove('is-active');
+      closePopup();
     }
   });
 }
+
+/* ============ TECHNOSPARK PAGE DYNAMIC RENDER ============ */
+document.addEventListener('DOMContentLoaded', () => {
+  // Render Schedule
+  const tsScheduleBody = document.getElementById('tsScheduleBody');
+  if (tsScheduleBody && typeof TECHNOSPARK_SCHEDULE !== 'undefined') {
+    tsScheduleBody.innerHTML = TECHNOSPARK_SCHEDULE.map(s => `
+      <tr>
+        <td><strong>${s.day}</strong></td>
+        <td>${s.date}</td>
+        <td>${s.events}</td>
+      </tr>
+    `).join('');
+  }
+
+  // Render FAQ
+  const tsFaqContainer = document.getElementById('tsFaqContainer');
+  if (tsFaqContainer && typeof TECHNOSPARK_FAQ !== 'undefined') {
+    tsFaqContainer.innerHTML = TECHNOSPARK_FAQ.map((faq, idx) => `
+      <div class="ts-accordion-item">
+        <button class="ts-accordion-header" onclick="this.parentElement.classList.toggle('is-open')">
+          <span>${faq.question}</span>
+          <span class="ts-accordion-icon">+</span>
+        </button>
+        <div class="ts-accordion-content">
+          <div class="ts-accordion-inner">${faq.answer}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Render Contact
+  const tsContactContainer = document.getElementById('tsContactContainer');
+  if (tsContactContainer && typeof TECHNOSPARK_CONTACT !== 'undefined') {
+    tsContactContainer.innerHTML = TECHNOSPARK_CONTACT.map(c => `
+      <div class="ts-card">
+        <div class="ts-card-label">${c.role}</div>
+        <div class="ts-card-value">${c.name}</div>
+        <div style="margin-top: 16px; color: var(--muted); font-size: 14px; font-family: var(--font-mono);">
+          <div>Email: <a href="mailto:${c.email}" style="color: var(--ts-yellow);">${c.email}</a></div>
+          <div>Phone: <a href="tel:${c.phone}" style="color: var(--ts-yellow);">${c.phone}</a></div>
+          <div>Social: ${c.social}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+});
 
 const pdfPopupOverlay = document.getElementById('pdfPopupOverlay');
 const pdfPopupClose = document.getElementById('pdfPopupClose');
