@@ -74,7 +74,7 @@ const EVENTS = [
   },
   {
     tag: 'FLAGSHIP · 2-DAY EVENT', title: 'TechnoSpark 2k24',
-    desc: 'A two-day celebration of technology and teamwork featuring expert IT seminars, hands-on workshops, project competitions, coding challenges, indoor games, and sports events including Box Cricket, Badminton, Chess, Carrom, and more.',
+    desc: 'A two-day celebration of technology and teamwork featuring expert IT seminars, hands-on workshops, project competitions, coding challenges, indoor activities, and sports events including Box Cricket, Badminton, Chess, Carrom, and more.',
     img: 'Technospark/WhatsApp Image 2026-08-02 at 16.38.46 (1).jpeg',
     gallery: [
       "Technospark/WhatsApp Image 2026-08-02 at 16.38.46 (1).jpeg",
@@ -1029,8 +1029,9 @@ if (magClose) {
   });
 }
 
-/* ============ UPCOMING EVENTS POPUP (GAMES) ============ */
+/* ============ UPCOMING EVENTS POPUP (ACTIVITIES) ============ */
 const eventPopupOverlay = document.getElementById('eventPopupOverlay');
+const technosparkBannerCta = document.getElementById('technosparkBannerCta');
 const mainGamesModal = document.getElementById('mainGamesModal');
 const gameDetailsModal = document.getElementById('gameDetailsModal');
 const eventPopupClose = document.getElementById('eventPopupClose');
@@ -1041,19 +1042,19 @@ const gamesCategoriesContainer = document.getElementById('gamesCategoriesContain
 if (gamesCategoriesContainer) {
   let html = '';
   
-  // Indoor Games
+  // Indoor Activities
   html += `
     <div class="games-category">
-      <h3 class="games-category-title">INDOOR GAMES</h3>
+      <h3 class="games-category-title">INDOOR ACTIVITIES</h3>
       <div class="games-grid">
         ${GAMES_DATA.indoor.map(g => `
-          <div class="game-card">
+          <div class="game-card${g.id === 'technical-sessions' ? ' game-card--featured' : ''}">
             <h4 class="game-card-title">${g.name}</h4>
             <p class="game-card-desc">${g.desc}</p>
             <div class="game-card-info">
               <span><strong>Date:</strong> ${g.info.date}</span>
-              <span><strong>Registration Fee:</strong> ${g.info.fee}</span>
-              <span><strong>Prize Worth:</strong> ${g.info.prize}</span>
+              <span><strong>Entry Fee:</strong> ${g.info.fee}</span>
+              <span><strong>${g.id === 'technical-sessions' ? 'Speaker Details' : 'Prize Worth'}:</strong> ${g.id === 'technical-sessions' ? g.info.speakerDetails : g.info.prize}</span>
             </div>
             <button class="btn btn-ghost" onclick="openGameDetails('indoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
           </div>
@@ -1062,10 +1063,10 @@ if (gamesCategoriesContainer) {
     </div>
   `;
   
-  // Outdoor Games
+  // Outdoor Activities
   html += `
     <div class="games-category">
-      <h3 class="games-category-title">OUTDOOR GAMES</h3>
+      <h3 class="games-category-title">OUTDOOR ACTIVITIES</h3>
       <div class="games-grid">
         ${GAMES_DATA.outdoor.map(g => `
           <div class="game-card">
@@ -1073,8 +1074,8 @@ if (gamesCategoriesContainer) {
             <p class="game-card-desc">${g.desc}</p>
             <div class="game-card-info">
               <span><strong>Date:</strong> ${g.info.date}</span>
-              <span><strong>Registration Fee:</strong> ${g.info.fee}</span>
-              <span><strong>Prize Worth:</strong> ${g.info.prize}</span>
+              <span><strong>Entry Fee:</strong> ${g.info.fee}</span>
+              <span><strong>${g.id === 'technical-sessions' ? 'Speaker Details' : 'Prize Worth'}:</strong> ${g.id === 'technical-sessions' ? g.info.speakerDetails : g.info.prize}</span>
             </div>
             <button class="btn btn-ghost" onclick="openGameDetails('outdoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
           </div>
@@ -1117,6 +1118,11 @@ window.openGameDetails = function(category, gameId) {
 };
 
 if (eventPopupOverlay) {
+  technosparkBannerCta?.addEventListener('click', (e) => {
+    e.preventDefault();
+    eventPopupOverlay.classList.add('is-active');
+  });
+
   const closePopup = () => {
     eventPopupOverlay.classList.remove('is-active');
     setTimeout(() => {

@@ -8,6 +8,10 @@ const TECHNOSPARK_REGISTRATION_URL = "https://docs.google.com/forms/d/e/1FAIpQLS
 const GAMES_DATA = {
   indoor: [
     {
+      id: 'technical-sessions', name: 'Technical Sessions', desc: 'Learn, build, and explore emerging technologies', isTeam: false,
+      info: { participants: '--', format: 'Sessions available on either day or both days', fee: '₹20 for any one day session / ₹30 for both day sessions', speakerDetails: '--', venue: '--', date: '29th & 30th Sept', time: '--', eligibility: '--', important: '--' }
+    },
+    {
       id: 'cyberescape', name: 'Cyber Escape Room', desc: 'Solve puzzles to break out', isTeam: true,
       info: { participants: '--', teamSize: '--', format: '--', fee: '₹120', prize: '₹1500', venue: '--', date: '29th Sept', time: '--', eligibility: '--', important: '--' }
     },
