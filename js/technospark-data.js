@@ -9,41 +9,41 @@ const GAMES_DATA = {
   indoor: [
     {
       id: 'technical-sessions', name: 'Technical Sessions', desc: 'Learn, build, and explore emerging technologies', isTeam: false,
-      info: { participants: '--', format: 'Sessions available on either day or both days', fee: '₹20 for any one day session / ₹30 for both day sessions', speakerDetails: '--', venue: '--', date: '29th & 30th Sept', time: '--', eligibility: '--', important: '--' }
+      info: { format: 'Offline / Physical', fee: '₹20 for any one day session / ₹30 for both day sessions', speakerDetails: 'Industry experts from AWS, Google, Microsoft, and other leading MNCs will guide you on emerging technologies, market trends, and placement opportunities.', venue: 'Mechanical Seminar Hall, -2 Floor, Old Building, SKNCOE', date: '29th & 30th Sept', time: '10 AM' }
     },
     {
       id: 'cyberescape', name: 'Cyber Escape Room', desc: 'Solve puzzles to break out', isTeam: true,
-      info: { participants: '--', teamSize: '--', format: '--', fee: '₹120', prize: '₹1500', venue: '--', date: '29th Sept', time: '--', eligibility: '--', important: '--' }
+      info: { teamSize: '4', format: 'Offline / Physical', fee: '₹120', prize: '₹1500', venue: 'IT Department, Old Building, SKNCOE', date: '29th Sept', time: '10 AM' }
     },
     {
       id: 'treasurehunt', name: 'Tech Treasure', desc: 'Follow the clues, find the tech', isTeam: true,
-      info: { participants: '--', teamSize: '--', format: '--', fee: '₹120', prize: '₹1500', venue: '--', date: '30th Sept', time: '--', eligibility: '--', important: '--' }
+      info: { teamSize: '4', format: 'Offline / Physical', fee: '₹120', prize: '₹1500', venue: 'IT Department, Old Building, SKNCOE', date: '30th Sept', time: '10 AM' }
     },
     {
       id: 'freefire', name: 'Free Fire', desc: 'Squad up and survive', isTeam: true,
-      info: { participants: '--', teamSize: '--', format: '--', fee: '₹160', prize: '₹1500', venue: '--', date: '29th & 30th Sept', time: '--', eligibility: '--', important: '--' }
+      info: { teamSize: 'Online', format: 'Online', fee: '₹160', prize: '₹1500', venue: 'Online', date: '29th & 30th Sept', time: '10 AM', important: 'Coordinators will provide further instructions.' }
     },
     {
       id: 'chess', name: 'Chess', desc: 'Strategic battle of minds', isTeam: false,
-      info: { participants: '--', format: '--', fee: '₹50', prize: '₹1500', venue: '--', date: '29th & 30th Sept', time: '--', eligibility: '--', important: '--' }
+      info: { teamSize: 'Solo', format: 'Offline / Physical', fee: '₹50', prize: '₹1500', venue: 'IT Department, Old Building, SKNCOE', date: '29th & 30th Sept', time: '10 AM' }
     }
   ],
   outdoor: [
     {
       id: 'boxcricket', name: 'Box Cricket', desc: 'Fast-paced cricket action', isTeam: true,
-      info: { participants: '--', teamSize: '--', format: '--', fee: '₹300', prize: '₹3000', venue: '--', date: '29th Sept', time: '--', eligibility: '--', important: '--' }
+      info: { teamSize: '6', format: 'Offline / Physical', fee: '₹300', prize: '₹3000', venue: 'SKNCOE Parking, In Front of New Building', date: '29th Sept', time: '10 AM' }
     },
     {
       id: 'tugofwar', name: 'Tug of War', desc: 'Show your strength and teamwork', isTeam: true,
-      info: { participants: '--', teamSize: '--', format: '--', fee: '₹100', prize: '₹1000', venue: '--', date: '29th Sept', time: '--', eligibility: '--', important: '--' }
+      info: { teamSize: '6', format: 'Offline / Physical', fee: '₹100', prize: '₹1000', venue: 'SKNCOE Parking, In Front of New Building', date: '29th Sept', time: '10 AM' }
     },
     {
       id: 'boxfootball', name: 'Football', desc: 'Show your skills in the box', isTeam: true,
-      info: { participants: '--', teamSize: '--', format: '--', fee: '₹100', prize: '₹700', venue: '--', date: '30th Sept', time: '--', eligibility: '--', important: '--' }
+      info: { teamSize: '4', format: 'Offline / Physical', fee: '₹100', prize: '₹700', venue: 'SKNCOE Parking, In Front of New Building', date: '30th Sept', time: '10 AM' }
     },
     {
       id: 'badminton', name: 'Badminton', desc: 'Smash your way to victory', isTeam: false,
-      info: { participants: '--', format: '--', fee: '₹40', prize: '₹600', venue: '--', date: '30th Sept', time: '--', eligibility: '--', important: '--' }
+      info: { teamSize: 'Solo', format: 'Offline / Physical', fee: '₹40', prize: '₹600', venue: 'SKNCOE Parking, In Front of New Building', date: '30th Sept', time: '10 AM' }
     }
   ]
 };

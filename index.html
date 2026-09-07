@@ -358,6 +358,15 @@
         <img src="technospark/technospark.png?v=4" alt="TechnoSpark 2K26" class="ts-popup-logo">
         <h2 class="popup-title">29TH AND 30TH SEPTEMBER</h2>
       </div>
+
+      <div class="poster-preview-section">
+        <div>
+          <span class="poster-preview-label">EVENT POSTER</span>
+        </div>
+        <button class="btn btn-ghost poster-preview-button" type="button" onclick="openTechnoSparkPoster()">
+          View Poster <span aria-hidden="true">↗</span>
+        </button>
+      </div>
       
       <div class="games-categories-container" id="gamesCategoriesContainer">
         <!-- Injected by JS -->
@@ -390,13 +399,16 @@
          <div class="game-info-grid" id="detailGameInfoGrid">
            <!-- Injected by JS -->
          </div>
-         <div class="game-rules-section" style="margin-top: 24px;">
-           <h4 style="color: var(--yellow); margin-bottom: 8px; font-family: var(--font-body);">Rules & Guidelines</h4>
-           <div id="detailGameRules" style="color: var(--muted); font-size: 14px; line-height: 1.6;">Rules will be updated soon</div>
+         <div class="game-speaker-section" style="margin-top: 24px;">
+           <h4 style="color: var(--yellow); margin-bottom: 8px; font-family: var(--font-body);">Speaker Details</h4>
+           <div id="detailGameSpeaker" style="color: var(--muted); font-size: 14px; line-height: 1.6;"></div>
          </div>
          <div class="game-important-section" style="margin-top: 24px;">
            <h4 style="color: var(--yellow); margin-bottom: 8px; font-family: var(--font-body);">Important Instructions</h4>
-           <div id="detailGameImportant" style="color: var(--muted); font-size: 14px; line-height: 1.6;">--</div>
+           <div style="color: var(--muted); font-size: 14px; line-height: 1.6;">
+             Team leaders must submit their UID number available on the Sinhgad App or ID card. The same applies to solo game participants. If the UID is found to be false, the team will be eliminated and departmental action will be taken.
+           </div>
+           <div id="detailGameImportant" style="color: var(--muted); font-size: 14px; line-height: 1.6; margin-top: 8px; display: none;"></div>
          </div>
       </div>
       

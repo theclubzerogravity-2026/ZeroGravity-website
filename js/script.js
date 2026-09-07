@@ -336,10 +336,13 @@ function tryLoadImage(el) {
 document.querySelectorAll('[data-img]').forEach(tryLoadImage);
 
 /* ---------- 4) PRELOADER ----------------- */
-// Start the sequence
+let preloaderStarted = false;
 startPreloader();
 
 function startPreloader() {
+  if (preloaderStarted) return;
+  preloaderStarted = true;
+
   const pre = document.getElementById('preloader');
   
   if (window.location.search.includes('noloader=1')) {
@@ -483,12 +486,6 @@ function startPreloader() {
     if (pre) pre.classList.add('is-hidden');
     document.body.style.overflow = '';
     revealHero();
-    
-    // Show events popup after a short delay
-    setTimeout(() => {
-      const popup = document.getElementById('eventPopupOverlay');
-      if (popup) popup.classList.add('is-active');
-    }, 800);
   }, 10000);
 }
 
@@ -552,8 +549,13 @@ function revealHero() {
 
 /* ---------- 6) NAVBAR + MOBILE MENU --------------------------- */
 const navbar = document.getElementById('navbar');
+let navbarIsScrolled = false;
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('is-scrolled', window.scrollY > 40);
+  const scrollY = window.scrollY;
+  const nextNavbarState = navbarIsScrolled ? scrollY > 20 : scrollY > 60;
+  if (nextNavbarState === navbarIsScrolled) return;
+  navbarIsScrolled = nextNavbarState;
+  navbar.classList.toggle('is-scrolled', navbarIsScrolled);
 }, { passive: true });
 
 const hamburger = document.getElementById('hamburger');
@@ -1039,6 +1041,15 @@ const gameDetailsClose = document.getElementById('gameDetailsClose');
 const gameDetailsBack = document.getElementById('gameDetailsBack');
 const gamesCategoriesContainer = document.getElementById('gamesCategoriesContainer');
 
+window.openTechnoSparkPoster = function() {
+  if (!pdfPopupOverlay) return;
+  pdfPopupOverlay.dataset.pdfUrl = 'technospark/TECHNOSPARK_2K26.pdf';
+  isPdfLoaded = false;
+  pdfPopupContainer.innerHTML = '';
+  pdfPopupOverlay.classList.add('is-active');
+  pdfPopupOverlay.setAttribute('aria-hidden', 'false');
+};
+
 if (gamesCategoriesContainer) {
   let html = '';
   
@@ -1097,7 +1108,6 @@ window.openGameDetails = function(category, gameId) {
   let infoHtml = '';
   for (const [key, value] of Object.entries(game.info)) {
     let label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-    if (key === 'participants') label = 'Participants';
     if (key === 'teamSize') label = 'Team Size';
     infoHtml += `
       <div class="game-info-item">
@@ -1108,8 +1118,21 @@ window.openGameDetails = function(category, gameId) {
   }
   document.getElementById('detailGameInfoGrid').innerHTML = infoHtml;
   
-  document.getElementById('detailGameRules').innerHTML = 'Rules will be updated soon';
-  document.getElementById('detailGameImportant').innerHTML = game.info.important || '--';
+  const importantContainer = document.getElementById('detailGameImportant');
+  if (importantContainer) {
+    if (game.info.important) {
+      importantContainer.innerHTML = game.info.important;
+      importantContainer.style.display = 'block';
+    } else {
+      importantContainer.innerHTML = '';
+      importantContainer.style.display = 'none';
+    }
+  }
+  const speakerDetails = document.getElementById('detailGameSpeaker');
+  if (speakerDetails) {
+    speakerDetails.textContent = game.info.speakerDetails || '';
+    speakerDetails.parentElement.style.display = game.info.speakerDetails ? 'block' : 'none';
+  }
   
   if (mainGamesModal && gameDetailsModal) {
     mainGamesModal.style.display = 'none';
@@ -1121,10 +1144,12 @@ if (eventPopupOverlay) {
   technosparkBannerCta?.addEventListener('click', (e) => {
     e.preventDefault();
     eventPopupOverlay.classList.add('is-active');
+    eventPopupOverlay.setAttribute('aria-hidden', 'false');
   });
 
   const closePopup = () => {
     eventPopupOverlay.classList.remove('is-active');
+    eventPopupOverlay.setAttribute('aria-hidden', 'true');
     setTimeout(() => {
       if (mainGamesModal && gameDetailsModal) {
         gameDetailsModal.style.display = 'none';
@@ -1148,6 +1173,12 @@ if (eventPopupOverlay) {
       closePopup();
     }
   });
+
+  // Show popup on page load after a short delay for a smooth transition
+  setTimeout(() => {
+    eventPopupOverlay.classList.add('is-active');
+    eventPopupOverlay.setAttribute('aria-hidden', 'false');
+  }, 500);
 }
 
 /* ============ TECHNOSPARK PAGE DYNAMIC RENDER ============ */
@@ -1205,11 +1236,13 @@ let isPdfLoaded = false;
 if (pdfPopupOverlay && pdfPopupClose) {
   pdfPopupClose.addEventListener('click', () => {
     pdfPopupOverlay.classList.remove('is-active');
+    pdfPopupOverlay.setAttribute('aria-hidden', 'true');
   });
 
   pdfPopupOverlay.addEventListener('click', (e) => {
     if (e.target === pdfPopupOverlay) {
       pdfPopupOverlay.classList.remove('is-active');
+      pdfPopupOverlay.setAttribute('aria-hidden', 'true');
     }
   });
 
@@ -1221,7 +1254,8 @@ if (pdfPopupOverlay && pdfPopupClose) {
         if (pdfPopupContainer) {
           pdfPopupContainer.innerHTML = '<div class="magazine-spinner" style="border-top-color:var(--void);"></div>';
           
-          pdfjsLib.getDocument('ZG events/Events.pdf').promise.then(pdf => {
+          const pdfUrl = pdfPopupOverlay.dataset.pdfUrl || 'ZG events/Events.pdf';
+          pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
             return pdf.getPage(1);
           }).then(page => {
             const viewport = page.getViewport({ scale: window.innerWidth <= 900 ? 1.5 : 2.5 });

@@ -115,12 +115,25 @@ function hideError(elementId) {
 // ─────────────────────────────────────────────
 let currentUser = null;
 let currentMfaFactorId = null;
+const SESSION_CHECK_TIMEOUT_MS = 4000;
+
+function withTimeout(promise, timeoutMs) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Session check timed out')), timeoutMs);
+    })
+  ]);
+}
 
 async function checkSession() {
   showScreen('loading');
 
   try {
-    const { data: { session }, error } = await sb.auth.getSession();
+    const { data: { session }, error } = await withTimeout(
+      sb.auth.getSession(),
+      SESSION_CHECK_TIMEOUT_MS
+    );
 
     if (error || !session) {
       showScreen('login');
@@ -130,10 +143,13 @@ async function checkSession() {
     currentUser = session.user;
 
     // Check admin profile (UX routing only — RLS is the real guard)
-    const { data: profile, error: profileError } = await sb.from('admin_profiles')
-      .select('role, is_active')
-      .eq('user_id', currentUser.id)
-      .single();
+    const { data: profile, error: profileError } = await withTimeout(
+      sb.from('admin_profiles')
+        .select('role, is_active')
+        .eq('user_id', currentUser.id)
+        .single(),
+      SESSION_CHECK_TIMEOUT_MS
+    );
 
     if (profileError || !profile || profile.role !== 'admin' || !profile.is_active) {
       showScreen('notAuthorized');
@@ -873,6 +889,16 @@ if (hamburgerBtn && adminNav) {
       adminNav.classList.remove('mobile-open');
     });
   });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    if (adminNav.classList.contains('mobile-open') &&
+        !adminNav.contains(e.target) &&
+        !hamburgerBtn.contains(e.target)) {
+      hamburgerBtn.classList.remove('active');
+      adminNav.classList.remove('mobile-open');
+    }
+  });
 }
 
 // ─────────────────────────────────────────────
@@ -945,29 +971,3 @@ window.deleteEvent = async function(id) {
 // INIT
 // ─────────────────────────────────────────────
 checkSession();
-
-// Mobile Hamburger Menu Logic
-const btnHamburger = document.getElementById('btnHamburger');
-const adminNav = document.querySelector('.admin-nav');
-
-if (btnHamburger && adminNav) {
-  btnHamburger.addEventListener('click', () => {
-    adminNav.classList.toggle('mobile-open');
-  });
-
-  // Close menu when clicking a nav item on mobile
-  document.querySelectorAll('.admin-nav-item').forEach(item => {
-    item.addEventListener('click', () => {
-      adminNav.classList.remove('mobile-open');
-    });
-  });
-
-  // Close menu when clicking outside
-  document.addEventListener('click', (e) => {
-    if (adminNav.classList.contains('mobile-open') && 
-        !adminNav.contains(e.target) && 
-        !btnHamburger.contains(e.target)) {
-      adminNav.classList.remove('mobile-open');
-    }
-  });
-}
