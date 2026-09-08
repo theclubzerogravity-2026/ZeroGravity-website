@@ -1067,7 +1067,14 @@ if (gamesCategoriesContainer) {
               <span><strong>Entry Fee:</strong> ${g.info.fee}</span>
               <span><strong>${g.id === 'technical-sessions' ? 'Speaker Details' : 'Prize Worth'}:</strong> ${g.id === 'technical-sessions' ? g.info.speakerDetails : g.info.prize}</span>
             </div>
-            <button class="btn btn-ghost" onclick="openGameDetails('indoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
+            ${g.id === 'technical-sessions' ? `
+              <div style="margin-top: auto; display: flex; flex-direction: column; gap: 12px;">
+                <button class="btn btn-ghost" onclick="openGameDetails('indoor', '${g.id}')" style="padding: 8px 16px; font-size: 13px;">Know More</button>
+                <button class="btn btn-yellow" onclick="window.open('https://forms.gle/7JGiPuh5qDPoQRFZ6', '_blank')" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 13px;">REGISTER NOW FOR SESSIONS</button>
+              </div>
+            ` : `
+              <button class="btn btn-ghost" onclick="openGameDetails('indoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
+            `}
           </div>
         `).join('')}
       </div>
@@ -1088,7 +1095,14 @@ if (gamesCategoriesContainer) {
               <span><strong>Entry Fee:</strong> ${g.info.fee}</span>
               <span><strong>${g.id === 'technical-sessions' ? 'Speaker Details' : 'Prize Worth'}:</strong> ${g.id === 'technical-sessions' ? g.info.speakerDetails : g.info.prize}</span>
             </div>
-            <button class="btn btn-ghost" onclick="openGameDetails('outdoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
+            ${g.id === 'technical-sessions' ? `
+              <div style="margin-top: auto; display: flex; flex-direction: column; gap: 12px;">
+                <button class="btn btn-ghost" onclick="openGameDetails('outdoor', '${g.id}')" style="padding: 8px 16px; font-size: 13px;">Know More</button>
+                <button class="btn btn-yellow" onclick="window.open('https://forms.gle/7JGiPuh5qDPoQRFZ6', '_blank')" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 13px;">REGISTER NOW FOR SESSIONS</button>
+              </div>
+            ` : `
+              <button class="btn btn-ghost" onclick="openGameDetails('outdoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
+            `}
           </div>
         `).join('')}
       </div>
@@ -1134,6 +1148,17 @@ window.openGameDetails = function(category, gameId) {
     speakerDetails.parentElement.style.display = game.info.speakerDetails ? 'block' : 'none';
   }
   
+  const detailGameRegisterBtn = document.getElementById('detailGameRegisterBtn');
+  if (detailGameRegisterBtn) {
+    if (game.id === 'technical-sessions') {
+      detailGameRegisterBtn.textContent = 'REGISTER NOW FOR SESSIONS';
+      detailGameRegisterBtn.onclick = () => window.location.href = 'https://forms.gle/7JGiPuh5qDPoQRFZ6';
+    } else {
+      detailGameRegisterBtn.textContent = 'REGISTER NOW FOR GAMES';
+      detailGameRegisterBtn.onclick = () => window.location.href = TECHNOSPARK_REGISTRATION_URL;
+    }
+  }
+
   if (mainGamesModal && gameDetailsModal) {
     mainGamesModal.style.display = 'none';
     gameDetailsModal.style.display = 'block';

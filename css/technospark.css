@@ -289,3 +289,26 @@ body.technospark-page {
 .ts-schedule-table tr:hover td {
   background: rgba(255,255,255,0.02);
 }
+
+/* ============ PRIZE POOL BOX ============ */
+.prize-pool-box {
+  display: inline-block;
+  padding: 4px 16px;
+  background: rgba(255, 60, 60, 0.1);
+  border: 1px solid rgba(255, 193, 7, 0.3);
+  border-radius: 6px;
+  animation: prize-pulse 2s infinite alternate;
+}
+
+@keyframes prize-pulse {
+  0% {
+    border-color: rgba(255, 42, 42, 0.4);
+    box-shadow: 0 0 10px rgba(255, 42, 42, 0.1), inset 0 0 10px rgba(255, 42, 42, 0.1);
+    background: rgba(255, 42, 42, 0.1);
+  }
+  100% {
+    border-color: rgba(255, 193, 7, 0.8);
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.3), inset 0 0 15px rgba(255, 193, 7, 0.1);
+    background: rgba(255, 193, 7, 0.15);
+  }
+}
