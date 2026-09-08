@@ -33,7 +33,10 @@
 
 /* ============ RESET ============ */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { 
+  scroll-behavior: smooth; 
+  scrollbar-gutter: stable;
+}
 section[id], #contact { scroll-margin-top: var(--nav-h); }
 body {
   background: var(--void);
@@ -334,6 +337,9 @@ body::before {
   background: transparent;
   border-bottom: 1px solid transparent;
   box-shadow: none;
+  will-change: transform, background-color, height;
+  transform: translateZ(0);
+  backface-visibility: hidden;
   transition: 
     background 0.4s ease, 
     backdrop-filter 0.4s ease, 
@@ -1421,12 +1427,14 @@ a:focus-visible, button:focus-visible {
   padding: 32px;
   position: relative;
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-  transform: scale(0.95) translateY(20px);
+  will-change: transform, opacity;
+  transform: scale(0.95) translateY(20px) translateZ(0);
+  backface-visibility: hidden;
   opacity: 0;
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .event-popup-overlay.is-active .event-popup-modal {
-  transform: scale(1) translateY(0);
+  transform: scale(1) translateY(0) translateZ(0);
   opacity: 1;
 }
 .event-popup-close {
@@ -1561,13 +1569,13 @@ a:focus-visible, button:focus-visible {
 .games-popup-modal {
   max-width: 800px;
   width: 95%;
-  max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
 }
 .game-details-panel {
   max-width: 600px;
   width: 95%;
-  max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
 }
 .games-categories-container {

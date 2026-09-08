@@ -1145,11 +1145,13 @@ if (eventPopupOverlay) {
     e.preventDefault();
     eventPopupOverlay.classList.add('is-active');
     eventPopupOverlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
   });
 
   const closePopup = () => {
     eventPopupOverlay.classList.remove('is-active');
     eventPopupOverlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
     setTimeout(() => {
       if (mainGamesModal && gameDetailsModal) {
         gameDetailsModal.style.display = 'none';
@@ -1175,9 +1177,14 @@ if (eventPopupOverlay) {
   });
 
   // Show popup on page load after a short delay for a smooth transition
+  let popupHasOpened = false;
   setTimeout(() => {
-    eventPopupOverlay.classList.add('is-active');
-    eventPopupOverlay.setAttribute('aria-hidden', 'false');
+    if (!popupHasOpened) {
+      eventPopupOverlay.classList.add('is-active');
+      eventPopupOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      popupHasOpened = true;
+    }
   }, 500);
 }
 
