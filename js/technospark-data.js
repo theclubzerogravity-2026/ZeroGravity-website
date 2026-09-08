@@ -16,7 +16,7 @@ const GAMES_DATA = {
       info: { teamSize: '4', format: 'Offline / Physical', fee: '₹120', prize: '₹1500', venue: 'IT Department, Old Building, SKNCOE', date: '29th Sept', time: '10 AM' }
     },
     {
-      id: 'treasurehunt', name: 'Tech Treasure', desc: 'Follow the clues, find the tech', isTeam: true,
+      id: 'treasurehunt', name: 'Tech Treasure Hunt', desc: 'Follow the clues, find the tech', isTeam: true,
       info: { teamSize: '4', format: 'Offline / Physical', fee: '₹120', prize: '₹1500', venue: 'IT Department, Old Building, SKNCOE', date: '30th Sept', time: '10 AM' }
     },
     {
@@ -50,7 +50,7 @@ const GAMES_DATA = {
 
 const TECHNOSPARK_SCHEDULE = [
   { day: 'DAY 1', date: '29th September 2026', events: 'Cyber Escape Room, Box Cricket, Tug of War, Free Fire, Chess' },
-  { day: 'DAY 2', date: '30th September 2026', events: 'Tech Treasure, Football, Badminton, Free Fire, Chess' }
+  { day: 'DAY 2', date: '30th September 2026', events: 'Tech Treasure Hunt, Football, Badminton, Free Fire, Chess' }
 ];
 
 const TECHNOSPARK_FAQ = [
