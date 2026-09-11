@@ -38,6 +38,53 @@ html {
   scrollbar-gutter: stable;
 }
 section[id], #contact { scroll-margin-top: var(--nav-h); }
+/* Neon Contact Highlight Box */
+.ts-neon-contact-box {
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: rgba(17, 17, 24, 0.95);
+  border: 1.5px solid #00f0ff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.25), inset 0 0 10px rgba(0, 240, 255, 0.08);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ts-neon-contact-box:hover {
+  box-shadow: 0 0 22px rgba(0, 240, 255, 0.4), inset 0 0 12px rgba(0, 240, 255, 0.15);
+}
+
+.ts-neon-contact-label {
+  font-family: var(--font-display, var(--ts-font-display, sans-serif));
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffc72c;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  text-shadow: 0 0 8px rgba(255, 199, 44, 0.4);
+}
+
+.ts-neon-contact-numbers {
+  font-family: var(--font-mono, monospace);
+  font-size: 14px;
+  font-weight: 700;
+  color: #00f0ff;
+  line-height: 1.6;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+.ts-neon-contact-numbers a {
+  color: #00f0ff;
+  text-decoration: none;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+.ts-neon-contact-numbers a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 14px #00f0ff;
+}
+
 body {
   background: var(--void);
   color: var(--white);

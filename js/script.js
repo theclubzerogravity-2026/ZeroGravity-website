@@ -1068,9 +1068,13 @@ if (gamesCategoriesContainer) {
               <span><strong>${g.id === 'technical-sessions' ? 'Speaker Details' : 'Prize Worth'}:</strong> ${g.id === 'technical-sessions' ? g.info.speakerDetails : g.info.prize}</span>
             </div>
             ${g.id === 'technical-sessions' ? `
-              <div style="margin-top: auto; display: flex; flex-direction: column; gap: 12px;">
+              <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
                 <button class="btn btn-ghost" onclick="openGameDetails('indoor', '${g.id}')" style="padding: 8px 16px; font-size: 13px;">Know More</button>
                 <button class="btn btn-yellow" onclick="window.open('https://forms.gle/7JGiPuh5qDPoQRFZ6', '_blank')" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 13px;">REGISTER NOW FOR SESSIONS</button>
+                <div class="ts-neon-contact-box" style="margin-top: 4px;">
+                  <div class="ts-neon-contact-label">For Any Query Call:</div>
+                  <div class="ts-neon-contact-numbers">Sumit Mate — <a href="tel:8766646266">87666 46266</a></div>
+                </div>
               </div>
             ` : `
               <button class="btn btn-ghost" onclick="openGameDetails('indoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
@@ -1096,9 +1100,13 @@ if (gamesCategoriesContainer) {
               <span><strong>${g.id === 'technical-sessions' ? 'Speaker Details' : 'Prize Worth'}:</strong> ${g.id === 'technical-sessions' ? g.info.speakerDetails : g.info.prize}</span>
             </div>
             ${g.id === 'technical-sessions' ? `
-              <div style="margin-top: auto; display: flex; flex-direction: column; gap: 12px;">
+              <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
                 <button class="btn btn-ghost" onclick="openGameDetails('outdoor', '${g.id}')" style="padding: 8px 16px; font-size: 13px;">Know More</button>
                 <button class="btn btn-yellow" onclick="window.open('https://forms.gle/7JGiPuh5qDPoQRFZ6', '_blank')" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 13px;">REGISTER NOW FOR SESSIONS</button>
+                <div class="ts-neon-contact-box" style="margin-top: 4px;">
+                  <div class="ts-neon-contact-label">For Any Query Call:</div>
+                  <div class="ts-neon-contact-numbers">Sumit Mate — <a href="tel:8766646266">87666 46266</a></div>
+                </div>
               </div>
             ` : `
               <button class="btn btn-ghost" onclick="openGameDetails('outdoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
@@ -1156,6 +1164,21 @@ window.openGameDetails = function(category, gameId) {
     } else {
       detailGameRegisterBtn.textContent = 'REGISTER NOW FOR GAMES';
       detailGameRegisterBtn.onclick = () => window.location.href = TECHNOSPARK_REGISTRATION_URL;
+    }
+  }
+
+  const detailGameContactBox = document.getElementById('detailGameContactBox');
+  if (detailGameContactBox) {
+    if (game.id === 'technical-sessions') {
+      detailGameContactBox.innerHTML = `
+        <div class="ts-neon-contact-label">For Any Query Call (Sessions):</div>
+        <div class="ts-neon-contact-numbers">Sumit Mate — <a href="tel:8766646266">87666 46266</a></div>
+      `;
+    } else {
+      detailGameContactBox.innerHTML = `
+        <div class="ts-neon-contact-label">For Any Query Call (Games):</div>
+        <div class="ts-neon-contact-numbers">Anushka Murudkar — <a href="tel:8830085188">8830085188</a><br>Bhaskar Matsagar — <a href="tel:8830055924">8830055924</a></div>
+      `;
     }
   }
 
