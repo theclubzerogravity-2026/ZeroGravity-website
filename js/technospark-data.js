@@ -8,8 +8,8 @@ const TECHNOSPARK_REGISTRATION_URL = "https://docs.google.com/forms/d/e/1FAIpQLS
 const GAMES_DATA = {
   indoor: [
     {
-      id: 'technical-sessions', name: 'Technical Sessions', desc: 'Learn, build, and explore emerging technologies', isTeam: false,
-      info: { format: 'Offline / Physical', fee: '₹20 for any one day session / ₹30 for both day sessions', speakerDetails: 'Industry experts from AWS, Google, Microsoft, and other leading MNCs will guide you on emerging technologies, market trends, and placement opportunities.', venue: 'Mechanical Seminar Hall, -2 Floor, Old Building, SKNCOE', date: '29th & 30th Sept', time: '10 AM' }
+      id: 'technical-sessions', name: 'Career Compass', desc: 'Navigate Your Future | Learn, build, and explore emerging technologies', isTeam: false,
+      info: { format: 'Offline / Physical', fee: '₹20 for any one day session / ₹30 for both day sessions', speakerDetails: '📅 29th Sept: Shubham More (Data Analyst Trainer, Anudip Foundation)<br>📅 30th Sept: Ankita Anku (Senior Software Engineer, Capgemini MNC | <a href="https://www.instagram.com/mazdoor_._/" target="_blank" rel="noopener noreferrer" style="color: var(--ts-yellow, #ffc107); text-decoration: underline;">@mazdoor_._</a>)', venue: 'Mechanical Seminar Hall, -2 Floor, Old Building, SKNCOE', date: '29th & 30th Sept', time: '10 AM' }
     },
     {
       id: 'cyberescape', name: 'Cyber Escape Room', desc: 'Solve puzzles to break out', isTeam: true,

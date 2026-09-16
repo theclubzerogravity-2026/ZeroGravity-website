@@ -1152,7 +1152,43 @@ window.openGameDetails = function(category, gameId) {
   }
   const speakerDetails = document.getElementById('detailGameSpeaker');
   if (speakerDetails) {
-    speakerDetails.textContent = game.info.speakerDetails || '';
+    if (game.id === 'technical-sessions') {
+      speakerDetails.innerHTML = `
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px;">
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,193,7,0.2); border-left: 4px solid var(--yellow, #ffc107); padding: 12px 16px; border-radius: 8px;">
+            <div style="font-weight: bold; color: #fff; font-size: 15px;">📅 29th Sept — Speaker: Shubham More</div>
+            <div style="color: var(--yellow, #ffc107); font-size: 13px; margin-bottom: 8px;">Data Analyst Trainer, Anudip Foundation</div>
+            <div style="font-size: 13px; color: var(--muted); line-height: 1.5;">
+              <strong style="color: #ddd;">Session Highlights:</strong>
+              <ul style="margin: 6px 0 0 18px; padding: 0;">
+                <li>Python & Pandas</li>
+                <li>Data Analysis & EDA</li>
+                <li>Data Visualization</li>
+                <li>Machine Learning</li>
+                <li>Classification & Regression</li>
+                <li>Real-World Case Study</li>
+                <li>Career & Learning Roadmap</li>
+              </ul>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,210,255,0.2); border-left: 4px solid #00d2ff; padding: 12px 16px; border-radius: 8px;">
+            <div style="font-weight: bold; color: #fff; font-size: 15px;">📅 30th Sept — Speaker: Ankita Anku</div>
+            <div style="color: #00d2ff; font-size: 13px; margin-bottom: 8px;">Senior Software Engineer, Capgemini (MNC)</div>
+            <div style="font-size: 13px; color: var(--muted); line-height: 1.5;">
+              <strong style="color: #ddd;">Session Highlights:</strong>
+              <ul style="margin: 6px 0 0 18px; padding: 0;">
+                <li>Instagram Tech Influencer <a href="https://www.instagram.com/mazdoor_._/" target="_blank" rel="noopener noreferrer" style="color: #00d2ff; text-decoration: underline;">@mazdoor_._</a></li>
+                <li>Real-World Case Study</li>
+                <li>Career Roadmap: Cracking 4 Job Offers</li>
+                <li>Resume Building & Project Focus</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      speakerDetails.textContent = game.info.speakerDetails || '';
+    }
     speakerDetails.parentElement.style.display = game.info.speakerDetails ? 'block' : 'none';
   }
   
