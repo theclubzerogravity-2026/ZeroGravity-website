@@ -365,13 +365,23 @@
         </div>
       </div>
 
-      <div class="poster-preview-section">
-        <div>
-          <span class="poster-preview-label">EVENT POSTER</span>
+      <div class="poster-preview-wrapper">
+        <div class="poster-preview-section">
+          <div>
+            <span class="poster-preview-label">EVENT POSTER</span>
+          </div>
+          <button class="btn btn-ghost poster-preview-button" type="button" onclick="openTechnoSparkPoster()">
+            View Poster <span aria-hidden="true">↗</span>
+          </button>
         </div>
-        <button class="btn btn-ghost poster-preview-button" type="button" onclick="openTechnoSparkPoster()">
-          View Poster <span aria-hidden="true">↗</span>
-        </button>
+        <div class="poster-preview-section">
+          <div>
+            <span class="poster-preview-label">SESSION POSTER</span>
+          </div>
+          <button class="btn btn-ghost poster-preview-button" type="button" onclick="window.open('session.jpeg', '_blank')">
+            View Poster <span aria-hidden="true">↗</span>
+          </button>
+        </div>
       </div>
       
       <div class="games-categories-container" id="gamesCategoriesContainer">

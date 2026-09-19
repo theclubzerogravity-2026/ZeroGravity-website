@@ -1565,12 +1565,18 @@ a:focus-visible, button:focus-visible {
 .event-popup-actions {
   text-align: center;
 }
+.poster-preview-wrapper {
+  display: flex;
+  gap: 16px;
+  margin: 0 0 24px;
+}
+
 .poster-preview-section {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin: 0 0 24px;
   padding: 14px 16px;
   border: 1px solid var(--line-strong);
   border-left: 3px solid var(--yellow);
@@ -1598,6 +1604,9 @@ a:focus-visible, button:focus-visible {
   font-size: 12px;
 }
 @media (max-width: 520px) {
+  .poster-preview-wrapper {
+    flex-direction: column;
+  }
   .poster-preview-section {
     align-items: flex-start;
     flex-direction: column;
