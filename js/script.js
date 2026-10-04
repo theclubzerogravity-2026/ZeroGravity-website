@@ -865,6 +865,8 @@ window.openGallery = function(eventIndex) {
     const imgEl = document.createElement('img');
     imgEl.className = 'gallery-img';
     imgEl.src = `assets/images/events/${imgSrc}`;
+    imgEl.loading = 'lazy';
+    imgEl.decoding = 'async';
     // Fallback if image fails
     imgEl.onerror = () => { imgEl.style.display = 'none'; };
     return imgEl;
