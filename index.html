@@ -118,16 +118,6 @@
             target="_blank" rel="noopener" class="btn btn-primary">Register to Join <span class="arrow">→</span></a>
           <a href="#events" class="btn btn-ghost">Explore Events</a>
         </div>
-        <div class="reveal-up" style="--d:5; margin-top: 28px; display: flex; justify-content: center; width: 100%;">
-          <a href="#eventPopupOverlay" id="technosparkBannerCta" class="btn-technospark-banner">
-            <img src="technospark/technospark.png?v=4" alt="TechnoSpark 2K26" class="ts-logo-img">
-            <span class="ts-banner-date">29 & 30 SEPTEMBER 2026</span>
-            <div class="prize-pool-box" style="margin: 4px auto 12px auto;">
-              <span style="font-size: 15px; font-family: var(--ts-font-display, var(--font-display)); background: linear-gradient(90deg, #ff2a2a, #ffc107); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px;">PRIZE POOL 11,000+</span>
-            </div>
-            <span class="ts-banner-cta">EXPLORE NOW</span>
-          </a>
-        </div>
       </div>
 
       <a href="#about" class="scroll-cue" aria-label="Scroll to About">
@@ -346,109 +336,6 @@
     </svg>
   </button>
 
-  <!-- ============ UPCOMING EVENTS POPUP ============ -->
-  <div class="event-popup-overlay" id="eventPopupOverlay" aria-hidden="true">
-    
-    <!-- MAIN ACTIVITIES MODAL -->
-    <div class="event-popup-modal games-popup-modal" id="mainGamesModal">
-      <button class="event-popup-close" id="eventPopupClose" aria-label="Close popup">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12"/>
-        </svg>
-      </button>
-      
-      <div class="event-popup-header">
-        <img src="technospark/technospark.png?v=4" alt="TechnoSpark 2K26" class="ts-popup-logo">
-        <h2 class="popup-title">29TH AND 30TH SEPTEMBER</h2>
-        <div class="prize-pool-box" style="margin-top: 8px;">
-          <span style="font-size: 16px; font-family: var(--ts-font-display, var(--font-display)); background: linear-gradient(90deg, #ff2a2a, #ffc107); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px;">PRIZE POOL 11,000+</span>
-        </div>
-      </div>
-
-      <div class="poster-preview-wrapper">
-        <div class="poster-preview-section">
-          <div>
-            <span class="poster-preview-label">EVENT POSTER</span>
-          </div>
-          <button class="btn btn-ghost poster-preview-button" type="button" onclick="openTechnoSparkPoster()">
-            View Poster <span aria-hidden="true">↗</span>
-          </button>
-        </div>
-        <div class="poster-preview-section">
-          <div>
-            <span class="poster-preview-label">SESSION POSTER</span>
-          </div>
-          <button class="btn btn-ghost poster-preview-button" type="button" onclick="window.open('session.jpeg', '_blank')">
-            View Poster <span aria-hidden="true">↗</span>
-          </button>
-        </div>
-      </div>
-      
-      <div class="games-categories-container" id="gamesCategoriesContainer">
-        <!-- Injected by JS -->
-      </div>
-      
-      <div class="event-popup-actions" style="margin-top: 24px;">
-         <button class="btn btn-yellow" onclick="window.location.href=TECHNOSPARK_REGISTRATION_URL" style="width: 100%; justify-content: center;">REGISTER NOW FOR GAMES</button>
-         <p style="color: var(--muted); font-size: 13px; text-align: center; margin-top: 16px; margin-bottom: 0; line-height: 1.4;">You have to fill the same form for multiple games. But don't make same entry twice for same game or Career Compass sessions.</p>
-         <div class="ts-neon-contact-box">
-           <div class="ts-neon-contact-label">For Any Query Call (Games):</div>
-           <div class="ts-neon-contact-numbers">
-             Anushka Murudkar — <a href="tel:8830085188">88300 85188</a><br>
-             Bhaskar Matsagar — <a href="tel:8830055924">88300 55924</a>
-           </div>
-         </div>
-      </div>
-    </div>
-
-    <!-- GAME DETAILS MODAL -->
-    <div class="event-popup-modal game-details-panel" id="gameDetailsModal" style="display: none;">
-      <button class="event-popup-close" id="gameDetailsBack" aria-label="Back to games" style="left: 20px; right: auto;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-      </button>
-      <button class="event-popup-close" id="gameDetailsClose" aria-label="Close popup">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M18 6L6 18M6 6l12 12"/>
-        </svg>
-      </button>
-      
-      <div class="event-popup-header" style="margin-left: 40px; margin-right: 40px;">
-        <h2 class="popup-title" id="detailGameTitle">Game Name</h2>
-        <p class="popup-subtitle" id="detailGameSubtitle">Overview</p>
-      </div>
-      
-      <div class="game-details-content">
-         <div class="game-info-grid" id="detailGameInfoGrid">
-           <!-- Injected by JS -->
-         </div>
-         <div class="game-speaker-section" style="margin-top: 24px;">
-           <h4 style="color: var(--yellow); margin-bottom: 8px; font-family: var(--font-body);">Speaker Details</h4>
-           <div id="detailGameSpeaker" style="color: var(--muted); font-size: 14px; line-height: 1.6;"></div>
-         </div>
-         <div class="game-important-section" style="margin-top: 24px;">
-           <h4 style="color: var(--yellow); margin-bottom: 8px; font-family: var(--font-body);">Important Instructions</h4>
-           <div style="color: var(--muted); font-size: 14px; line-height: 1.6;">
-             Team leaders must submit their UID number available on the Sinhgad App or ID card. The same applies to solo game participants. If the UID is found to be false, the team will be eliminated and departmental action will be taken.
-           </div>
-           <div id="detailGameImportant" style="color: var(--muted); font-size: 14px; line-height: 1.6; margin-top: 8px; display: none;"></div>
-         </div>
-      </div>
-      
-      <div class="event-popup-actions" style="margin-top: 32px;">
-         <button id="detailGameRegisterBtn" class="btn btn-yellow" style="width: 100%; justify-content: center;">REGISTER NOW</button>
-         <p style="color: var(--muted); font-size: 13px; text-align: center; margin-top: 16px; margin-bottom: 0; line-height: 1.4;">You have to fill the same form for multiple games. But don't make same entry twice for same game or Career Compass sessions.</p>
-         <div id="detailGameContactBox" class="ts-neon-contact-box">
-           <div class="ts-neon-contact-label">For Any Query Call (Games):</div>
-           <div class="ts-neon-contact-numbers">
-             Anushka Murudkar — <a href="tel:8830085188">88300 85188</a><br>
-             Bhaskar Matsagar — <a href="tel:8830055924">88300 55924</a>
-           </div>
-         </div>
-      </div>
-    </div>
-  </div>
 
   <!-- ============ PDF VIEWER POPUP ============ -->
   <div class="pdf-popup-overlay" id="pdfPopupOverlay" aria-hidden="true">
@@ -476,7 +363,6 @@
   </div>
 
 
-  <script src="js/technospark-data.js"></script>
   <script src="js/script.js"></script>
 </body>
 

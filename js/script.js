@@ -35,10 +35,142 @@ const PR_TEAM = [
 ];
 
 const GUESTS = [
-  { name: 'Kiran Devkar', position: 'GCP Data Engineer', company: 'Atos', img: 'kiran-devkar.png', linkedin: 'https://www.linkedin.com/in/kiran-devkar-🇮🇳-84a951188?utm_source=share_via&utm_content=profile&utm_medium=member_ios' }
+  { name: 'Kiran Devkar', position: 'GCP Data Engineer', company: 'Atos', img: 'kiran-devkar.png', event: 'CloudPULSE Speaker', date: '18/8/2026', linkedin: 'https://www.linkedin.com/in/kiran-devkar-🇮🇳-84a951188?utm_source=share_via&utm_content=profile&utm_medium=member_ios' },
+  { name: 'Ankita Anku', position: 'Senior Software Engineer', company: 'Capgemini (MNC)', img: 'ankita-anku.png', event: 'TechnoSpark Career Compass', date: '29/9/2026', linkedin: 'https://www.instagram.com/mazdoor_._/' },
+  { name: 'Shubham More', position: 'Data Analyst Trainer', company: 'Anudip Foundation', img: 'shubham-more.png', event: 'TechnoSpark Career Compass', date: '30/9/2026', linkedin: '#' },
 ];
 
 const EVENTS = [
+  {
+    tag: '29 & 30 SEPT', title: 'TechnoSpark 2k26',
+    desc: 'Get ready for our biggest flagship event of the year! A spectacular showcase of technology, innovation, and teamwork.',
+    img: 'TechnoSpark2k26/20260929_110303.jpg',
+    gallery: [
+      "TechnoSpark2k26/20260929_110303.jpg",
+      "TechnoSpark2k26/20260929_110411.jpg",
+      "TechnoSpark2k26/20260929_110414.jpg",
+      "TechnoSpark2k26/20260929_110440.jpg",
+      "TechnoSpark2k26/20260929_110445.jpg",
+      "TechnoSpark2k26/20260929_110450.jpg",
+      "TechnoSpark2k26/20260930_32211PMByGPSMapCamera.jpg",
+      "TechnoSpark2k26/20260930_32213PMByGPSMapCamera.jpg",
+      "TechnoSpark2k26/20260930_32226PMByGPSMapCamera.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0013.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0015.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0019.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0020.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0021.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0022.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0023.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0024.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0025.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0026.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0027.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0028.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0029.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0030.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0031.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0032.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0033.jpg",
+      "TechnoSpark2k26/IMG-20260929-WA0034.jpg",
+      "TechnoSpark2k26/IMG-20261001-WA0014.jpg",
+      "TechnoSpark2k26/IMG20260929114354.jpg",
+      "TechnoSpark2k26/IMG20260929114356.jpg",
+      "TechnoSpark2k26/IMG20260929130956.jpg",
+      "TechnoSpark2k26/IMG20260929130959.jpg",
+      "TechnoSpark2k26/IMG20260929131015.jpg",
+      "TechnoSpark2k26/IMG20260929131017.jpg",
+      "TechnoSpark2k26/IMG20260929131059.jpg",
+      "TechnoSpark2k26/IMG20260929131136.jpg",
+      "TechnoSpark2k26/IMG20260929131203.jpg",
+      "TechnoSpark2k26/IMG20260929131336.jpg",
+      "TechnoSpark2k26/IMG20260929131806.jpg",
+      "TechnoSpark2k26/IMG20260929131815.jpg",
+      "TechnoSpark2k26/IMG20260929171418.jpg",
+      "TechnoSpark2k26/IMG20260929171424.jpg",
+      "TechnoSpark2k26/IMG20260929171824.jpg",
+      "TechnoSpark2k26/IMG20261001143322.jpg",
+      "TechnoSpark2k26/IMG20261001143354.jpg",
+      "TechnoSpark2k26/IMG_20260929_102516396.jpg",
+      "TechnoSpark2k26/IMG_20260929_102618810.jpg",
+      "TechnoSpark2k26/IMG_20260929_102619883.jpg",
+      "TechnoSpark2k26/IMG_20260929_102721701.jpg",
+      "TechnoSpark2k26/IMG_20260929_102725091.jpg",
+      "TechnoSpark2k26/IMG_20260929_103959134.jpg",
+      "TechnoSpark2k26/IMG_20260929_104007985.jpg",
+      "TechnoSpark2k26/IMG_20260929_104140168.jpg",
+      "TechnoSpark2k26/IMG_20260929_104144420.jpg",
+      "TechnoSpark2k26/IMG_20260929_104147428.jpg",
+      "TechnoSpark2k26/IMG_20260929_104212772.jpg",
+      "TechnoSpark2k26/IMG_20260929_104235065.jpg",
+      "TechnoSpark2k26/IMG_20260929_104237456.jpg",
+      "TechnoSpark2k26/IMG_20260929_104247246.jpg",
+      "TechnoSpark2k26/IMG_20260929_104907825.jpg",
+      "TechnoSpark2k26/IMG_20260929_104911028.jpg",
+      "TechnoSpark2k26/IMG_20260929_104917696.jpg",
+      "TechnoSpark2k26/IMG_20260929_120828567.jpg",
+      "TechnoSpark2k26/IMG_20260929_120918630.jpg",
+      "TechnoSpark2k26/IMG_6373.jpg",
+      "TechnoSpark2k26/IMG_6375.jpg",
+      "TechnoSpark2k26/IMG_6376.jpg",
+      "TechnoSpark2k26/IMG_6941.JPG",
+      "TechnoSpark2k26/IMG_6951.JPG",
+      "TechnoSpark2k26/IMG_6952.JPG",
+      "TechnoSpark2k26/IMG_6953.JPG",
+      "TechnoSpark2k26/IMG_6957.JPG",
+      "TechnoSpark2k26/IMG_6958.JPG",
+      "TechnoSpark2k26/IMG_6960.JPG",
+      "TechnoSpark2k26/IMG_6961.JPG",
+      "TechnoSpark2k26/IMG_6962.JPG",
+      "TechnoSpark2k26/IMG_6964.JPG",
+      "TechnoSpark2k26/IMG_6965.JPG",
+      "TechnoSpark2k26/IMG_6968.JPG",
+      "TechnoSpark2k26/IMG_6969.JPG",
+      "TechnoSpark2k26/IMG_6971.JPG",
+      "TechnoSpark2k26/IMG_6973.JPG",
+      "TechnoSpark2k26/IMG_6974.JPG",
+      "TechnoSpark2k26/IMG_6976.JPG",
+      "TechnoSpark2k26/IMG_8809.jpg",
+      "TechnoSpark2k26/IMG_8836.jpg",
+      "TechnoSpark2k26/IMG_8849.jpg",
+      "TechnoSpark2k26/IMG_8852.jpg"
+]
+  },
+  {
+    tag: '29 & 30 SEPT', title: 'Career Compass',
+    desc: 'Expert sessions by industry professionals guiding you through career opportunities, interview preparations, and navigating the corporate world.',
+    img: 'CareerCompass/IMG_20260929_103007223.jpg',
+    gallery: [
+      "CareerCompass/IMG_20260929_103007223.jpg",
+      "CareerCompass/IMG_20260929_103014068.jpg",
+      "CareerCompass/IMG_20260929_103016564.jpg",
+      "CareerCompass/IMG_20260929_103022333.jpg",
+      "CareerCompass/IMG_20260929_103211486.jpg",
+      "CareerCompass/IMG_20260929_103223535.jpg",
+      "CareerCompass/IMG_20260929_104013713.jpg",
+      "CareerCompass/IMG_20260929_104422090.jpg",
+      "CareerCompass/IMG_20260929_104424584.jpg",
+      "CareerCompass/IMG_20260929_104444249.jpg",
+      "CareerCompass/IMG_20260929_104451650.jpg",
+      "CareerCompass/IMG_20260929_104508721.jpg",
+      "CareerCompass/IMG_20260929_104515137.jpg",
+      "CareerCompass/IMG_20260929_104518341.jpg",
+      "CareerCompass/IMG_20260929_104521688.jpg",
+      "CareerCompass/IMG_20260929_104523629.jpg",
+      "CareerCompass/IMG_20260929_104536359.jpg",
+      "CareerCompass/IMG_20260929_104636053.jpg",
+      "CareerCompass/IMG_20260929_104639058.jpg",
+      "CareerCompass/IMG_20260929_104725660.jpg",
+      "CareerCompass/IMG_20260929_104739669.jpg",
+      "CareerCompass/IMG_20260929_104852249.jpg",
+      "CareerCompass/IMG_6438.jpg",
+      "CareerCompass/IMG_6810.JPG",
+      "CareerCompass/IMG_6812.JPG",
+      "CareerCompass/IMG_6814.JPG",
+      "CareerCompass/IMG_6844.JPG",
+      "CareerCompass/IMG_6845.JPG"
+]
+  },
   {
     tag: '18 AUG', title: 'CLOUDPULSE',
     desc: 'Enter the Future of Intelligent Computing AI and Data. Session on AI, Cloud, and Data.',
@@ -73,7 +205,7 @@ const EVENTS = [
     ]
   },
   {
-    tag: 'FLAGSHIP · 2-DAY EVENT', title: 'TechnoSpark 2k24',
+    tag: 'FLAGSHIP · 2-DAY EVENT', title: 'TechnoSpark 2k25',
     desc: 'A two-day celebration of technology and teamwork featuring expert IT seminars, hands-on workshops, project competitions, coding challenges, indoor activities, and sports events including Box Cricket, Badminton, Chess, Carrom, and more.',
     img: 'Technospark/WhatsApp Image 2026-08-02 at 16.38.46 (1).jpeg',
     gallery: [
@@ -297,8 +429,8 @@ if (guestsGrid) {
         <span class="ph-label">GUEST</span>
       </div>
       <h3 class="member-name"><a href="${g.linkedin}" target="_blank" rel="noopener" class="linkedin-link">${g.name}</a></h3>
-      <div style="font-family: var(--font-display), sans-serif; font-weight: bold; font-size: 14px; margin: 4px 0 2px; color: var(--white);">CloudPULSE Speaker</div>
-      <div style="font-size: 12px; color: var(--muted-2); margin-bottom: 12px;">18/8/2026</div>
+      <div style="font-family: var(--font-display), sans-serif; font-weight: bold; font-size: 14px; margin: 4px 0 2px; color: var(--white);">${g.event}</div>
+      <div style="font-size: 12px; color: var(--muted-2); margin-bottom: 12px;">${g.date}</div>
       <p class="member-role">${g.company}<br><span style="color:var(--muted-2); font-weight:400; font-size:13px;">${g.position}</span></p>
     </div>
   `).join('');
@@ -1029,247 +1161,6 @@ if (magClose) {
   magClose.addEventListener('click', () => {
     if (isFullscreen) toggleFullscreen();
   });
-}
-
-/* ============ UPCOMING EVENTS POPUP (ACTIVITIES) ============ */
-const eventPopupOverlay = document.getElementById('eventPopupOverlay');
-const technosparkBannerCta = document.getElementById('technosparkBannerCta');
-const mainGamesModal = document.getElementById('mainGamesModal');
-const gameDetailsModal = document.getElementById('gameDetailsModal');
-const eventPopupClose = document.getElementById('eventPopupClose');
-const gameDetailsClose = document.getElementById('gameDetailsClose');
-const gameDetailsBack = document.getElementById('gameDetailsBack');
-const gamesCategoriesContainer = document.getElementById('gamesCategoriesContainer');
-
-window.openTechnoSparkPoster = function() {
-  if (!pdfPopupOverlay) return;
-  pdfPopupOverlay.dataset.pdfUrl = 'technospark/TECHNOSPARK_2K26.pdf';
-  isPdfLoaded = false;
-  pdfPopupContainer.innerHTML = '';
-  pdfPopupOverlay.classList.add('is-active');
-  pdfPopupOverlay.setAttribute('aria-hidden', 'false');
-};
-
-if (gamesCategoriesContainer) {
-  let html = '';
-  
-  // Indoor Activities
-  html += `
-    <div class="games-category">
-      <h3 class="games-category-title">INDOOR ACTIVITIES</h3>
-      <div class="games-grid">
-        ${GAMES_DATA.indoor.map(g => `
-          <div class="game-card${g.id === 'technical-sessions' ? ' game-card--featured' : ''}">
-            <h4 class="game-card-title">${g.name}</h4>
-            <p class="game-card-desc">${g.desc}</p>
-            <div class="game-card-info">
-              <span><strong>Date:</strong> ${g.info.date}</span>
-              <span><strong>Entry Fee:</strong> ${g.info.fee}</span>
-              <span><strong>${g.id === 'technical-sessions' ? 'Speaker Details' : 'Prize Worth'}:</strong> ${g.id === 'technical-sessions' ? g.info.speakerDetails : g.info.prize}</span>
-            </div>
-            ${g.id === 'technical-sessions' ? `
-              <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
-                <button class="btn btn-ghost" onclick="openGameDetails('indoor', '${g.id}')" style="padding: 8px 16px; font-size: 13px;">Know More</button>
-                <button class="btn btn-yellow" onclick="window.open('https://forms.gle/7JGiPuh5qDPoQRFZ6', '_blank')" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 13px;">REGISTER NOW FOR SESSIONS</button>
-                <div class="ts-neon-contact-box" style="margin-top: 4px;">
-                  <div class="ts-neon-contact-label">For Any Query Call:</div>
-                  <div class="ts-neon-contact-numbers">Sumit Mate — <a href="tel:8766646266">87666 46266</a></div>
-                </div>
-              </div>
-            ` : `
-              <button class="btn btn-ghost" onclick="openGameDetails('indoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
-            `}
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `;
-  
-  // Outdoor Activities
-  html += `
-    <div class="games-category">
-      <h3 class="games-category-title">OUTDOOR ACTIVITIES</h3>
-      <div class="games-grid">
-        ${GAMES_DATA.outdoor.map(g => `
-          <div class="game-card">
-            <h4 class="game-card-title">${g.name}</h4>
-            <p class="game-card-desc">${g.desc}</p>
-            <div class="game-card-info">
-              <span><strong>Date:</strong> ${g.info.date}</span>
-              <span><strong>Entry Fee:</strong> ${g.info.fee}</span>
-              <span><strong>${g.id === 'technical-sessions' ? 'Speaker Details' : 'Prize Worth'}:</strong> ${g.id === 'technical-sessions' ? g.info.speakerDetails : g.info.prize}</span>
-            </div>
-            ${g.id === 'technical-sessions' ? `
-              <div style="margin-top: auto; display: flex; flex-direction: column; gap: 10px;">
-                <button class="btn btn-ghost" onclick="openGameDetails('outdoor', '${g.id}')" style="padding: 8px 16px; font-size: 13px;">Know More</button>
-                <button class="btn btn-yellow" onclick="window.open('https://forms.gle/7JGiPuh5qDPoQRFZ6', '_blank')" style="width: 100%; justify-content: center; padding: 10px 16px; font-size: 13px;">REGISTER NOW FOR SESSIONS</button>
-                <div class="ts-neon-contact-box" style="margin-top: 4px;">
-                  <div class="ts-neon-contact-label">For Any Query Call:</div>
-                  <div class="ts-neon-contact-numbers">Sumit Mate — <a href="tel:8766646266">87666 46266</a></div>
-                </div>
-              </div>
-            ` : `
-              <button class="btn btn-ghost" onclick="openGameDetails('outdoor', '${g.id}')" style="margin-top: auto; padding: 8px 16px; font-size: 13px;">Know More</button>
-            `}
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `;
-  
-  gamesCategoriesContainer.innerHTML = html;
-}
-
-window.openGameDetails = function(category, gameId) {
-  const game = GAMES_DATA[category].find(g => g.id === gameId);
-  if (!game) return;
-  
-  document.getElementById('detailGameTitle').textContent = game.name;
-  document.getElementById('detailGameSubtitle').textContent = game.desc;
-  
-  let infoHtml = '';
-  for (const [key, value] of Object.entries(game.info)) {
-    let label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
-    if (key === 'teamSize') label = 'Team Size';
-    infoHtml += `
-      <div class="game-info-item">
-        <span class="game-info-label">${label}</span>
-        <span class="game-info-value">${value}</span>
-      </div>
-    `;
-  }
-  document.getElementById('detailGameInfoGrid').innerHTML = infoHtml;
-  
-  const importantContainer = document.getElementById('detailGameImportant');
-  if (importantContainer) {
-    if (game.info.important) {
-      importantContainer.innerHTML = game.info.important;
-      importantContainer.style.display = 'block';
-    } else {
-      importantContainer.innerHTML = '';
-      importantContainer.style.display = 'none';
-    }
-  }
-  const speakerDetails = document.getElementById('detailGameSpeaker');
-  if (speakerDetails) {
-    if (game.id === 'technical-sessions') {
-      speakerDetails.innerHTML = `
-        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 8px;">
-          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,193,7,0.2); border-left: 4px solid var(--yellow, #ffc107); padding: 12px 16px; border-radius: 8px;">
-            <div style="font-weight: bold; color: #fff; font-size: 15px;">📅 29th Sept — Speaker: Shubham More</div>
-            <div style="color: var(--yellow, #ffc107); font-size: 13px; margin-bottom: 8px;">Data Analyst Trainer, Anudip Foundation</div>
-            <div style="font-size: 13px; color: var(--muted); line-height: 1.5;">
-              <strong style="color: #ddd;">Session Highlights:</strong>
-              <ul style="margin: 6px 0 0 18px; padding: 0;">
-                <li>Python & Pandas</li>
-                <li>Data Analysis & EDA</li>
-                <li>Data Visualization</li>
-                <li>Machine Learning</li>
-                <li>Classification & Regression</li>
-                <li>Real-World Case Study</li>
-                <li>Career & Learning Roadmap</li>
-              </ul>
-            </div>
-          </div>
-          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(0,210,255,0.2); border-left: 4px solid #00d2ff; padding: 12px 16px; border-radius: 8px;">
-            <div style="font-weight: bold; color: #fff; font-size: 15px;">📅 30th Sept — Speaker: Ankita Anku</div>
-            <div style="color: #00d2ff; font-size: 13px; margin-bottom: 8px;">Senior Software Engineer, Capgemini (MNC)</div>
-            <div style="font-size: 13px; color: var(--muted); line-height: 1.5;">
-              <strong style="color: #ddd;">Session Highlights:</strong>
-              <ul style="margin: 6px 0 0 18px; padding: 0;">
-                <li>Instagram Tech Influencer <a href="https://www.instagram.com/mazdoor_._/" target="_blank" rel="noopener noreferrer" style="color: #00d2ff; text-decoration: underline;">@mazdoor_._</a></li>
-                <li>Real-World Case Study</li>
-                <li>Career Roadmap: Cracking 4 Job Offers</li>
-                <li>Resume Building & Project Focus</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      `;
-    } else {
-      speakerDetails.textContent = game.info.speakerDetails || '';
-    }
-    speakerDetails.parentElement.style.display = game.info.speakerDetails ? 'block' : 'none';
-  }
-  
-  const detailGameRegisterBtn = document.getElementById('detailGameRegisterBtn');
-  if (detailGameRegisterBtn) {
-    if (game.id === 'technical-sessions') {
-      detailGameRegisterBtn.textContent = 'REGISTER NOW FOR SESSIONS';
-      detailGameRegisterBtn.onclick = () => window.location.href = 'https://forms.gle/7JGiPuh5qDPoQRFZ6';
-    } else {
-      detailGameRegisterBtn.textContent = 'REGISTER NOW FOR GAMES';
-      detailGameRegisterBtn.onclick = () => window.location.href = TECHNOSPARK_REGISTRATION_URL;
-    }
-  }
-
-  const detailGameContactBox = document.getElementById('detailGameContactBox');
-  if (detailGameContactBox) {
-    if (game.id === 'technical-sessions') {
-      detailGameContactBox.innerHTML = `
-        <div class="ts-neon-contact-label">For Any Query Call (Sessions):</div>
-        <div class="ts-neon-contact-numbers">Sumit Mate — <a href="tel:8766646266">87666 46266</a></div>
-      `;
-    } else {
-      detailGameContactBox.innerHTML = `
-        <div class="ts-neon-contact-label">For Any Query Call (Games):</div>
-        <div class="ts-neon-contact-numbers">Anushka Murudkar — <a href="tel:8830085188">8830085188</a><br>Bhaskar Matsagar — <a href="tel:8830055924">8830055924</a></div>
-      `;
-    }
-  }
-
-  if (mainGamesModal && gameDetailsModal) {
-    mainGamesModal.style.display = 'none';
-    gameDetailsModal.style.display = 'block';
-  }
-};
-
-if (eventPopupOverlay) {
-  technosparkBannerCta?.addEventListener('click', (e) => {
-    e.preventDefault();
-    eventPopupOverlay.classList.add('is-active');
-    eventPopupOverlay.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  });
-
-  const closePopup = () => {
-    eventPopupOverlay.classList.remove('is-active');
-    eventPopupOverlay.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    setTimeout(() => {
-      if (mainGamesModal && gameDetailsModal) {
-        gameDetailsModal.style.display = 'none';
-        mainGamesModal.style.display = 'block';
-      }
-    }, 400); // Wait for transition
-  };
-
-  eventPopupClose?.addEventListener('click', closePopup);
-  gameDetailsClose?.addEventListener('click', closePopup);
-  
-  gameDetailsBack?.addEventListener('click', () => {
-    if (mainGamesModal && gameDetailsModal) {
-      gameDetailsModal.style.display = 'none';
-      mainGamesModal.style.display = 'block';
-    }
-  });
-
-  eventPopupOverlay.addEventListener('click', (e) => {
-    if (e.target === eventPopupOverlay) {
-      closePopup();
-    }
-  });
-
-  // Show popup on page load after a short delay for a smooth transition
-  let popupHasOpened = false;
-  setTimeout(() => {
-    if (!popupHasOpened) {
-      eventPopupOverlay.classList.add('is-active');
-      eventPopupOverlay.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-      popupHasOpened = true;
-    }
-  }, 500);
 }
 
 /* ============ TECHNOSPARK PAGE DYNAMIC RENDER ============ */

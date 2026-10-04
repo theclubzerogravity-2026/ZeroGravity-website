@@ -519,10 +519,10 @@ body::before {
 .hero {
   position: relative;
   min-height: 100vh;
-  display: flex; align-items: flex-end;
+  display: flex; align-items: center;
   overflow: hidden;
-  padding: 0 32px 90px;
-  padding-top: 100px;
+  padding: 0 32px 40px;
+  padding-top: 60px;
 }
 .starfield { position: absolute; inset: 0; z-index: 0; opacity: 0.6; width: 100%; height: 100%; }
 .hero-grid-overlay {
@@ -556,11 +556,11 @@ body::before {
 .hero-content { position: relative; z-index: 2; max-width: 1000px; display: flex; flex-direction: column; align-items: center; text-align: center; margin: 0 auto; width: 100%; }
 .eyebrow { display: none; }
 .hero-title { font-family: var(--font-display); font-weight: 900; line-height: 0.94; margin-bottom: 12px; }
-.hero-title .line { display: block; font-size: clamp(28px, 10vw, 86px); letter-spacing: 0.01em; }
+.hero-title .line { display: block; font-size: clamp(56px, 18vw, 168px); letter-spacing: 0.01em; }
 .hero-title .line:first-child { color: var(--white); }
 .hero-title .line.accent-outline { color: transparent; -webkit-text-stroke: 2px var(--white); }
-.hero-tagline { font-family: var(--font-mono); font-size: clamp(8px, 1.2vw, 8px); letter-spacing: 0.2em; color: var(--yellow); margin-bottom: 12px; }
-.hero-sub { max-width: 600px; color: var(--muted); font-size: clamp(12px, 1.8vw, 9.5px); margin-bottom: 24px; line-height: 1.4; padding: 0 8px; }
+.hero-tagline { font-family: var(--font-mono); font-size: clamp(12px, 1.8vw, 12px); letter-spacing: 0.2em; color: var(--yellow); margin-bottom: 12px; }
+.hero-sub { max-width: 600px; color: var(--muted); font-size: clamp(18px, 2.7vw, 14.25px); margin-bottom: 24px; line-height: 1.4; padding: 0 8px; }
 .hero-actions { display: none; }
 
 .scroll-cue {
@@ -591,8 +591,8 @@ body::before {
     min-height: auto;
   }
   .hero-title { margin-bottom: 8px; }
-  .hero-tagline { margin-bottom: 8px; font-size: 7px; }
-  .hero-sub { margin-bottom: 20px; font-size: clamp(11px, 1.6vw, 13px); }
+  .hero-tagline { margin-bottom: 8px; font-size: 10.5px; }
+  .hero-sub { margin-bottom: 20px; font-size: clamp(16.5px, 2.4vw, 19.5px); }
   .hero-content { margin-top: 15px; padding: 0 4px; }
 }
 
@@ -601,9 +601,9 @@ body::before {
     padding: 0 10px 35px;
     padding-top: 65px;
   }
-  .hero-title .line { font-size: clamp(24px, 8vw, 60px); }
-  .hero-tagline { font-size: 6px; letter-spacing: 0.15em; }
-  .hero-sub { font-size: clamp(10px, 1.4vw, 12px); padding: 0 2px; }
+  .hero-title .line { font-size: clamp(48px, 16vw, 120px); }
+  .hero-tagline { font-size: 9px; letter-spacing: 0.15em; }
+  .hero-sub { font-size: clamp(15px, 2.1vw, 18px); padding: 0 2px; }
 }
 
 /* ============ ABOUT ============ */
@@ -1289,8 +1289,8 @@ a:focus-visible, button:focus-visible {
 
   /* -- Hero -- */
   .hero { padding: 0 20px 60px; }
-  .hero-title .line { font-size: clamp(48px, 12vw, 100px); }
-  .hero-sub { font-size: 16px; margin-bottom: 28px; }
+  .hero-title .line { font-size: clamp(96px, 16vw, 200px); }
+  .hero-sub { font-size: 24px; margin-bottom: 28px; }
   .hero-actions { gap: 12px; }
   .btn-lg { padding: 14px 28px; font-size: 14px; }
 
@@ -1336,10 +1336,10 @@ a:focus-visible, button:focus-visible {
   /* -- Hero -- */
   .hero { padding: 0 16px 50px; min-height: 90vh; }
   .hero-content { padding: 0 4px; }
-  .hero-title .line { font-size: clamp(40px, 12vw, 80px); }
-  .eyebrow { font-size: 10px; letter-spacing: 0.1em; }
-  .hero-tagline { font-size: clamp(10px, 2.5vw, 14px); letter-spacing: 0.12em; }
-  .hero-sub { font-size: 15px; padding: 0 10px; }
+  .hero-title .line { font-size: clamp(80px, 18vw, 160px); }
+  .eyebrow { font-size: 15px; letter-spacing: 0.1em; }
+  .hero-tagline { font-size: clamp(15px, 3.75vw, 21px); letter-spacing: 0.12em; }
+  .hero-sub { font-size: 22.5px; padding: 0 10px; }
   .hero-actions { flex-direction: column; align-items: center; width: 100%; }
   .hero-actions .btn { width: 100%; max-width: 280px; justify-content: center; }
 
@@ -1386,9 +1386,9 @@ a:focus-visible, button:focus-visible {
 
   /* -- Hero -- */
   .hero { padding: 0 14px 40px; }
-  .hero-title .line { font-size: clamp(36px, 13vw, 64px); }
-  .hero-tagline { font-size: 10px; letter-spacing: 0.08em; margin-bottom: 16px; }
-  .hero-sub { font-size: 14px; margin-bottom: 24px; }
+  .hero-title .line { font-size: clamp(64px, 18vw, 128px); }
+  .hero-tagline { font-size: 15px; letter-spacing: 0.08em; margin-bottom: 16px; }
+  .hero-sub { font-size: 21px; margin-bottom: 24px; }
   .btn { padding: 12px 20px; font-size: 13px; }
   .btn-lg { padding: 14px 24px; font-size: 14px; }
 
@@ -1438,7 +1438,7 @@ a:focus-visible, button:focus-visible {
 @media (max-width: 360px) {
   .astronaut-img { width: 70px; }
   .wordmark-line { font-size: clamp(26px, 12vw, 40px); }
-  .hero-title .line { font-size: clamp(30px, 14vw, 50px); }
+  .hero-title .line { font-size: clamp(52px, 20vw, 100px); }
   .brand-logo--club { height: 70px; }
   :root { --nav-h: 70px; }
   .navbar.is-scrolled { height: 60px; }
