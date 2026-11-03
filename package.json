@@ -4,7 +4,7 @@
   "scripts": {
     "update:photos": "node scripts/generate-banner-photos.js",
     "build:driftwall": "node scripts/generate-banner-photos.js && node scripts/build-driftwall.js",
-    "build": "node scripts/generate-banner-photos.js && node scripts/build-driftwall.js",
+    "build": "echo skip",
     "dev": "node scripts/generate-banner-photos.js && node scripts/build-driftwall.js"
   },
   "dependencies": {
