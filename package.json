@@ -1,5 +1,20 @@
 {
+  "name": "zerogravity-website",
+  "version": "1.0.0",
+  "scripts": {
+    "update:photos": "node scripts/generate-banner-photos.js",
+    "build:driftwall": "node scripts/generate-banner-photos.js && node scripts/build-driftwall.js",
+    "build": "node scripts/generate-banner-photos.js && node scripts/build-driftwall.js",
+    "dev": "node scripts/generate-banner-photos.js && node scripts/build-driftwall.js"
+  },
   "dependencies": {
-    "@supabase/supabase-js": "^2.112.2"
+    "@supabase/supabase-js": "^2.112.2",
+    "gsap": "^3.15.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "puppeteer-core": "^25.16.0"
   }
 }

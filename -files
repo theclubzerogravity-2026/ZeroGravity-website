@@ -1,0 +1,7 @@
+warning: in the working copy of 'js/script.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package.json', LF will be replaced by CRLF the next time Git touches it
+ js/script.js      |  20 [32m+[m[31m-[m
+ package-lock.json | 896 [32m+++++++++++++++++++++++++++++++++++++++++++++++++++++[m[31m-[m
+ package.json      |  17 [32m+[m[31m-[m
+ 3 files changed, 924 insertions(+), 9 deletions(-)

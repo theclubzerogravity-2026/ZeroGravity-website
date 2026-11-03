@@ -42,6 +42,17 @@ const GUESTS = [
 
 const EVENTS = [
   {
+    tag: '29 SEPT', title: 'Banner Drop',
+    desc: 'The official grand banner drop ceremony at SKNCOE, unveiling TechnoSpark 2k26 with celebratory smoke, club anthems, and campus-wide enthusiasm.',
+    img: 'BannerDrop/banner-drop-1.jpg',
+    gallery: [
+      "BannerDrop/banner-drop-1.jpg",
+      "BannerDrop/banner-drop-2.jpg",
+      "BannerDrop/banner-drop-3.jpg",
+      "BannerDrop/banner-drop-4.jpg"
+    ]
+  },
+  {
     tag: '29 & 30 SEPT', title: 'TechnoSpark 2k26',
     desc: 'Get ready for our biggest flagship event of the year! A spectacular showcase of technology, innovation, and teamwork.',
     img: 'TechnoSpark2k26/20260929_110303.jpg',
@@ -854,25 +865,22 @@ document.querySelectorAll('.event-card').forEach((card, index) => {
 window.openGallery = function(eventIndex) {
   const event = EVENTS[eventIndex];
   if (!event || !event.gallery || event.gallery.length === 0) return;
-  
+
   const gWrapper = document.getElementById('galleryImgWrapper');
   if (!gWrapper) return;
-  
+
   gWrapper.innerHTML = '';
-  
-  // Create images for marquee
+
   const createImg = (imgSrc) => {
     const imgEl = document.createElement('img');
     imgEl.className = 'gallery-img';
     imgEl.src = `assets/images/events/${imgSrc}`;
     imgEl.loading = 'lazy';
     imgEl.decoding = 'async';
-    // Fallback if image fails
     imgEl.onerror = () => { imgEl.style.display = 'none'; };
     return imgEl;
   };
 
-  // Append images twice for seamless infinite scroll
   event.gallery.forEach(imgSrc => {
     gWrapper.appendChild(createImg(imgSrc));
   });
